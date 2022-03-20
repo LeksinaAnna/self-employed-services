@@ -29,6 +29,6 @@ const AuthProvider: Provider = {
         }),
     ],
     providers: [UserProfilePersistenceAdapterService, UserPersistenceAdapterService, AuthProvider],
-    exports: [AuthUseCaseSymbol],
+    exports: [AuthUseCaseSymbol, JwtModule],
 })
 export class AuthPersistenceModule {}

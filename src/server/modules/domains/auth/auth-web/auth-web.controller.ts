@@ -1,5 +1,5 @@
 import { BadRequestException, Body, Controller, Inject, Post } from '@nestjs/common';
-import { UserCreateProperties } from '../../users/entities/user.entity';
+import {LargeUser, UserCreateProperties, WithToken} from '../../users/entities/user.entity';
 import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
 import { AuthUseCase, AuthUseCaseSymbol } from '../ports/auth.use-case';
 
@@ -11,15 +11,17 @@ export class AuthWebController {
     ) {}
 
     @Post('/registration')
-    async registration(@Body() body: UserProfileCreateProperties & UserCreateProperties): Promise<UserProfile> {
+    async registration(@Body() body: UserProfileCreateProperties & UserCreateProperties): Promise<LargeUser> {
         if (Object.keys(body).length === 0) {
             throw new BadRequestException('Отсутствует тело запроса');
         }
         return await this._authService.registration(body);
     }
 
-    // @Post('login')
-    // async login(): Promise<UserProfile> {
-    //
-    // }
+    @Post('/login')
+    async login(
+        @Body() body: UserCreateProperties,
+    ): Promise<UserProfile & WithToken> {
+        return await this._authService.login(body);
+    }
 }

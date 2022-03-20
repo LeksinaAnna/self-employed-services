@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {UserContacts} from "./user-profile.entity";
 
 export type UserId = string;
 export type UserLogin = string;
@@ -6,6 +7,19 @@ export type UserLogin = string;
 export interface UserCreateProperties {
     login: UserLogin;
     password: string;
+}
+
+export interface WithToken {
+    token: string;
+}
+
+export interface LargeUser {
+    userId: UserId;
+    fullName: string;
+    contacts: UserContacts;
+    birthday: string;
+    login: UserLogin;
+    created: string;
 }
 
 export interface User {
