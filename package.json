@@ -1,0 +1,60 @@
+{
+  "name": "self-employed-services",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@nestjs/common": "^8.4.1",
+    "@nestjs/core": "^8.4.1",
+    "@nestjs/jwt": "^8.0.0",
+    "@nestjs/platform-express": "^8.4.1",
+    "@nestjs/typeorm": "^8.0.3",
+    "@testing-library/jest-dom": "^5.16.2",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jest": "^27.4.1",
+    "@types/node": "^16.11.26",
+    "@types/react": "^17.0.40",
+    "@types/react-dom": "^17.0.13",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.0",
+    "express-session": "^1.17.2",
+    "moment": "^2.29.1",
+    "nest-raven": "^8.0.0",
+    "pg": "^8.7.3",
+    "prettier": "^2.6.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "5.0.0",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.5.5",
+    "typeorm": "^0.2.45",
+    "typescript": "^4.6.2",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "client": "react-scripts start",
+    "server": "nest start --watch",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
