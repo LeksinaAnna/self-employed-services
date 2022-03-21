@@ -2,6 +2,7 @@ import {TypeOrmModuleOptions} from "@nestjs/typeorm";
 import * as dotenv from 'dotenv';
 import {UserOrmEntity} from "../modules/domains/users/orm-entities/user.orm-entity";
 import {UserProfileOrmEntity} from "../modules/domains/users/orm-entities/user-profile.orm-entity";
+import {TokenOrmEntity} from "../modules/domains/tokens/orm-entities/token-orm.entity";
 
 dotenv.config();
 
@@ -18,9 +19,10 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
     logging: process.env.TYPEORM_LOGGING || false,
     retryAttempts: 5,
     retryDelay: 1000,
-    autoLoadEntities: true,
     entities: [
         UserOrmEntity,
         UserProfileOrmEntity,
+        TokenOrmEntity
     ],
+    autoLoadEntities: true,
 }

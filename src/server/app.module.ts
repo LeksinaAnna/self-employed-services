@@ -7,7 +7,11 @@ import { UserWebModule } from './modules/domains/users/user-web/user-web.module'
 import { AuthWebModule } from './modules/domains/auth/auth-web/auth-web.module';
 
 @Module({
-    imports: [TypeOrmModule.forRoot(typeOrmConfig), UserWebModule, AuthWebModule],
+    imports: [
+        TypeOrmModule.forRoot(typeOrmConfig),
+        UserWebModule,
+        AuthWebModule
+    ],
     providers: [
         {
             provide: APP_INTERCEPTOR,

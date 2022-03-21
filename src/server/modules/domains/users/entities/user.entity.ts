@@ -1,45 +1,41 @@
 import moment from 'moment';
 import {UserContacts} from "./user-profile.entity";
+import { v4 as uuidv4 } from 'uuid';
 
 export type UserId = string;
-export type UserLogin = string;
+export type UserEmail = string;
 
 export interface UserCreateProperties {
-    login: UserLogin;
+    email: UserEmail;
     password: string;
-}
-
-export interface WithToken {
-    token: string;
 }
 
 export interface LargeUser {
-    userId: UserId;
+    userId?: UserId;
     fullName: string;
     contacts: UserContacts;
     birthday: string;
-    login: UserLogin;
-    created: string;
+    email: UserEmail;
+    created?: string;
 }
 
 export interface User {
-    userId: UserId;
-    login: UserLogin;
+    userId?: UserId;
+    email: UserEmail;
     password: string;
-    created: string;
+    created?: string;
 }
 
 export class UserEntity implements User {
-    readonly login: UserLogin;
+    readonly userId?: UserId;
+    readonly email: UserEmail;
     readonly password: string;
-    readonly userId: UserId;
-    readonly created: string;
+    readonly created?: string;
 
-    constructor({ userId, password, login, created }: User) {
-        this.userId = userId;
-        this.login = login;
+    constructor({ userId, password, email, created }: User) {
+        this.userId = userId || uuidv4();
+        this.email = email;
         this.password = password;
-        this.userId = userId;
         this.created = created || moment().format();
     }
 }

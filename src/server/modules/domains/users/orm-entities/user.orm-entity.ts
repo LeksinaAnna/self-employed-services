@@ -1,4 +1,4 @@
-import { User, UserId, UserLogin } from '../entities/user.entity';
+import { User, UserId, UserEmail } from '../entities/user.entity';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
 import { UserProfile } from '../entities/user-profile.entity';
 import { UserProfileOrmEntity } from './user-profile.orm-entity';
@@ -8,8 +8,8 @@ export class UserOrmEntity implements User {
     @PrimaryColumn({ name: 'user_id', type: 'uuid' })
     userId: UserId;
 
-    @Column({ name: 'login' })
-    login: UserLogin;
+    @Column({ name: 'email' })
+    email: UserEmail;
 
     @Column({ name: 'password' })
     password: string;

@@ -1,7 +1,7 @@
-import {Controller, Get, Inject, Param, UseGuards} from '@nestjs/common';
-import { UserLogin } from '../entities/user.entity';
+import { Controller, Get, Inject, Param, UseGuards } from '@nestjs/common';
+import { UserEmail } from '../entities/user.entity';
 import { UserUseCase, UserUseCaseSymbol } from '../ports/user.use-case';
-import {AuthGuard} from "../../../../nest-decorators/guards/auth.guards";
+import { AuthGuard } from '../../../../nest-decorators/guards/auth.guards';
 
 @Controller('users')
 export class UserWebController {
@@ -12,7 +12,7 @@ export class UserWebController {
 
     @UseGuards(AuthGuard)
     @Get('/:login')
-    async getUsers(@Param('login') login: UserLogin) {
+    async getUsers(@Param('login') login: UserEmail) {
         return await this._userService.getUserByLogin(login);
     }
 }

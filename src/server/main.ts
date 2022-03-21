@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { HttpFilter } from './nest-decorators/filters/http-exceptions.filter';
 import { AuthGuard } from './nest-decorators/guards/auth.guards';
 import { NotFoundInterceptor } from './nest-decorators/interceptors/not-found.interceptor';
+import cookieParser from 'cookie-parser';
 
 const bootstrap = async () => {
     const app = await NestFactory.create<NestExpressApplication>(AppModule, { bufferLogs: true });
@@ -14,6 +15,8 @@ const bootstrap = async () => {
     if (process.env.HTTP_PROXY) {
         // Proxy logic
     }
+
+    app.use(cookieParser());
 
     // Auth Guards
     // app.useGlobalGuards(new AuthGuard(reflector));

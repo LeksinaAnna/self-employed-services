@@ -5,30 +5,35 @@ import { UserService } from '../../users/services/user.service';
 import { UserProfileService } from '../../users/services/user-profile.service';
 import { UserProfilePersistenceAdapterService } from '../../users/user-persistence/user-profile-persistence-adapter.service';
 import { UserPersistenceAdapterService } from '../../users/user-persistence/user-persistence-adapter.service';
-import { JwtModule, JwtService } from '@nestjs/jwt';
+import { TokensService } from '../../tokens/services/tokens.service';
+import { JwtService } from '@nestjs/jwt';
+import { TokensPersistenceAdapterService } from '../../tokens/tokens-persistence/tokens-persistence-adapter.service';
+import {TokensPersistenceModule} from "../../tokens/tokens-persistence/tokens-persistence.module";
 
 const AuthProvider: Provider = {
     provide: AuthUseCaseSymbol,
     useFactory: (
         userProfilePersistenceAdapterService: UserProfilePersistenceAdapterService,
         userPersistenceAdapterService: UserPersistenceAdapterService,
+        tokensPersistenceAdapterService: TokensPersistenceAdapterService,
         jwtService: JwtService,
     ) => {
         const profileService = new UserProfileService(userProfilePersistenceAdapterService);
         const userService = new UserService(userPersistenceAdapterService, profileService);
-        return new AuthService(userService, jwtService);
+        const tokensService = new TokensService(jwtService, tokensPersistenceAdapterService);
+        return new AuthService(userService, tokensService);
     },
-    inject: [UserProfilePersistenceAdapterService, UserPersistenceAdapterService, JwtService],
+    inject: [UserProfilePersistenceAdapterService, UserPersistenceAdapterService, TokensPersistenceAdapterService, JwtService],
 };
 
 @Module({
-    imports: [
-        JwtModule.register({
-            secret: process.env.AUTH_SECRET_KEY,
-            signOptions: { expiresIn: '20m' },
-        }),
+    imports: [TokensPersistenceModule],
+    providers: [
+        UserProfilePersistenceAdapterService,
+        UserPersistenceAdapterService,
+        TokensPersistenceAdapterService,
+        AuthProvider,
     ],
-    providers: [UserProfilePersistenceAdapterService, UserPersistenceAdapterService, AuthProvider],
-    exports: [AuthUseCaseSymbol, JwtModule],
+    exports: [AuthUseCaseSymbol],
 })
 export class AuthPersistenceModule {}
