@@ -17,21 +17,32 @@ export class AuthGuard implements CanActivate {
             return true;
         }
 
+        // Вытаскиваем access токен из хедеров - Bearer dasfsafsvasva.fasfsafa
         const authHeader = request?.headers?.authorization;
-        const bearer = authHeader?.split(' ')[0];
-        const token = authHeader?.split(' ')[1];
+        const accessToken = authHeader?.split(' ')[1];
 
-        if (bearer !== 'Bearer' || !token) {
+        // Вытаскиваем рефреш токен из куков
+        const { authToken: refreshToken } = request?.cookies;
+
+        if (!accessToken && !refreshToken) {
             throw new UnauthorizedException(`Вы не авторизованы`);
         }
 
+        if (!accessToken) {
+            request.user = this.validateToken(refreshToken);
+            return true;
+        }
+
+        request.user = this.validateToken(accessToken);
+        return true;
+    }
+
+    validateToken(token: string): object {
         try {
-            request.user = this.jwtService.verify(token);
+            return this.jwtService.verify(token);
         } catch (e) {
             console.log(`[ERROR] - ${e.message}`)
             throw new UnauthorizedException(`Вы не авторизованы`);
         }
-
-        return true;
     }
 }

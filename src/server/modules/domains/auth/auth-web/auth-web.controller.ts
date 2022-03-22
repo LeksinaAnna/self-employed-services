@@ -4,6 +4,7 @@ import { UserProfile, UserProfileCreateProperties } from '../../users/entities/u
 import { AuthUseCase, AuthUseCaseSymbol } from '../ports/auth.use-case';
 import { WithAccessToken } from '../../tokens/entities/token.entity';
 import { Response, Request } from 'express';
+import {NotAuth} from "../../../../nest-decorators/decorators/not-auth";
 
 @Controller('auth')
 export class AuthWebController {
@@ -12,6 +13,7 @@ export class AuthWebController {
         private readonly _authService: AuthUseCase,
     ) {}
 
+    @NotAuth()
     @Post('/registration')
     async registration(
         @Body() body: UserProfileCreateProperties & UserCreateProperties,
@@ -26,6 +28,7 @@ export class AuthWebController {
         return userData;
     }
 
+    @NotAuth()
     @Post('/login')
     async login(
         @Body() body: UserCreateProperties,

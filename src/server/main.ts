@@ -6,11 +6,10 @@ import { HttpFilter } from './nest-decorators/filters/http-exceptions.filter';
 import { AuthGuard } from './nest-decorators/guards/auth.guards';
 import { NotFoundInterceptor } from './nest-decorators/interceptors/not-found.interceptor';
 import cookieParser from 'cookie-parser';
+import {JwtService} from "@nestjs/jwt";
 
 const bootstrap = async () => {
     const app = await NestFactory.create<NestExpressApplication>(AppModule, { bufferLogs: true });
-
-    const reflector = app.get(Reflector);
 
     if (process.env.HTTP_PROXY) {
         // Proxy logic
@@ -19,7 +18,9 @@ const bootstrap = async () => {
     app.use(cookieParser());
 
     // Auth Guards
-    // app.useGlobalGuards(new AuthGuard(reflector));
+    const reflector = app.get(Reflector);
+    const jwtService = app.get(JwtService);
+    app.useGlobalGuards(new AuthGuard(jwtService, reflector));
 
     // HTTP Errors
     app.useGlobalInterceptors(new NotFoundInterceptor());
