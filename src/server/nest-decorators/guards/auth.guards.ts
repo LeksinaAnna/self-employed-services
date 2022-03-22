@@ -21,16 +21,8 @@ export class AuthGuard implements CanActivate {
         const authHeader = request?.headers?.authorization;
         const accessToken = authHeader?.split(' ')[1];
 
-        // Вытаскиваем рефреш токен из куков
-        const { authToken: refreshToken } = request?.cookies;
-
-        if (!accessToken && !refreshToken) {
-            throw new UnauthorizedException(`Вы не авторизованы`);
-        }
-
         if (!accessToken) {
-            request.user = this.validateToken(refreshToken);
-            return true;
+            throw new UnauthorizedException(`Вы не авторизованы`);
         }
 
         request.user = this.validateToken(accessToken);

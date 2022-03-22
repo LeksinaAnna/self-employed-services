@@ -2,10 +2,12 @@ import { TokensUseCase } from '../ports/tokens.use-case';
 import { RefreshToken, TokenEntity, Tokens } from '../entities/token.entity';
 import { LargeUser, UserId } from '../../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
-import { TokensPort } from '../ports/tokens.port';
+import { Injectable } from '@nestjs/common';
+import { TokensAdapterService } from './adapters/tokens-adapter.service';
 
+@Injectable()
 export class TokensService implements TokensUseCase {
-    constructor(private readonly _jwtService: JwtService, private readonly _tokensPort: TokensPort) {}
+    constructor(private readonly _jwtService: JwtService, private readonly _tokensPort: TokensAdapterService) {}
 
     async removeToken(authToken: string): Promise<void> {
         await this._tokensPort.removeToken(authToken);

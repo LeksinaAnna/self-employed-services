@@ -1,16 +1,13 @@
-import { Controller, Get, Inject, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { UserEmail } from '../entities/user.entity';
-import { UserUseCase, UserUseCaseSymbol } from '../ports/user.use-case';
-import { AuthGuard } from '../../../../nest-decorators/guards/auth.guards';
+import { UserService } from '../services/user.service';
 
 @Controller('users')
 export class UserWebController {
     constructor(
-        @Inject(UserUseCaseSymbol)
-        private readonly _userService: UserUseCase,
+        private readonly _userService: UserService,
     ) {}
 
-    @UseGuards(AuthGuard)
     @Get('/:login')
     async getUsers(@Param('login') login: UserEmail) {
         return await this._userService.getUserByLogin(login);

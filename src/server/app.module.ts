@@ -9,8 +9,8 @@ import { AuthWebModule } from './modules/domains/auth/auth-web/auth-web.module';
 @Module({
     imports: [
         TypeOrmModule.forRoot(typeOrmConfig),
-        UserWebModule,
-        AuthWebModule
+        AuthWebModule,
+        UserWebModule
     ],
     providers: [
         {

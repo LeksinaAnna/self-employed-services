@@ -1,16 +1,15 @@
-import {BadRequestException, Body, Controller, Delete, Inject, Post, Req, Res} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Post, Req, Res } from '@nestjs/common';
 import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
 import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
-import { AuthUseCase, AuthUseCaseSymbol } from '../ports/auth.use-case';
 import { WithAccessToken } from '../../tokens/entities/token.entity';
 import { Response, Request } from 'express';
-import {NotAuth} from "../../../../nest-decorators/decorators/not-auth";
+import { NotAuth } from "../../../../nest-decorators/decorators/not-auth";
+import { AuthService } from '../services/auth.service';
 
 @Controller('auth')
 export class AuthWebController {
     constructor(
-        @Inject(AuthUseCaseSymbol)
-        private readonly _authService: AuthUseCase,
+        private readonly _authService: AuthService,
     ) {}
 
     @NotAuth()

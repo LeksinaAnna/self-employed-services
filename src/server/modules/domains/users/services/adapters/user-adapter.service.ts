@@ -1,12 +1,12 @@
-import { PersistenceAdapter } from '../../../common/persistence-adapter/persistence-adapter';
-import { UserPort } from '../ports/user.port';
-import {User, UserEntity, UserEmail} from '../entities/user.entity';
+import { PersistenceAdapter } from '../../../../common/persistence-adapter/persistence-adapter';
+import { UserPort } from '../../ports/user.port';
+import {User, UserEntity, UserEmail} from '../../entities/user.entity';
 import { Injectable } from '@nestjs/common';
-import { UserOrmEntity } from '../orm-entities/user.orm-entity';
-import {UserMapper} from "../mappers/user.mapper";
+import { UserOrmEntity } from '../../orm-entities/user.orm-entity';
+import {UserMapper} from "../../mappers/user.mapper";
 
 @Injectable()
-export class UserPersistenceAdapterService extends PersistenceAdapter implements UserPort {
+export class UserAdapterService extends PersistenceAdapter implements UserPort {
     constructor() {
         super();
     }

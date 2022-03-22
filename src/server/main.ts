@@ -26,8 +26,10 @@ const bootstrap = async () => {
     app.useGlobalInterceptors(new NotFoundInterceptor());
     app.useGlobalFilters(new HttpFilter());
     app.setGlobalPrefix('api/v1/')
-    await app.listen(3003, () => {
-        console.log('[SERVER_INFO] - server was be started')
+
+    const port = process.env.BACKEND_PORT || 3003
+    await app.listen(port, () => {
+        console.log(`[SERVER_INFO] - server was be started on ${port} port`)
     });
 };
 

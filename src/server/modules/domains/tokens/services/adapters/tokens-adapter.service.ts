@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { PersistenceAdapter } from '../../../common/persistence-adapter/persistence-adapter';
-import { TokensPort } from '../ports/tokens.port';
-import { Token } from '../entities/token.entity';
-import { UserId } from '../../users/entities/user.entity';
-import { TokenOrmEntity } from '../orm-entities/token-orm.entity';
+import { PersistenceAdapter } from '../../../../common/persistence-adapter/persistence-adapter';
+import { TokensPort } from '../../ports/tokens.port';
+import { Token } from '../../entities/token.entity';
+import { UserId } from '../../../users/entities/user.entity';
+import { TokenOrmEntity } from '../../orm-entities/token-orm.entity';
 
 @Injectable()
-export class TokensPersistenceAdapterService extends PersistenceAdapter implements TokensPort {
+export class TokensAdapterService extends PersistenceAdapter implements TokensPort {
     constructor() {
         super();
     }

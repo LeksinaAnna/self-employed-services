@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { UserWebController } from './user-web.controller';
-import { UserPersistenceModule } from '../user-persistence/user-persistence.module';
-import { AuthPersistenceModule } from '../../auth/auth-persistence/auth-persistence.module';
-import { TokensPersistenceModule } from '../../tokens/tokens-persistence/tokens-persistence.module';
+import { UserService } from '../services/user.service';
+import { UserProfileService } from '../services/user-profile.service';
+import { UserAdapterService } from '../services/adapters/user-adapter.service';
+import { UserProfileAdapterService } from '../services/adapters/user-profile-adapter.service';
 
 @Module({
-    providers: [],
+    providers: [UserService, UserProfileService, UserAdapterService, UserProfileAdapterService],
     controllers: [UserWebController],
-    imports: [UserPersistenceModule, AuthPersistenceModule, TokensPersistenceModule],
+    exports: [UserService],
 })
 export class UserWebModule {}

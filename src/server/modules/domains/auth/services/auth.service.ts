@@ -1,17 +1,23 @@
 import { AuthUseCase } from '../ports/auth.use-case';
-import { UserUseCase } from '../../users/ports/user.use-case';
 import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
 import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
-import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
-import { TokensUseCase } from '../../tokens/ports/tokens.use-case';
 import { Tokens } from '../../tokens/entities/token.entity';
+import { UserService } from '../../users/services/user.service';
+import { TokensService } from '../../tokens/services/tokens.service';
 
+@Injectable()
 export class AuthService implements AuthUseCase {
-    constructor(private readonly _userService: UserUseCase, private readonly _tokensService: TokensUseCase) {}
+    constructor(private readonly _userService: UserService, private readonly _tokensService: TokensService) {}
 
     async login(authData: UserCreateProperties): Promise<UserProfile & Tokens> {
         const user = await this._userService.getUserByLogin(authData.email);
+
+        if (!user) {
+            throw new UnauthorizedException('Такой пользователь не зарегистрирован в системе');
+        }
+
         const passwordEquals = await bcrypt.compare(authData.password, user.password);
 
         if (user && passwordEquals) {
@@ -31,7 +37,7 @@ export class AuthService implements AuthUseCase {
         }
 
         // Чтобы безопасно хранить пароль в базе, получаем его хэш
-        const hashPassword = await bcrypt.hash(properties.password, 5);
+        const hashPassword = await bcrypt.hash(properties.password, 3);
 
         // Создание пользователя
         const createdUser = await this._userService.createUserAccount({

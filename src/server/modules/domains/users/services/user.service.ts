@@ -1,15 +1,17 @@
 import { UserUseCase } from '../ports/user.use-case';
 import { UserProfileCreateProperties } from '../entities/user-profile.entity';
 import { LargeUser, UserCreateProperties, UserEntity, UserEmail } from '../entities/user.entity';
-import { UserPort } from '../ports/user.port';
-import { UserProfileUseCase } from '../ports/user-profile.use-case';
+import { Injectable } from '@nestjs/common';
+import { UserProfileService } from './user-profile.service';
+import { UserAdapterService } from './adapters/user-adapter.service';
 
 /**
  *
  * Сервис отвечающий за взаимодействие с пользователями
  */
+@Injectable()
 export class UserService implements UserUseCase {
-    constructor(private readonly _userPort: UserPort, private readonly _userProfileService: UserProfileUseCase) {}
+    constructor(private readonly _userPort: UserAdapterService, private readonly _userProfileService: UserProfileService) {}
 
     /**
      * Метод регистрации нового пользователя
