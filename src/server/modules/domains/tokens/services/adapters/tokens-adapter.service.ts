@@ -4,6 +4,7 @@ import { TokensPort } from '../../ports/tokens.port';
 import { Token } from '../../entities/token.entity';
 import { UserId } from '../../../users/entities/user.entity';
 import { TokenOrmEntity } from '../../orm-entities/token-orm.entity';
+import {TokenMapper} from "../../mappers/token.mapper";
 
 @Injectable()
 export class TokensAdapterService extends PersistenceAdapter implements TokensPort {
@@ -12,7 +13,7 @@ export class TokensAdapterService extends PersistenceAdapter implements TokensPo
     }
 
     async createToken(tokenData: Token): Promise<Token> {
-        return await this._entityManager.save(tokenData);
+        return await this._entityManager.save(TokenMapper.mapToOrmEntity(tokenData));
     }
 
     async getTokenByUserId(userId: UserId): Promise<Token> {
@@ -20,7 +21,7 @@ export class TokensAdapterService extends PersistenceAdapter implements TokensPo
     }
 
     async updateToken(tokenData: Token): Promise<Token> {
-        return await this._entityManager.save(tokenData);
+        return await this._entityManager.save(TokenMapper.mapToOrmEntity(tokenData));
     }
 
     async removeToken(authToken: string): Promise<void> {

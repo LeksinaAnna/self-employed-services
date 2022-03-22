@@ -1,6 +1,6 @@
 import { UserUseCase } from '../ports/user.use-case';
-import { UserProfileCreateProperties } from '../entities/user-profile.entity';
-import { LargeUser, UserCreateProperties, UserEntity, UserEmail } from '../entities/user.entity';
+import {UserProfile, UserProfileCreateProperties, WithUserProfile} from '../entities/user-profile.entity';
+import {LargeUser, UserCreateProperties, UserEntity, UserEmail, User} from '../entities/user.entity';
 import { Injectable } from '@nestjs/common';
 import { UserProfileService } from './user-profile.service';
 import { UserAdapterService } from './adapters/user-adapter.service';
@@ -43,7 +43,11 @@ export class UserService implements UserUseCase {
         };
     }
 
-    async getUserByLogin(email: UserEmail): Promise<any> {
+    async getUserByLogin(email: UserEmail): Promise<User & WithUserProfile> {
         return await this._userPort.getUserByLogin(email);
+    }
+
+    async updateUser(properties: UserCreateProperties & UserProfileCreateProperties): Promise<UserProfile> {
+        return Promise.resolve(undefined);
     }
 }

@@ -7,7 +7,6 @@ import { TokensAdapterService } from './services/adapters/tokens-adapter.service
     imports: [
         JwtModule.register({
             secret: process.env.AUTH_SECRET_KEY,
-            signOptions: { expiresIn: '20m' },
         }),
     ],
     providers: [TokensService, TokensAdapterService],

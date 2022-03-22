@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Post, Req, Res } from '@nestjs/common';
+import {BadRequestException, Body, Controller, Delete, Get, Post, Req, Res} from '@nestjs/common';
 import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
 import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
 import { WithAccessToken } from '../../tokens/entities/token.entity';
@@ -16,13 +16,14 @@ export class AuthWebController {
     @Post('/registration')
     async registration(
         @Body() body: UserProfileCreateProperties & UserCreateProperties,
+        // passthrough: true ставим для того чтобы логика неста на response не прервалась
         @Res({ passthrough: true }) response: Response
     ): Promise<LargeUser> {
         if (Object.keys(body).length === 0) {
             throw new BadRequestException('Отсутствует тело запроса');
         }
         const { refreshToken, ...userData } = await this._authService.registration(body);
-        response.cookie('authToken', refreshToken, { httpOnly: true });
+        response.cookie('refreshToken', refreshToken, { httpOnly: true });
 
         return userData;
     }
@@ -31,22 +32,41 @@ export class AuthWebController {
     @Post('/login')
     async login(
         @Body() body: UserCreateProperties,
+        // passthrough: true ставим для того чтобы логика неста на response не прервалась
         @Res({ passthrough: true }) response: Response,
     ): Promise<UserProfile & WithAccessToken> {
         const { refreshToken, ...authData } = await this._authService.login(body);
-        response.cookie('authToken', refreshToken, { httpOnly: true });
+        response.cookie('refreshToken', refreshToken, { httpOnly: true });
 
         return authData;
     }
 
     @Delete('/logout')
-    async logout(@Res({ passthrough: true }) response: Response, @Req() request: Request) {
+    async logout(
+        // passthrough: true ставим для того чтобы логика неста на response не прервалась
+        @Res({ passthrough: true }) response: Response,
+        @Req() request: Request
+    ) {
         const { authToken } = request.cookies;
-        console.log(request.cookies)
-        response.clearCookie('authToken');
+        response.clearCookie('refreshToken');
 
-        await this._authService.logout(authToken as string);
+        await this._authService.logout(authToken);
 
         return { message: 'OK' }
+    }
+
+    @Get('/refresh')
+    async refreshAccessToken(
+        // passthrough: true ставим для того чтобы логика неста на response не прервалась
+        @Res({ passthrough: true }) response: Response,
+        @Req() request: Request,
+    ): Promise<WithAccessToken> {
+        const { authToken } = request.cookies;
+        response.clearCookie('refreshToken');
+        const newTokens = await this._authService.refreshAuthToken(authToken);
+
+        response.cookie('refreshToken', newTokens?.refreshToken, { httpOnly: true });
+
+        return { accessToken: newTokens.accessToken };
     }
 }

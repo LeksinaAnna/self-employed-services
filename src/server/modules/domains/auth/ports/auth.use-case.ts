@@ -1,6 +1,6 @@
 import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
 import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
-import { Tokens } from '../../tokens/entities/token.entity';
+import {RefreshToken, Tokens, WithAccessToken} from '../../tokens/entities/token.entity';
 
 export const AuthUseCaseSymbol = Symbol('AuthUseCase');
 
@@ -9,5 +9,7 @@ export interface AuthUseCase {
 
     registration(properties: UserProfileCreateProperties & UserCreateProperties): Promise<LargeUser & Tokens>;
 
-    logout(authToken: any): Promise<void>;
+    logout(authToken: string): Promise<void>;
+
+    refreshAuthToken(refreshToken: RefreshToken): Promise<WithAccessToken>;
 }

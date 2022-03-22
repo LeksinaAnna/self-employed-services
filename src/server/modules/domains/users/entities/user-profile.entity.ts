@@ -16,6 +16,10 @@ export interface UserProfileCreateProperties {
     birthday?: string;
 }
 
+export interface WithUserProfile {
+    profile: UserProfile;
+}
+
 export interface UserProfile {
     profileId: UserId;
     fullName: string;

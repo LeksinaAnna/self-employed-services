@@ -3,13 +3,21 @@ import { LargeUser, UserCreateProperties } from '../../users/entities/user.entit
 import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
-import { Tokens } from '../../tokens/entities/token.entity';
+import { RefreshToken, Tokens } from '../../tokens/entities/token.entity';
 import { UserService } from '../../users/services/user.service';
 import { TokensService } from '../../tokens/services/tokens.service';
 
 @Injectable()
 export class AuthService implements AuthUseCase {
     constructor(private readonly _userService: UserService, private readonly _tokensService: TokensService) {}
+
+    async refreshAuthToken(refreshToken: RefreshToken): Promise<Tokens> {
+        const tokenData = this._tokensService.validateToken(refreshToken);
+        const tokens = this._tokensService.generateTokens({ userId: tokenData.userId, email: tokenData.email });
+        await this._tokensService.saveToken(tokenData.userId, tokens.refreshToken);
+
+        return tokens;
+    }
 
     async login(authData: UserCreateProperties): Promise<UserProfile & Tokens> {
         const user = await this._userService.getUserByLogin(authData.email);
@@ -21,8 +29,10 @@ export class AuthService implements AuthUseCase {
         const passwordEquals = await bcrypt.compare(authData.password, user.password);
 
         if (user && passwordEquals) {
-            const tokens = await this._tokensService.generateTokens(user);
-            return { ...user, ...tokens };
+            // Получаем пару токенов
+            const tokens = this._tokensService.generateTokens({ userId: user.userId, email: user.email });
+            await this._tokensService.saveToken(user.userId, tokens.refreshToken);
+            return { ...user.profile, ...tokens };
         }
 
         throw new UnauthorizedException('Логин или пароль введены неправильно');
@@ -46,7 +56,10 @@ export class AuthService implements AuthUseCase {
         });
 
         // Получаем JWT токены
-        const tokens = await this._tokensService.generateTokens(createdUser);
+        const tokens = await this._tokensService.generateTokens({
+            userId: createdUser.userId,
+            email: createdUser.email,
+        });
 
         return { ...createdUser, ...tokens };
     }
