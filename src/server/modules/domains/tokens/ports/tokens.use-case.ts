@@ -1,4 +1,4 @@
-import {AccessToken, RefreshToken, TokenData, TokenPayload, Tokens} from '../entities/token.entity';
+import { AccessToken, RefreshToken, TokenData, TokenPayload, Tokens } from '../entities/token.entity';
 import { UserId } from '../../users/entities/user.entity';
 
 export interface TokensUseCase {

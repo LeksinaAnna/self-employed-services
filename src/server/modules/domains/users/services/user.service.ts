@@ -1,5 +1,5 @@
 import { UserUseCase } from '../ports/user.use-case';
-import {UserProfile, UserProfileCreateProperties, WithUserProfile} from '../entities/user-profile.entity';
+import { UserProfile, UserProfileCreateProperties, WithUserProfile } from '../entities/user-profile.entity';
 import {
     LargeUser,
     UserCreateProperties,
@@ -18,7 +18,8 @@ import { UserAdapterService } from './adapters/user-adapter.service';
  */
 @Injectable()
 export class UserService implements UserUseCase {
-    constructor(private readonly _userPort: UserAdapterService, private readonly _userProfileService: UserProfileService) {}
+    constructor(private readonly _userPort: UserAdapterService, private readonly _userProfileService: UserProfileService) {
+    }
 
     /**
      * Метод регистрации нового пользователя

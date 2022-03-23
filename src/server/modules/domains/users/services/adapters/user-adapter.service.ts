@@ -23,7 +23,7 @@ export class UserAdapterService extends PersistenceAdapter implements UserPort {
             .where(`user.email = :email`, { email })
             .leftJoinAndSelect(`user.profile`, 'profile')
             .leftJoinAndSelect('user.userRoles', 'role')
-            .getOne()
+            .getOne();
     }
 
     async getAccount(email: UserEmail): Promise<User & UserWithPassword> {

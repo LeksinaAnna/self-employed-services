@@ -1,5 +1,5 @@
 import moment from 'moment';
-import {UserContacts} from "./user-profile.entity";
+import { UserContacts } from './user-profile.entity';
 import { v4 as uuidv4 } from 'uuid';
 
 export type UserId = string;

@@ -1,23 +1,24 @@
-import {BadRequestException, Body, Controller, Delete, Get, Post, Req, Res} from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Post, Req, Res } from '@nestjs/common';
 import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
 import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
 import { WithAccessToken } from '../../tokens/entities/token.entity';
 import { Response, Request } from 'express';
-import { NotAuth } from "../../../../nest-decorators/decorators/not-auth";
+import { NotAuth } from '../../../../nest-decorators/decorators/not-auth';
 import { AuthService } from '../services/auth.service';
 
 @Controller('auth')
 export class AuthWebController {
     constructor(
         private readonly _authService: AuthService,
-    ) {}
+    ) {
+    }
 
     @NotAuth()
     @Post('/registration')
     async registration(
         @Body() body: UserProfileCreateProperties & UserCreateProperties,
         // passthrough: true ставим для того чтобы логика неста на response не прервалась
-        @Res({ passthrough: true }) response: Response
+        @Res({ passthrough: true }) response: Response,
     ): Promise<LargeUser> {
         if (Object.keys(body).length === 0) {
             throw new BadRequestException('Отсутствует тело запроса');
@@ -45,14 +46,14 @@ export class AuthWebController {
     async logout(
         // passthrough: true ставим для того чтобы логика неста на response не прервалась
         @Res({ passthrough: true }) response: Response,
-        @Req() request: Request
+        @Req() request: Request,
     ) {
         const { authToken } = request.cookies;
         response.clearCookie('refreshToken');
 
         await this._authService.logout(authToken);
 
-        return { message: 'OK' }
+        return { message: 'OK' };
     }
 
     @Get('/refresh')

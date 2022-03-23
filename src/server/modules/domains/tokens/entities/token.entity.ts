@@ -1,4 +1,4 @@
-import {UserEmail, UserId} from '../../users/entities/user.entity';
+import { UserEmail, UserId } from '../../users/entities/user.entity';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 

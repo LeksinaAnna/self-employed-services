@@ -34,7 +34,7 @@ export class AuthService implements AuthUseCase {
             const tokens = this._tokensService.generateTokens({ userId: user.userId, email: user.email });
             await this._tokensService.saveToken(user.userId, tokens.refreshToken);
             const userInfo = await this._userService.getUserByLogin(user.email);
-            return { ...tokens,  ...userInfo.profile };
+            return { ...tokens, ...userInfo.profile };
         }
 
         throw new UnauthorizedException('Логин или пароль введены неправильно');

@@ -1,8 +1,6 @@
 import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
 import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
-import {RefreshToken, Tokens, WithAccessToken} from '../../tokens/entities/token.entity';
-
-export const AuthUseCaseSymbol = Symbol('AuthUseCase');
+import { RefreshToken, Tokens, WithAccessToken } from '../../tokens/entities/token.entity';
 
 export interface AuthUseCase {
     login(authData: UserCreateProperties): Promise<UserProfile & Tokens>;

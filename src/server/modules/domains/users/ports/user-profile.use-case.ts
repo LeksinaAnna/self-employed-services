@@ -1,4 +1,4 @@
-import {UserProfile, UserProfileCreateProperties} from "../entities/user-profile.entity";
+import { UserProfile, UserProfileCreateProperties } from '../entities/user-profile.entity';
 
 export const userProfileUseCaseSymbol = Symbol('UserProfileUseCase');
 

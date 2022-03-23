@@ -1,5 +1,5 @@
 import { TokensUseCase } from '../ports/tokens.use-case';
-import {AccessToken, RefreshToken, TokenData, TokenEntity, TokenPayload, Tokens} from '../entities/token.entity';
+import { AccessToken, RefreshToken, TokenData, TokenEntity, TokenPayload, Tokens } from '../entities/token.entity';
 import { UserId } from '../../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
@@ -7,7 +7,8 @@ import { TokensAdapterService } from './adapters/tokens-adapter.service';
 
 @Injectable()
 export class TokensService implements TokensUseCase {
-    constructor(private readonly _jwtService: JwtService, private readonly _tokensPort: TokensAdapterService) {}
+    constructor(private readonly _jwtService: JwtService, private readonly _tokensPort: TokensAdapterService) {
+    }
 
     async removeToken(authToken: string): Promise<void> {
         await this._tokensPort.removeToken(authToken);
@@ -41,7 +42,7 @@ export class TokensService implements TokensUseCase {
         try {
             return this._jwtService.verify(token);
         } catch (e) {
-            console.log(`[ERROR] - ${e.message}`)
+            console.log(`[ERROR] - ${e.message}`);
             throw new UnauthorizedException(`Вы не авторизованы`);
         }
     }

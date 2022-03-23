@@ -12,4 +12,5 @@ import { TokensAdapterService } from './services/adapters/tokens-adapter.service
     providers: [TokensService, TokensAdapterService],
     exports: [TokensService],
 })
-export class TokensModule {}
+export class TokensModule {
+}
