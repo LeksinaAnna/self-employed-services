@@ -9,7 +9,8 @@ import { TokensService } from '../../tokens/services/tokens.service';
 
 @Injectable()
 export class AuthService implements AuthUseCase {
-    constructor(private readonly _userService: UserService, private readonly _tokensService: TokensService) {}
+    constructor(private readonly _userService: UserService, private readonly _tokensService: TokensService) {
+    }
 
     async refreshAuthToken(refreshToken: RefreshToken): Promise<Tokens> {
         const tokenData = this._tokensService.validateToken(refreshToken);
@@ -20,7 +21,7 @@ export class AuthService implements AuthUseCase {
     }
 
     async login(authData: UserCreateProperties): Promise<UserProfile & Tokens> {
-        const user = await this._userService.getUserByLogin(authData.email);
+        const user = await this._userService.getAccount(authData.email);
 
         if (!user) {
             throw new UnauthorizedException('Такой пользователь не зарегистрирован в системе');
@@ -32,7 +33,8 @@ export class AuthService implements AuthUseCase {
             // Получаем пару токенов
             const tokens = this._tokensService.generateTokens({ userId: user.userId, email: user.email });
             await this._tokensService.saveToken(user.userId, tokens.refreshToken);
-            return { ...user.profile, ...tokens };
+            const userInfo = await this._userService.getUserByLogin(user.email);
+            return { ...tokens,  ...userInfo.profile };
         }
 
         throw new UnauthorizedException('Логин или пароль введены неправильно');

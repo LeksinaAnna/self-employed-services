@@ -22,17 +22,20 @@ export interface LargeUser {
 export interface User {
     userId?: UserId;
     email: UserEmail;
-    password: string;
     created?: string;
 }
 
-export class UserEntity implements User {
+export interface UserWithPassword {
+    password: string;
+}
+
+export class UserEntity implements User, UserWithPassword {
     readonly userId?: UserId;
     readonly email: UserEmail;
     readonly password: string;
     readonly created?: string;
 
-    constructor({ userId, password, email, created }: User) {
+    constructor({ userId, password, email, created }: User & UserWithPassword) {
         this.userId = userId || uuidv4();
         this.email = email;
         this.password = password;
