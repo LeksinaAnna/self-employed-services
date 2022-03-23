@@ -6,3 +6,7 @@ export interface Role {
     value: RoleType;
     description: string;
 }
+
+export interface WithRoles {
+    roles: Role[];
+}

@@ -1,10 +1,10 @@
-import {TypeOrmModuleOptions} from "@nestjs/typeorm";
+import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
-import {UserOrmEntity} from "../modules/domains/users/orm-entities/user.orm-entity";
-import {UserProfileOrmEntity} from "../modules/domains/users/orm-entities/user-profile.orm-entity";
-import {TokenOrmEntity} from "../modules/domains/tokens/orm-entities/token-orm.entity";
-import { UserRolesOrmEntity } from '../modules/domains/users/orm-entities/user-roles-orm.entity';
+import { UserOrmEntity } from '../modules/domains/users/orm-entities/user.orm-entity';
+import { UserProfileOrmEntity } from '../modules/domains/users/orm-entities/user-profile.orm-entity';
+import { TokenOrmEntity } from '../modules/domains/tokens/orm-entities/token-orm.entity';
 import { RoleOrmEntity } from '../modules/domains/roles/orm-entities/role.orm-entity';
+import { UserRolesOrmEntity } from '../modules/domains/users/orm-entities/user-roles.orm-entity';
 
 dotenv.config();
 
@@ -26,7 +26,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
         UserProfileOrmEntity,
         TokenOrmEntity,
         RoleOrmEntity,
-        UserRolesOrmEntity
+        UserRolesOrmEntity,
     ],
     autoLoadEntities: true,
-}
+};

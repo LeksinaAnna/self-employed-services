@@ -1,9 +1,8 @@
 import { PersistenceAdapter } from '../../../../common/persistence-adapter/persistence-adapter';
-import { User, UserEntity, UserEmail, UserWithPassword } from '../../entities/user.entity';
+import { User, UserEntity, UserEmail, UserWithPassword, LargeUser } from '../../entities/user.entity';
 import { Injectable } from '@nestjs/common';
 import { UserOrmEntity } from '../../orm-entities/user.orm-entity';
 import { UserMapper } from '../../mappers/user.mapper';
-import { WithUserProfile } from '../../entities/user-profile.entity';
 import { createQueryBuilder } from 'typeorm';
 import { UserPort } from '../../ports/user.port';
 
@@ -18,11 +17,11 @@ export class UserAdapterService extends PersistenceAdapter implements UserPort {
         return await this._entityManager.save(UserMapper.mapToOrmEntity(account));
     }
 
-    public async getUserByLogin(email: UserEmail): Promise<User & WithUserProfile> {
-        return await createQueryBuilder(UserOrmEntity, 'user')
+    public async getUserByLogin(email: UserEmail): Promise<LargeUser> {
+        return await createQueryBuilder<LargeUser>(UserOrmEntity, 'user')
             .where(`user.email = :email`, { email })
             .leftJoinAndSelect(`user.profile`, 'profile')
-            .leftJoinAndSelect('user.userRoles', 'role')
+            .leftJoinAndSelect('user.roles', 'role')
             .getOne();
     }
 

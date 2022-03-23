@@ -14,7 +14,11 @@ export class AuthService implements AuthUseCase {
 
     async refreshAuthToken(refreshToken: RefreshToken): Promise<Tokens> {
         const tokenData = this._tokensService.validateToken(refreshToken);
-        const tokens = this._tokensService.generateTokens({ userId: tokenData.userId, email: tokenData.email });
+        const tokens = this._tokensService.generateTokens({
+            userId: tokenData.userId,
+            email: tokenData.email,
+            roles: tokenData.roles
+        });
         await this._tokensService.saveToken(tokenData.userId, tokens.refreshToken);
 
         return tokens;
@@ -26,14 +30,20 @@ export class AuthService implements AuthUseCase {
         if (!user) {
             throw new UnauthorizedException('Такой пользователь не зарегистрирован в системе');
         }
+        const userInfo = await this._userService.getUserByLogin(authData.email);
 
         const passwordEquals = await bcrypt.compare(authData.password, user.password);
 
         if (user && passwordEquals) {
             // Получаем пару токенов
-            const tokens = this._tokensService.generateTokens({ userId: user.userId, email: user.email });
+            const roles = userInfo.roles.map(role => role.value);
+            const tokens = this._tokensService.generateTokens({
+                userId: user.userId,
+                email: user.email,
+                roles
+            });
             await this._tokensService.saveToken(user.userId, tokens.refreshToken);
-            const userInfo = await this._userService.getUserByLogin(user.email);
+
             return { ...tokens, ...userInfo.profile };
         }
 
@@ -58,9 +68,11 @@ export class AuthService implements AuthUseCase {
         });
 
         // Получаем JWT токены
+        const roles = createdUser?.roles.map(role => role.value);
         const tokens = await this._tokensService.generateTokens({
             userId: createdUser.userId,
             email: createdUser.email,
+            roles,
         });
 
         return { ...createdUser, ...tokens };

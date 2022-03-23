@@ -11,6 +11,7 @@ import {
 import { Injectable } from '@nestjs/common';
 import { UserProfileService } from './user-profile.service';
 import { UserAdapterService } from './adapters/user-adapter.service';
+import { RolesService } from '../../roles/services/roles.service';
 
 /**
  *
@@ -18,13 +19,17 @@ import { UserAdapterService } from './adapters/user-adapter.service';
  */
 @Injectable()
 export class UserService implements UserUseCase {
-    constructor(private readonly _userPort: UserAdapterService, private readonly _userProfileService: UserProfileService) {
+    constructor(
+        private readonly _userPort: UserAdapterService,
+        private readonly _userProfileService: UserProfileService,
+        private readonly _rolesService: RolesService,
+    ) {
     }
 
     /**
      * Метод регистрации нового пользователя
      */
-    public async createUserAccount(properties: UserProfileCreateProperties & UserCreateProperties): Promise<LargeUser> {
+    public async createUserAccount(properties: UserProfileCreateProperties & UserCreateProperties): Promise<LargeUser & WithUserProfile> {
         // Регаем аккаунт
         const accountEntity = new UserEntity({
             password: properties.password,
@@ -32,7 +37,7 @@ export class UserService implements UserUseCase {
         });
 
         const account = await this._userPort.createAccount(accountEntity);
-
+        const role = await this._rolesService.assignRoleToUser(account.userId, properties.role);
         // Создаем профиль\инфу о пользователе
         const profile = await this._userProfileService.createUserProfile({
             userId: account.userId,
@@ -44,14 +49,13 @@ export class UserService implements UserUseCase {
         return {
             userId: account.userId,
             email: account.email,
+            profile,
+            roles: [role],
             created: account.created,
-            fullName: profile.fullName,
-            birthday: profile.birthday,
-            contacts: profile.contacts,
         };
     }
 
-    async getUserByLogin(email: UserEmail): Promise<User & WithUserProfile> {
+    async getUserByLogin(email: UserEmail): Promise<LargeUser> {
         return await this._userPort.getUserByLogin(email);
     }
 

@@ -1,6 +1,7 @@
 import moment from 'moment';
-import { UserContacts } from './user-profile.entity';
+import { WithUserProfile } from './user-profile.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { RoleType, WithRoles } from '../../roles/entities/role.entity';
 
 export type UserId = string;
 export type UserEmail = string;
@@ -8,16 +9,10 @@ export type UserEmail = string;
 export interface UserCreateProperties {
     email: UserEmail;
     password: string;
+    role?: RoleType;
 }
 
-export interface LargeUser {
-    userId?: UserId;
-    fullName: string;
-    contacts: UserContacts;
-    birthday: string;
-    email: UserEmail;
-    created?: string;
-}
+export type LargeUser = User & WithUserProfile & WithRoles;
 
 export interface User {
     userId?: UserId;

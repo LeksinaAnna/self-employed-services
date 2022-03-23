@@ -1,6 +1,7 @@
 import { UserEmail, UserId } from '../../users/entities/user.entity';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
+import { RoleType } from '../../roles/entities/role.entity';
 
 export type AccessToken = string;
 export type RefreshToken = string;
@@ -17,11 +18,13 @@ export interface WithAccessToken {
 export interface TokenPayload {
     userId: UserId;
     email: UserEmail;
+    roles: RoleType[];
 }
 
 export interface TokenData {
     userId: UserId;
     email: UserEmail;
+    roles: RoleType[];
     iat: number;
     exp: number;
 }

@@ -3,6 +3,7 @@ import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryCol
 import { UserProfile } from '../entities/user-profile.entity';
 import { UserProfileOrmEntity } from './user-profile.orm-entity';
 import { RoleOrmEntity } from '../../roles/orm-entities/role.orm-entity';
+import { RoleType } from '../../roles/entities/role.entity';
 
 @Entity({ schema: 'users', name: 'users' })
 export class UserOrmEntity implements User {
@@ -35,5 +36,5 @@ export class UserOrmEntity implements User {
             referencedColumnName: 'roleId'
         }
     })
-    userRoles: string[];
+    roles: RoleType[];
 }
