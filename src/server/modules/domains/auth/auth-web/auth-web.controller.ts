@@ -61,9 +61,9 @@ export class AuthWebController {
         @Res({ passthrough: true }) response: Response,
         @Req() request: Request,
     ): Promise<WithAccessToken> {
-        const { authToken } = request.cookies;
+        const { refreshToken } = request.cookies;
         response.clearCookie('refreshToken');
-        const newTokens = await this._authService.refreshAuthToken(authToken);
+        const newTokens = await this._authService.refreshAuthToken(refreshToken);
 
         response.cookie('refreshToken', newTokens?.refreshToken, { httpOnly: true });
 
