@@ -14,17 +14,5 @@ export class RoleOrmEntity implements Role {
     description: string;
 
     @ManyToMany(() => UserOrmEntity)
-    @JoinTable({
-        schema: 'roles',
-        name: 'user_roles',
-        joinColumn: {
-            name: 'role_id',
-            referencedColumnName: 'roleId',
-        },
-        inverseJoinColumn: {
-            name: 'user_id',
-            referencedColumnName: 'userId',
-        },
-    })
     users: UserOrmEntity[];
 }

@@ -36,5 +36,5 @@ export class UserOrmEntity implements User {
             referencedColumnName: 'roleId'
         }
     })
-    roles: RoleType[];
+    roles: RoleOrmEntity[];
 }
