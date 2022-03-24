@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { UserId } from '../entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
+import { UserId } from '../entities/user.entity';
 
 @Entity({ name: 'user_roles', schema: 'roles' })
 export class UserRolesOrmEntity {

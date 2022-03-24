@@ -1,6 +1,6 @@
+import { Injectable } from '@nestjs/common';
 import { UserProfileUseCase } from '../ports/user-profile.use-case';
 import {UserProfile, UserProfileCreateProperties, UserProfileEntity} from '../entities/user-profile.entity';
-import { Injectable } from '@nestjs/common';
 import { UserProfileAdapterService } from './adapters/user-profile-adapter.service';
 
 @Injectable()

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { createQueryBuilder } from 'typeorm';
 import { PersistenceAdapter } from '../../../../common/persistence-adapter/persistence-adapter';
 import { RolesPort } from '../../ports/roles.port';
 import { Role, RoleType } from '../../entities/role.entity';
-import { createQueryBuilder } from 'typeorm';
 import { RoleOrmEntity } from '../../orm-entities/role.orm-entity';
 import { UserRolesOrmEntity } from '../../../users/orm-entities/user-roles.orm-entity';
 

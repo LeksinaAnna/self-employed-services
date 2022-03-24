@@ -1,3 +1,5 @@
+import { JwtService } from '@nestjs/jwt';
+import cookieParser from 'cookie-parser';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import 'dotenv';
@@ -5,8 +7,6 @@ import { AppModule } from './app.module';
 import { HttpFilter } from './nest-decorators/filters/http-exceptions.filter';
 import { AuthGuard } from './nest-decorators/guards/auth.guards';
 import { NotFoundInterceptor } from './nest-decorators/interceptors/not-found.interceptor';
-import cookieParser from 'cookie-parser';
-import {JwtService} from "@nestjs/jwt";
 
 const bootstrap = async () => {
     const app = await NestFactory.create<NestExpressApplication>(AppModule, { bufferLogs: true });
@@ -25,13 +25,14 @@ const bootstrap = async () => {
     // HTTP Errors
     app.useGlobalInterceptors(new NotFoundInterceptor());
     app.useGlobalFilters(new HttpFilter());
-    app.setGlobalPrefix('api/v1/')
+    app.setGlobalPrefix('api/v1/');
 
-    const port = process.env.BACKEND_PORT || 3003
+    const port = process.env.BACKEND_PORT || 3003;
     await app.listen(port, () => {
-        console.log(`[SERVER_INFO] - server was be started on ${port} port`)
+        // eslint-disable-next-line no-console
+        console.log(`[SERVER_INFO] - server was be started on ${port} port`);
     });
 };
 
-// @ts-ignore
-bootstrap();
+/*eslint-disable*/
+bootstrap().then();

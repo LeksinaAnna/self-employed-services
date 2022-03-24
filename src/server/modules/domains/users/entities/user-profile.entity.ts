@@ -1,6 +1,6 @@
 import { UserId } from './user.entity';
 
-export type ProfileId = string;
+export type ProfileId = UserId;
 
 export interface UserContacts {
     email: string;
@@ -21,7 +21,7 @@ export interface WithUserProfile {
 }
 
 export interface UserProfile {
-    profileId: UserId;
+    profileId: ProfileId;
     fullName: string;
     contacts: UserContacts;
     birthday: string;

@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { UserUseCase } from '../ports/user.use-case';
 import { UserProfile, UserProfileCreateProperties, WithUserProfile } from '../entities/user-profile.entity';
 import {
@@ -8,10 +9,9 @@ import {
     User,
     UserWithPassword,
 } from '../entities/user.entity';
-import { Injectable } from '@nestjs/common';
+import { RolesService } from '../../roles/services/roles.service';
 import { UserProfileService } from './user-profile.service';
 import { UserAdapterService } from './adapters/user-adapter.service';
-import { RolesService } from '../../roles/services/roles.service';
 
 /**
  *
@@ -23,13 +23,14 @@ export class UserService implements UserUseCase {
         private readonly _userPort: UserAdapterService,
         private readonly _userProfileService: UserProfileService,
         private readonly _rolesService: RolesService,
-    ) {
-    }
+    ) {}
 
     /**
      * Метод регистрации нового пользователя
      */
-    public async createUserAccount(properties: UserProfileCreateProperties & UserCreateProperties): Promise<LargeUser & WithUserProfile> {
+    public async createUserAccount(
+        properties: UserProfileCreateProperties & UserCreateProperties,
+    ): Promise<LargeUser & WithUserProfile> {
         // Регаем аккаунт
         const accountEntity = new UserEntity({
             password: properties.password,

@@ -1,8 +1,8 @@
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import * as bcrypt from 'bcryptjs';
 import { AuthUseCase } from '../ports/auth.use-case';
 import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
 import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import * as bcrypt from 'bcryptjs';
 import { RefreshToken, Tokens } from '../../tokens/entities/token.entity';
 import { UserService } from '../../users/services/user.service';
 import { TokensService } from '../../tokens/services/tokens.service';

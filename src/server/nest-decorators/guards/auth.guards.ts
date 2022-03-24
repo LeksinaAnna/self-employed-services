@@ -1,10 +1,10 @@
+import { Response } from 'express';
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { IS_NOT_AUTH_KEY } from '../decorators/not-auth';
 import { JwtService } from '@nestjs/jwt';
 import { createQueryBuilder } from 'typeorm';
 import { TokenOrmEntity } from '../../modules/domains/tokens/orm-entities/token-orm.entity';
-import { Response } from 'express';
+import { IS_NOT_AUTH_KEY } from '../decorators/not-auth.decorator';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

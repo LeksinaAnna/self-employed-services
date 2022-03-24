@@ -1,19 +1,16 @@
+import { Response, Request } from 'express';
 import { BadRequestException, Body, Controller, Delete, Get, Post, Req, Res } from '@nestjs/common';
 import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
 import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
+import { NotAuthDecorator } from '../../../../nest-decorators/decorators/not-auth.decorator';
 import { WithAccessToken } from '../../tokens/entities/token.entity';
-import { Response, Request } from 'express';
-import { NotAuth } from '../../../../nest-decorators/decorators/not-auth';
 import { AuthService } from '../services/auth.service';
 
 @Controller('auth')
 export class AuthWebController {
-    constructor(
-        private readonly _authService: AuthService,
-    ) {
-    }
+    constructor(private readonly _authService: AuthService) {}
 
-    @NotAuth()
+    @NotAuthDecorator()
     @Post('/registration')
     async registration(
         @Body() body: UserProfileCreateProperties & UserCreateProperties,
@@ -29,7 +26,7 @@ export class AuthWebController {
         return userData;
     }
 
-    @NotAuth()
+    @NotAuthDecorator()
     @Post('/login')
     async login(
         @Body() body: UserCreateProperties,
@@ -47,7 +44,7 @@ export class AuthWebController {
         // passthrough: true ставим для того чтобы логика неста на response не прервалась
         @Res({ passthrough: true }) response: Response,
         @Req() request: Request,
-    ) {
+    ): Promise<{ message: string }> {
         const { authToken } = request.cookies;
         response.clearCookie('refreshToken');
 

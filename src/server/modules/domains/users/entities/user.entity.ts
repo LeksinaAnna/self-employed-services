@@ -1,7 +1,7 @@
 import moment from 'moment';
-import { WithUserProfile } from './user-profile.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { RoleType, WithRoles } from '../../roles/entities/role.entity';
+import { WithUserProfile } from './user-profile.entity';
 
 export type UserId = string;
 export type UserEmail = string;

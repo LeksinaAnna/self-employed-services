@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { RolesAdapterService } from './adapters/roles-adapter.service';
 import { RolesUseCase } from '../ports/roles.use-case';
 import { Role, RoleType } from '../entities/role.entity';
 import { UserId } from '../../users/entities/user.entity';
 import { UserRolesOrmEntity } from '../../users/orm-entities/user-roles.orm-entity';
+import { RolesAdapterService } from './adapters/roles-adapter.service';
 
 @Injectable()
 export class RolesService implements RolesUseCase {

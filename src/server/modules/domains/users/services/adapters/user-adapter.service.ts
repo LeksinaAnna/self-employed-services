@@ -1,9 +1,9 @@
+import { Injectable } from '@nestjs/common';
+import { createQueryBuilder } from 'typeorm';
 import { PersistenceAdapter } from '../../../../common/persistence-adapter/persistence-adapter';
 import { User, UserEntity, UserEmail, UserWithPassword, LargeUser } from '../../entities/user.entity';
-import { Injectable } from '@nestjs/common';
 import { UserOrmEntity } from '../../orm-entities/user.orm-entity';
 import { UserMapper } from '../../mappers/user.mapper';
-import { createQueryBuilder } from 'typeorm';
 import { UserPort } from '../../ports/user.port';
 
 @Injectable()

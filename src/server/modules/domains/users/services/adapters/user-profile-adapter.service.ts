@@ -1,7 +1,7 @@
+import { Injectable } from '@nestjs/common';
 import { PersistenceAdapter } from '../../../../common/persistence-adapter/persistence-adapter';
 import { UserProfilePort } from '../../ports/user-profile.port';
 import { UserProfile } from '../../entities/user-profile.entity';
-import { Injectable } from '@nestjs/common';
 import { UserProfileMapper } from '../../mappers/user-profile.mapper';
 
 @Injectable()

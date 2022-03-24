@@ -1,6 +1,6 @@
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 import { UserContacts, UserProfile } from '../entities/user-profile.entity';
 import { UserId } from '../entities/user.entity';
-import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity({ schema: 'users', name: 'users_profile' })
 export class UserProfileOrmEntity implements UserProfile {

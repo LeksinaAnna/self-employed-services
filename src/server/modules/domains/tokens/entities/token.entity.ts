@@ -1,6 +1,6 @@
-import { UserEmail, UserId } from '../../users/entities/user.entity';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
+import { UserEmail, UserId } from '../../users/entities/user.entity';
 import { RoleType } from '../../roles/entities/role.entity';
 
 export type AccessToken = string;

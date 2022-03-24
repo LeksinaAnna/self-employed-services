@@ -1,5 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
-import { UserEmail } from '../entities/user.entity';
+import { LargeUser, UserEmail } from '../entities/user.entity';
 import { UserService } from '../services/user.service';
 
 @Controller('users')
@@ -9,7 +9,7 @@ export class UserWebController {
     ) {}
 
     @Get('/:login')
-    async getUsers(@Param('login') login: UserEmail) {
+    async getUsers(@Param('login') login: UserEmail): Promise<LargeUser> {
         return await this._userService.getUserByLogin(login);
     }
 }

@@ -1,6 +1,6 @@
+import { JwtModule } from '@nestjs/jwt';
 import { Module } from '@nestjs/common';
 import { TokensService } from './services/tokens.service';
-import { JwtModule } from '@nestjs/jwt';
 import { TokensAdapterService } from './services/adapters/tokens-adapter.service';
 
 @Module({

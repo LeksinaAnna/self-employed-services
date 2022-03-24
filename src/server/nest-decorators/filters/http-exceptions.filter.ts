@@ -14,8 +14,6 @@ type Nullable<T> = T | null;
 
 @Catch(HttpException)
 export class HttpFilter implements ExceptionFilter {
-    constructor() {}
-
     catch(exception: HttpException, host: ArgumentsHost): Nullable<Response> {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse<Response>();

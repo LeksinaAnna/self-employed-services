@@ -1,8 +1,8 @@
 import { HttpException, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfig } from './configs/type-orm.config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { RavenInterceptor } from 'nest-raven';
+import { typeOrmConfig } from './configs/type-orm.config';
 import { UserWebModule } from './modules/domains/users/user-web/user-web.module';
 import { AuthWebModule } from './modules/domains/auth/auth-web/auth-web.module';
 

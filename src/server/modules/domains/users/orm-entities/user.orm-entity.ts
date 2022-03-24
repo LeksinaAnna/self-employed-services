@@ -1,9 +1,9 @@
-import { User, UserId, UserEmail } from '../entities/user.entity';
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { UserProfile } from '../entities/user-profile.entity';
-import { UserProfileOrmEntity } from './user-profile.orm-entity';
 import { RoleOrmEntity } from '../../roles/orm-entities/role.orm-entity';
 import { RoleType } from '../../roles/entities/role.entity';
+import { User, UserId, UserEmail } from '../entities/user.entity';
+import { UserProfileOrmEntity } from './user-profile.orm-entity';
 
 @Entity({ schema: 'users', name: 'users' })
 export class UserOrmEntity implements User {
