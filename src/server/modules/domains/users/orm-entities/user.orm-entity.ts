@@ -1,14 +1,13 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryColumn } from 'typeorm';
 import { UserProfile } from '../entities/user-profile.entity';
 import { RoleOrmEntity } from '../../roles/orm-entities/role.orm-entity';
-import { RoleType } from '../../roles/entities/role.entity';
 import { User, UserId, UserEmail } from '../entities/user.entity';
 import { UserProfileOrmEntity } from './user-profile.orm-entity';
 
-@Entity({ schema: 'users', name: 'users' })
+@Entity({ schema: 'users', name: 'accounts' })
 export class UserOrmEntity implements User {
-    @PrimaryColumn({ name: 'user_id', type: 'uuid' })
-    userId: UserId;
+    @PrimaryColumn({ name: 'account_id', type: 'uuid' })
+    accountId: UserId;
 
     @Column({ name: 'email' })
     email: UserEmail;
@@ -20,7 +19,7 @@ export class UserOrmEntity implements User {
     created: string;
 
     @OneToOne(() => UserProfileOrmEntity)
-    @JoinColumn({ name: 'user_id', referencedColumnName: 'profileId' })
+    @JoinColumn({ name: 'account_id', referencedColumnName: 'profileId' })
     profile: UserProfile;
 
     @ManyToMany(() => RoleOrmEntity)
@@ -29,7 +28,7 @@ export class UserOrmEntity implements User {
         name: 'user_roles',
         joinColumn: {
             name: 'user_id',
-            referencedColumnName: 'userId'
+            referencedColumnName: 'accountId'
         },
         inverseJoinColumn: {
             name: 'role_id',

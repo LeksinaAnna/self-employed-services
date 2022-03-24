@@ -1,5 +1,5 @@
-import { UserProfile } from '../entities/user-profile.entity';
+import { UserProfile, UserProfileEntity } from '../entities/user-profile.entity';
 
 export interface UserProfilePort {
-    createUserProfile: (properties: UserProfile) => Promise<UserProfile>;
+    createUserProfile: (properties: UserProfileEntity) => Promise<UserProfile>;
 }

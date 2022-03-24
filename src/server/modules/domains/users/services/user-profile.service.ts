@@ -9,12 +9,7 @@ export class UserProfileService implements UserProfileUseCase {
 
     async createUserProfile(properties: UserProfileCreateProperties): Promise<UserProfile> {
         // Профиль создается с id пользователя
-        const profile = new UserProfileEntity({
-            profileId: properties.userId,
-            birthday: properties.birthday,
-            fullName: properties.fullName,
-            contacts: properties.contacts
-        });
+        const profile = new UserProfileEntity({ ...properties });
 
         return await this._userProfilePort.createUserProfile(profile);
     }

@@ -15,7 +15,7 @@ export interface UserCreateProperties {
 export type LargeUser = User & WithUserProfile & WithRoles;
 
 export interface User {
-    userId?: UserId;
+    accountId?: UserId;
     email: UserEmail;
     created?: string;
 }
@@ -25,13 +25,13 @@ export interface UserWithPassword {
 }
 
 export class UserEntity implements User, UserWithPassword {
-    readonly userId?: UserId;
+    readonly accountId?: UserId;
     readonly email: UserEmail;
     readonly password: string;
     readonly created?: string;
 
-    constructor({ userId, password, email, created }: User & UserWithPassword) {
-        this.userId = userId || uuidv4();
+    constructor({ accountId, password, email, created }: User & UserWithPassword) {
+        this.accountId = accountId || uuidv4();
         this.email = email;
         this.password = password;
         this.created = created || moment().format();

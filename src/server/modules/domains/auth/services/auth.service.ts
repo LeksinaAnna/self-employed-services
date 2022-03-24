@@ -38,11 +38,11 @@ export class AuthService implements AuthUseCase {
             // Получаем пару токенов
             const roles = userInfo.roles.map(role => role.value);
             const tokens = this._tokensService.generateTokens({
-                userId: user.userId,
+                userId: user.accountId,
                 email: user.email,
                 roles
             });
-            await this._tokensService.saveToken(user.userId, tokens.refreshToken);
+            await this._tokensService.saveToken(user.accountId, tokens.refreshToken);
 
             return { ...tokens, ...userInfo.profile };
         }
@@ -70,7 +70,7 @@ export class AuthService implements AuthUseCase {
         // Получаем JWT токены
         const roles = createdUser?.roles.map(role => role.value);
         const tokens = await this._tokensService.generateTokens({
-            userId: createdUser.userId,
+            userId: createdUser.accountId,
             email: createdUser.email,
             roles,
         });

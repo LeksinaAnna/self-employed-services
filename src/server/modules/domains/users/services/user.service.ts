@@ -38,17 +38,15 @@ export class UserService implements UserUseCase {
         });
 
         const account = await this._userPort.createAccount(accountEntity);
-        const role = await this._rolesService.assignRoleToUser(account.userId, properties.role);
+        const role = await this._rolesService.assignRoleToUser(account.accountId, properties.role);
         // Создаем профиль\инфу о пользователе
         const profile = await this._userProfileService.createUserProfile({
-            userId: account.userId,
-            birthday: properties.birthday,
-            contacts: properties.contacts,
-            fullName: properties.fullName,
+            ...properties,
+            profileId: account.accountId
         });
 
         return {
-            userId: account.userId,
+            accountId: account.accountId,
             email: account.email,
             profile,
             roles: [role],

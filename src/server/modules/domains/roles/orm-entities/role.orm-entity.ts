@@ -1,4 +1,4 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
 import { UserOrmEntity } from '../../users/orm-entities/user.orm-entity';
 import { Role, RoleType } from '../entities/role.entity';
 

@@ -1,6 +1,7 @@
 import { UserId } from './user.entity';
 
 export type ProfileId = UserId;
+export type ProfessionType = 'barber' | 'browist' | 'lashmaker' | 'manicurist'; // парикмахер, бровист, лешмейкер, мастер маникюра
 
 export interface UserContacts {
     email: string;
@@ -10,10 +11,11 @@ export interface UserContacts {
 }
 
 export interface UserProfileCreateProperties {
-    userId: UserId;
+    profileId: UserId;
     fullName: string;
     contacts: UserContacts;
     birthday?: string;
+    profession: ProfessionType;
 }
 
 export interface WithUserProfile {
@@ -24,7 +26,8 @@ export interface UserProfile {
     profileId: ProfileId;
     fullName: string;
     contacts: UserContacts;
-    birthday: string;
+    birthday?: string;
+    profession: ProfessionType;
 }
 
 export class UserProfileEntity implements UserProfile {
@@ -32,11 +35,13 @@ export class UserProfileEntity implements UserProfile {
     readonly birthday: string;
     readonly contacts: UserContacts;
     readonly fullName: string;
+    readonly profession: ProfessionType;
 
-    constructor({ contacts, fullName, birthday, profileId }: UserProfile) {
+    constructor({ contacts, fullName, birthday, profileId, profession }: UserProfile) {
         this.profileId = profileId;
-        this.birthday = birthday;
+        this.birthday = birthday || null;
         this.contacts = contacts;
         this.fullName = fullName;
+        this.profession = profession;
     }
 }

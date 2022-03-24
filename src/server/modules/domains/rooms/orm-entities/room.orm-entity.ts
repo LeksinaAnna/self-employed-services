@@ -1,8 +1,9 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm';
 import { UserId } from '../../users/entities/user.entity';
+import { RentalOrmEntity } from '../../rentals/orm-entities/rental.orm-entity';
 
 @Entity({ name: 'rooms', schema: 'rooms' })
-export class RoomsOrmEntity {
+export class RoomOrmEntity {
     @PrimaryColumn({ name: 'room_id', type: 'uuid' })
     roomId: string;
 
@@ -26,4 +27,8 @@ export class RoomsOrmEntity {
 
     @Column({ name: 'modified_by', type: 'uuid' })
     modifiedBy: UserId;
+
+    @OneToMany(() => RentalOrmEntity, rental => rental.room)
+    @JoinColumn({ name: 'room_id', referencedColumnName: 'roomId' })
+    rentals: RentalOrmEntity[];
 }
