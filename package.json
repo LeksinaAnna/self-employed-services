@@ -38,7 +38,7 @@
   },
   "scripts": {
     "client": "react-scripts start",
-    "server": "nest start --watch",
+    "server": "rimraf dist && nest start --watch",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -1,14 +1,22 @@
 import { Column, Entity, JoinColumn, OneToMany, PrimaryColumn } from 'typeorm';
 import { UserId } from '../../users/entities/user.entity';
 import { RentalOrmEntity } from '../../rentals/orm-entities/rental.orm-entity';
+import { Room } from '../entities/room.entity';
+import { ProfessionType } from '../../users/entities/user-profile.entity';
 
 @Entity({ name: 'rooms', schema: 'rooms' })
-export class RoomOrmEntity {
+export class RoomOrmEntity implements Room {
     @PrimaryColumn({ name: 'room_id', type: 'uuid' })
     roomId: string;
 
     @Column({ name: 'type' })
-    type: string;
+    type: ProfessionType;
+
+    @Column({ name: 'title' })
+    title: string;
+
+    @Column({ name: 'description' })
+    description: string;
 
     @Column({ name: 'price', type: 'float' })
     price: number;

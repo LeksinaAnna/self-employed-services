@@ -8,7 +8,8 @@ export interface Rental {
     rentalId?: RentalId;
     roomId: string;
     specialistId: UserId;
-    duration: number;
+    startDate: string;
+    finishDate: string;
     created?: string;
     inBasket?: boolean;
 }
@@ -27,14 +28,16 @@ export class RentalEntity implements Rental {
     readonly roomId: string;
     readonly specialistId: UserId;
     readonly created: string;
-    readonly duration: number;
+    readonly startDate: string;
+    readonly finishDate: string;
     readonly inBasket: boolean;
 
-    constructor({ rentalId, specialistId, roomId, duration, created, inBasket }: Rental) {
+    constructor({ rentalId, specialistId, roomId, startDate, finishDate, created, inBasket }: Rental) {
         this.rentalId = rentalId || uuidv4();
         this.roomId = roomId;
         this.specialistId = specialistId;
-        this.duration = duration;
+        this.startDate = startDate;
+        this.finishDate = finishDate;
         this.created = created || moment().format();
         this.inBasket = inBasket || false;
     }

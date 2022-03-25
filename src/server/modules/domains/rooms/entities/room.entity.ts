@@ -5,33 +5,48 @@ import { ProfessionType } from '../../users/entities/user-profile.entity';
 
 export type RoomId = string;
 
+export interface RoomCreateProperties {
+    roomId?: RoomId;
+    price: number;
+    title: string;
+    description?: string;
+    type: ProfessionType;
+    inBasket?: boolean;
+}
+
 export interface Room {
-    roomId: RoomId;
+    roomId?: RoomId;
+    title: string;
+    description?: string;
     price: number;
     type: ProfessionType;
-    created: string;
-    modified: string;
+    created?: string;
+    modified?: string;
     createdBy: UserId;
     modifiedBy: UserId;
-    inBasket: boolean;
+    inBasket?: boolean;
 }
 
 export class RoomEntity implements Room {
     readonly roomId: RoomId;
     readonly price: number;
+    readonly title: string;
     readonly type: ProfessionType;
     readonly created: string;
     readonly modified: string;
     readonly createdBy: UserId;
     readonly modifiedBy: UserId;
     readonly inBasket: boolean;
+    readonly description: string;
 
-    constructor({ roomId, price, type, created, modified, createdBy, modifiedBy, inBasket }: Room) {
+    constructor({ roomId, price, title, description, type, created, createdBy, modifiedBy, inBasket }: Room) {
         this.roomId = roomId || uuidv4();
         this.price = price;
+        this.title = title;
+        this.description = description;
         this.type = type;
         this.created = created || moment().format();
-        this.modified = modified || moment().format();
+        this.modified = moment().format();
         this.createdBy = createdBy;
         this.modifiedBy = modifiedBy;
         this.inBasket = inBasket || false;

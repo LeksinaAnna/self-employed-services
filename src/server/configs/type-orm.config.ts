@@ -5,6 +5,8 @@ import { UserProfileOrmEntity } from '../modules/domains/users/orm-entities/user
 import { TokenOrmEntity } from '../modules/domains/tokens/orm-entities/token-orm.entity';
 import { RoleOrmEntity } from '../modules/domains/roles/orm-entities/role.orm-entity';
 import { UserRolesOrmEntity } from '../modules/domains/users/orm-entities/user-roles.orm-entity';
+import { RoomOrmEntity } from '../modules/domains/rooms/orm-entities/room.orm-entity';
+import { RentalOrmEntity } from '../modules/domains/rentals/orm-entities/rental.orm-entity';
 
 dotenv.config();
 
@@ -27,6 +29,8 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
         TokenOrmEntity,
         RoleOrmEntity,
         UserRolesOrmEntity,
+        RoomOrmEntity,
+        RentalOrmEntity
     ],
     autoLoadEntities: true,
 };

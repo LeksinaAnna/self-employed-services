@@ -14,8 +14,11 @@ export class RentalOrmEntity implements Rental {
     @Column({ name: 'specialist_id', type: 'uuid' })
     specialistId: UserId;
 
-    @Column({ name: 'duration', type: 'number' })
-    duration: number;
+    @Column({ name: 'start_date', type: 'timestamp with time zone' })
+    startDate: string;
+
+    @Column({ name: 'finish_date', type: 'timestamp with time zone' })
+    finishDate: string;
 
     @Column({ name: 'created', type: 'timestamp with time zone' })
     created: string;
