@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { createQueryBuilder } from 'typeorm';
 import { TokenOrmEntity } from '../../modules/domains/tokens/orm-entities/token-orm.entity';
 import { IS_NOT_AUTH_KEY } from '../decorators/not-auth.decorator';
+import { TokenData } from '../../modules/domains/tokens/entities/token.entity';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -37,11 +38,12 @@ export class AuthGuard implements CanActivate {
         await this.validateRefreshToken(refreshToken, response);
 
         // Если AccessToken есть то пытаемся его провалидировать
-        request.user = this.validateAccessToken(accessToken);
+        const { email, roles, userId } = this.validateAccessToken(accessToken);
+        request.user = { userId, email, roles };
         return true;
     }
 
-    validateAccessToken(token: string): object {
+    validateAccessToken(token: string): TokenData {
         try {
             return this.jwtService.verify(token);
         } catch (e) {

@@ -5,8 +5,9 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import 'dotenv';
 import { AppModule } from './app.module';
 import { HttpFilter } from './nest-decorators/filters/http-exceptions.filter';
-import { AuthGuard } from './nest-decorators/guards/auth.guards';
 import { NotFoundInterceptor } from './nest-decorators/interceptors/not-found.interceptor';
+import { AuthGuard } from './nest-decorators/guards/auth.guard';
+import { RolesGuard } from './nest-decorators/guards/roles.guard';
 
 const bootstrap = async () => {
     const app = await NestFactory.create<NestExpressApplication>(AppModule, { bufferLogs: true });
@@ -21,6 +22,7 @@ const bootstrap = async () => {
     const reflector = app.get(Reflector);
     const jwtService = app.get(JwtService);
     app.useGlobalGuards(new AuthGuard(jwtService, reflector));
+    app.useGlobalGuards(new RolesGuard(reflector));
 
     // HTTP Errors
     app.useGlobalInterceptors(new NotFoundInterceptor());
