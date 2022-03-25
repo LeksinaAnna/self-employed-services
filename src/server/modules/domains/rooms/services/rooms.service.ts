@@ -9,6 +9,10 @@ import { RoomsAdapterService } from './adapters/rooms-adapter.service';
 export class RoomsService implements RoomsUseCase {
     constructor(private readonly _roomsAdapter: RoomsAdapterService) {}
 
+    async getRoomById(roomId: RoomId): Promise<Room> {
+        return await this._roomsAdapter.getRoomById(roomId);
+    }
+
     async createRoom(properties: RoomCreateProperties & WithCreator): Promise<Room> {
         const roomEntity = new RoomEntity({
             ...properties,

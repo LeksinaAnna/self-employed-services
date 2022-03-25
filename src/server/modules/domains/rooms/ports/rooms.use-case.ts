@@ -9,6 +9,8 @@ export interface RoomsUseCase {
 
     getRoomsByCreatorId(id: UserId, query?: QueryType): Promise<ManyItem<Room>>;
 
+    getRoomById(roomId: RoomId): Promise<Room>;
+
     getRooms(query?: QueryType): Promise<ManyItem<Room>>;
 
     deleteRoom(id: RoomId, updater: UserId): Promise<Room>;

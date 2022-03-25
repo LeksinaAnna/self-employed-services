@@ -16,6 +16,12 @@ export class RoomsWebController {
         return await this._roomsService.getRooms(query);
     }
 
+    @Roles('ADMIN', 'SPECIALIST')
+    @Get('/:roomId')
+    async getRoomById(@Param('roomId') roomId: RoomId): Promise<Room> {
+        return await this._roomsService.getRoomById(roomId);
+    }
+
     @Roles('ADMIN')
     @Post('/')
     async createRoom(@Body() body: RoomCreateProperties, @CurrentUser() currentUser: TokenData): Promise<Room> {
@@ -34,10 +40,7 @@ export class RoomsWebController {
 
     @Roles('ADMIN')
     @Delete('/:roomId')
-    async deleteRoomById(
-        @Param('roomId') roomId: RoomId,
-        @CurrentUser() currentUser: TokenData,
-    ): Promise<Room> {
+    async deleteRoomById(@Param('roomId') roomId: RoomId, @CurrentUser() currentUser: TokenData): Promise<Room> {
         return await this._roomsService.deleteRoom(roomId, currentUser.userId);
     }
 }
