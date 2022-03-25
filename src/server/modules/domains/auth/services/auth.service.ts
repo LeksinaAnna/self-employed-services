@@ -74,6 +74,7 @@ export class AuthService implements AuthUseCase {
             email: createdUser.email,
             roles,
         });
+        await this._tokensService.saveToken(createdUser.accountId, tokens.refreshToken);
 
         return { ...createdUser, ...tokens };
     }

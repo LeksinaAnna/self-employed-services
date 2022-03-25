@@ -39,6 +39,7 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
     async getRoomById(id: RoomId): Promise<Room> {
         return await createQueryBuilder(RoomOrmEntity, 'room')
             .where(`room.roomId = :roomId`, { roomId: id })
+            .andWhere(`room.inBasket != true`)
             .leftJoinAndSelect(`room.rentals`, 'rental')
             .getOne();
     }
@@ -53,7 +54,6 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
                     qb.andWhere(`room.type = :type`, { type });
                 }
             })
-            .leftJoinAndSelect(`room.rentals`, 'rental')
             .take(parseInt(take, 10))
             .skip(parseInt(skip, 10))
             .getManyAndCount();

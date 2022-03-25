@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserUseCase } from '../ports/user.use-case';
-import { UserProfile, UserProfileCreateProperties, WithUserProfile } from '../entities/user-profile.entity';
+import { UserProfile, UserProfileCreateProperties } from '../entities/user-profile.entity';
 import {
     LargeUser,
     UserCreateProperties,
@@ -30,7 +30,7 @@ export class UserService implements UserUseCase {
      */
     public async createUserAccount(
         properties: UserProfileCreateProperties & UserCreateProperties,
-    ): Promise<LargeUser & WithUserProfile> {
+    ): Promise<LargeUser> {
         // Регаем аккаунт
         const accountEntity = new UserEntity({
             password: properties.password,
@@ -42,7 +42,7 @@ export class UserService implements UserUseCase {
         // Создаем профиль\инфу о пользователе
         const profile = await this._userProfileService.createUserProfile({
             ...properties,
-            profileId: account.accountId
+            profileId: accountEntity.accountId
         });
 
         return {
