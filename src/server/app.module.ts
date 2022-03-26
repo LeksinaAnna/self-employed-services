@@ -6,13 +6,15 @@ import { typeOrmConfig } from './configs/type-orm.config';
 import { UserWebModule } from './modules/domains/users/user-web/user-web.module';
 import { AuthWebModule } from './modules/domains/auth/auth-web/auth-web.module';
 import { RoomsWebModule } from './modules/domains/rooms/rooms-web/rooms-web.module';
+import { RentalsWebModule } from './modules/domains/rentals/rentals-web/rentals-web.module';
 
 @Module({
     imports: [
         TypeOrmModule.forRoot(typeOrmConfig),
         AuthWebModule,
         UserWebModule,
-        RoomsWebModule
+        RoomsWebModule,
+        RentalsWebModule
     ],
     providers: [
         {

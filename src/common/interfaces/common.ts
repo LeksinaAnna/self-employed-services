@@ -23,7 +23,9 @@ export interface QueryType {
     skip?: string;
     search?: string;
     type?: string;
-    startDate?: string;
-    finishDate?: string;
+    start_date?: string;
+    finish_date?: string;
+    room_id?: string;
+    spec_id?: string;
 }
 

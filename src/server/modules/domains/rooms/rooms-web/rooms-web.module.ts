@@ -5,6 +5,7 @@ import { RoomsWebController } from './rooms-web.controller';
 
 @Module({
     providers: [RoomsService, RoomsAdapterService],
-    controllers: [RoomsWebController]
+    controllers: [RoomsWebController],
+    exports: []
 })
 export class  RoomsWebModule {}

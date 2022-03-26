@@ -23,6 +23,12 @@ export class RentalOrmEntity implements Rental {
     @Column({ name: 'created', type: 'timestamp with time zone' })
     created: string;
 
+    @Column( { name: 'modified', type: 'timestamp with time zone' })
+    modified: string;
+
+    @Column({ name: 'modified_by', type: 'uuid' })
+    modifiedBy: UserId;
+
     @Column({ name: 'in_basket', type: 'boolean' })
     inBasket: boolean;
 
