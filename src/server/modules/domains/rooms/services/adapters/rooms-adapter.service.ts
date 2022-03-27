@@ -44,7 +44,7 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
             .getOne();
     }
 
-    async getRooms({ take = '10', skip = '0', search = '', type = '' }: QueryType): Promise<ManyItem<Room>> {
+    async getRooms({ take = '10', skip = '0', search, type }: QueryType): Promise<ManyItem<Room>> {
         const [items, count] = await createQueryBuilder(RoomOrmEntity, 'room')
             .where(qb => {
                 if (search) {

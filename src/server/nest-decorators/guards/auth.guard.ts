@@ -40,6 +40,7 @@ export class AuthGuard implements CanActivate {
         // Если AccessToken есть то пытаемся его провалидировать
         const { email, roles, userId } = this.validateAccessToken(accessToken);
         request.user = { userId, email, roles };
+        console.log(request.user);
         return true;
     }
 
