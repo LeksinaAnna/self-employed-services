@@ -31,3 +31,7 @@ export interface QueryType {
     spec_id?: UserId;
 }
 
+export const runAsyncAction = (action: () => Promise<void>): void => {
+    action();
+};
+

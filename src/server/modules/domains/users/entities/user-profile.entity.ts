@@ -11,7 +11,7 @@ export interface UserContacts {
 }
 
 export interface UserProfileCreateProperties {
-    profileId: UserId;
+    profileId?: UserId;
     fullName: string;
     contacts: UserContacts;
     birthday?: string;
@@ -23,7 +23,7 @@ export interface WithUserProfile {
 }
 
 export interface UserProfile {
-    profileId: ProfileId;
+    profileId?: ProfileId;
     fullName: string;
     contacts: UserContacts;
     birthday?: string;

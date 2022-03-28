@@ -4,7 +4,7 @@ import { AccessToken, TokenData, WithAccessToken } from '../../../server/modules
 export class FetchClient {
     constructor(private readonly _baseUrl: string) {}
 
-    public async fetch(url: string, config: RequestInit): Promise<{ response: Response; data: any }> {
+    public async fetch(url: string, config: RequestInit): Promise<Response> {
         let accessToken = localStorage.getItem('AccessToken') || null;
 
         if (accessToken) {
@@ -23,18 +23,15 @@ export class FetchClient {
             Authorization: `Bearer ${accessToken}`,
         };
 
-        const { response, data } = await this.originalRequest(url, config);
+        const response = await this.originalRequest(url, config);
 
         // Потенциальное место для обработки ответа от сервер. Место для INTERCEPTOR
 
-        return { response, data };
+        return response;
     }
 
-    private async originalRequest(url: string, config: RequestInit): Promise<{ response: Response; data: any }> {
-        const response = await fetch(`${this._baseUrl}${url}`, config);
-        const data = await response.json();
-
-        return { response, data };
+    private async originalRequest(url: string, config: RequestInit): Promise<Response> {
+        return await fetch(url, config);
     }
 
     private async refreshToken(accessToken: AccessToken): Promise<AccessToken> {
