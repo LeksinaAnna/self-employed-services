@@ -1,4 +1,4 @@
-import { stringify } from 'querystring';
+import { stringify } from 'querystringify';
 import { FetchClient } from '../../http/fetch-client';
 import { QueryType } from '../../../../common/interfaces/common';
 import { ApiError } from './api-error';
@@ -17,7 +17,7 @@ export class ApiBaseClient {
     private readonly _fetchClient: FetchClient;
 
     constructor(baseUrl: string) {
-        this.baseUrl = baseUrl;
+        this.baseUrl = '';
         this._fetchClient = new FetchClient(baseUrl);
     }
 
@@ -66,7 +66,7 @@ export class ApiBaseClient {
     }
 
     public async post<TResult>(url: string, body?: any, signal?: AbortSignal): Promise<TResult> {
-        const response = await fetch(`${this.baseUrl}${url}`, {
+        const response = await this._fetchClient.fetch(`${this.baseUrl}${url}`, {
             ...{
                 method: 'POST',
                 body: JSON.stringify(body),

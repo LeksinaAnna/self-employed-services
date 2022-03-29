@@ -19,9 +19,10 @@ export class FetchClient {
         }
 
         // Каждый запрос присваиваем access token
-        config['headers'] = {
+        config.headers = {
+            ...config.headers,
             Authorization: `Bearer ${accessToken}`,
-        };
+        }
 
         const response = await this.originalRequest(url, config);
 

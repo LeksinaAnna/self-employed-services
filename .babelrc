@@ -1,0 +1,33 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "ie": "11",
+                    "chrome": "58",
+                    "safari": "11",
+                    "firefox": "20",
+                    "esmodules": false
+                },
+                "useBuiltIns": "entry",
+                "debug": true
+            }
+        ],
+        "@babel/preset-react",
+        "@babel/preset-typescript"
+    ],
+    "plugins": [
+        [
+            "@babel/plugin-proposal-decorators",
+            {
+                "legacy": true
+            }
+        ],
+        "@babel/plugin-proposal-class-properties",
+        "@babel/plugin-proposal-optional-chaining",
+        "@babel/proposal-object-rest-spread",
+        "@babel/plugin-transform-runtime",
+        ["polyfill-corejs2", { "method": "usage-global" }]
+    ]
+}
