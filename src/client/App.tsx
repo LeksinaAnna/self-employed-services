@@ -1,6 +1,10 @@
+import styled from '@emotion/styled';
 import React from 'react';
-import { Button } from '@mui/material';
+import { PersonOutline, SettingsOutlined } from '@mui/icons-material';
+import { Gapped } from '@skbkontur/react-ui';
+import { AppBar, Box, Button, Container, Toolbar, Tooltip } from '@mui/material';
 import { UseStores } from './client-tools/hooks/use-stores';
+import { PortalLayout } from './components/Layouts/Portal/PortalLayout';
 
 export const App: React.FC = () => {
     const { commonApi } = UseStores();
@@ -17,16 +21,13 @@ export const App: React.FC = () => {
                 email: 'fclans@yandex.ru',
                 vk: '',
                 instagram: '',
-                phone: '+7-999-999-22-11'
-            }
-        })
-    }
+                phone: '+7-999-999-22-11',
+            },
+        });
+    };
     return (
-        <div>
-            <h1>Hello World</h1>
-            <Button variant={'outlined'} color={'primary'} onClick={registr}>
-                Зарегаться
-            </Button>
-        </div>
-    )
-}
+        <PortalLayout>
+
+        </PortalLayout>
+    );
+};

@@ -46,7 +46,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
             case 400:
                 // Непревидька
                 return (
-                    <></>
+                    <h1>ОШИБКА 400</h1>
                 );
 
             case 401:

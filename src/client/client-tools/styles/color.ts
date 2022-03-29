@@ -1,0 +1,1 @@
+export const defaultPortalColor = 'rgba(0, 0, 0, 0.26)';
