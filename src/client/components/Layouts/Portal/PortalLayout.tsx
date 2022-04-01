@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { observer } from 'mobx-react-lite';
 import { defaultPortalColor } from '../../../client-tools/styles/color';
+import { useStores } from '../../../client-tools/hooks/use-stores';
+import { LoginModal } from '../../entities/Auth/modals/LoginModal';
 import { TopBar } from './TopBar';
 import { ServiceMenuPanel } from './ServiceMenuPanel/ServiceMenuPanel';
 
@@ -26,7 +29,9 @@ interface Props {
     children: React.ReactNode;
 }
 
-export const PortalLayout: React.FC<Props> = ({ children }) => {
+export const PortalLayout: React.FC<Props> = observer(({ children }) => {
+    const { authStore } = useStores();
+    const { isLoginModal, isRegistrationModal } = authStore;
     return (
         <LayoutContainer>
             <TopBar />
@@ -40,6 +45,7 @@ export const PortalLayout: React.FC<Props> = ({ children }) => {
                     {children}
                 </ContentBlockWrapper>
             </BodyWrapper>
+            {isLoginModal && <LoginModal />}
         </LayoutContainer>
     );
-};
+});

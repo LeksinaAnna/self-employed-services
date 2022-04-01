@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { AuthUseCase } from '../ports/auth.use-case';
-import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
-import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
+import { LargeUser, UserCreateProperties, UserId } from '../../users/entities/user.entity';
+import { UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
 import { RefreshToken, Tokens } from '../../tokens/entities/token.entity';
 import { UserService } from '../../users/services/user.service';
 import { TokensService } from '../../tokens/services/tokens.service';
@@ -24,7 +24,7 @@ export class AuthService implements AuthUseCase {
         return tokens;
     }
 
-    async login(authData: UserCreateProperties): Promise<UserProfile & Tokens> {
+    async login(authData: UserCreateProperties): Promise<LargeUser & Tokens> {
         const user = await this._userService.getAccount(authData.email);
 
         if (!user) {
@@ -44,7 +44,7 @@ export class AuthService implements AuthUseCase {
             });
             await this._tokensService.saveToken(user.accountId, tokens.refreshToken);
 
-            return { ...tokens, ...userInfo.profile };
+            return { ...tokens, ...userInfo };
         }
 
         throw new UnauthorizedException('Логин или пароль введены неправильно');

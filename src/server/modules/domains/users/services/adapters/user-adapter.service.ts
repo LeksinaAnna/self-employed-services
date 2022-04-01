@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { createQueryBuilder } from 'typeorm';
 import { PersistenceAdapter } from '../../../../common/persistence-adapter/persistence-adapter';
-import { User, UserEntity, UserEmail, UserWithPassword, LargeUser } from '../../entities/user.entity';
+import { User, UserEntity, UserEmail, UserWithPassword, LargeUser, UserId } from '../../entities/user.entity';
 import { UserOrmEntity } from '../../orm-entities/user.orm-entity';
 import { UserMapper } from '../../mappers/user.mapper';
 import { UserPort } from '../../ports/user.port';
@@ -29,6 +29,14 @@ export class UserAdapterService extends PersistenceAdapter implements UserPort {
         return await createQueryBuilder(UserOrmEntity, 'user')
             .where(`user.email = :email`, { email })
             .addSelect('user.password')
+            .getOne();
+    }
+
+    async getUserById(userId: UserId): Promise<LargeUser> {
+        return await createQueryBuilder<LargeUser>(UserOrmEntity, 'user')
+            .where(`user.userId = :userId`, { userId })
+            .leftJoinAndSelect(`user.profile`, 'profile')
+            .leftJoinAndSelect('user.roles', 'role')
             .getOne();
     }
 }

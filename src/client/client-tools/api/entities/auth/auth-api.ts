@@ -23,4 +23,8 @@ export class AuthApi extends ApiBaseClient {
     ): Promise<LargeUser> {
         return await this.post<LargeUser>(`${this.prefix}/registration`, body, signal);
     }
+
+    public async checkAuth(signal?: AbortSignal): Promise<LargeUser> {
+        return await this.get(`${this.prefix}/check`, {}, signal);
+    }
 }

@@ -1,23 +1,24 @@
 import React from 'react';
 import { Gapped } from '@skbkontur/react-ui';
-import { Box, Tooltip } from '@mui/material';
+import { Box } from '@mui/material';
 import { PersonOutline, SettingsOutlined } from '@mui/icons-material';
+import { observer } from 'mobx-react-lite';
+import { useStores } from '../../../client-tools/hooks/use-stores';
 
-export const TopBar: React.FC = () => {
+export const TopBar: React.FC = observer(() => {
+    const { authStore } = useStores();
+    const { setIsLoginModal } = authStore;
+
     return (
         <Box>
             <Gapped gap={20} verticalAlign={'middle'}>
                 <Gapped gap={3} verticalAlign={'middle'}>
-                    <Tooltip title={'Зарегистрироваться'}>
-                        <PersonOutline fontSize={'large'} color={'disabled'} />
-                    </Tooltip>
+                    <PersonOutline fontSize={'large'} color={'disabled'} onClick={() => setIsLoginModal(true)} />
                 </Gapped>
                 <Gapped gap={3} verticalAlign={'middle'}>
-                    <Tooltip title={'Настройки'}>
-                        <SettingsOutlined fontSize={'large'} color={'disabled'} />
-                    </Tooltip>
+                    <SettingsOutlined fontSize={'large'} color={'disabled'} />
                 </Gapped>
             </Gapped>
         </Box>
     );
-};
+});

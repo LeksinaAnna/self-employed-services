@@ -1,14 +1,16 @@
 import { Response, Request } from 'express';
 import { BadRequestException, Body, Controller, Delete, Get, Post, Req, Res } from '@nestjs/common';
 import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
-import { UserProfile, UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
+import { UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
 import { NotAuthDecorator } from '../../../../nest-decorators/decorators/not-auth.decorator';
-import { WithAccessToken } from '../../tokens/entities/token.entity';
+import { TokenData, WithAccessToken } from '../../tokens/entities/token.entity';
 import { AuthService } from '../services/auth.service';
+import { CurrentUser } from '../../../../nest-decorators/decorators/current-user.decorator';
+import { UserService } from '../../users/services/user.service';
 
 @Controller('auth')
 export class AuthWebController {
-    constructor(private readonly _authService: AuthService) {}
+    constructor(private readonly _authService: AuthService, private readonly _userService: UserService) {}
 
     @NotAuthDecorator()
     @Post('/registration')
@@ -26,13 +28,20 @@ export class AuthWebController {
         return userData;
     }
 
+    @Get('/check')
+    async checkUser(
+        @CurrentUser() currentUser: TokenData,
+    ): Promise<LargeUser> {
+        return await this._userService.getUserById(currentUser.userId);
+    }
+
     @NotAuthDecorator()
     @Post('/login')
     async login(
         @Body() body: UserCreateProperties,
         // passthrough: true ставим для того чтобы логика неста на response не прервалась
         @Res({ passthrough: true }) response: Response,
-    ): Promise<UserProfile & WithAccessToken> {
+    ): Promise<LargeUser & WithAccessToken> {
         const { refreshToken, ...authData } = await this._authService.login(body);
         response.cookie('refreshToken', refreshToken, { httpOnly: true });
 

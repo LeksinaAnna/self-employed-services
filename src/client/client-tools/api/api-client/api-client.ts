@@ -52,7 +52,7 @@ export class ApiBaseClient {
     }
 
     public async put<TResult>(url: string, body?: any, signal?: AbortSignal): Promise<TResult> {
-        const response = await fetch(`${this.baseUrl}${url}`, {
+        const response = await this._fetchClient.fetch(`${this.baseUrl}${url}`, {
             ...{
                 method: 'PUT',
                 body: JSON.stringify(body),
@@ -80,7 +80,7 @@ export class ApiBaseClient {
     }
 
     public async delete<TResult>(url: string, signal?: AbortSignal): Promise<TResult> {
-        const response = await fetch(`${this.baseUrl}${url}`, {
+        const response = await this._fetchClient.fetch(`${this.baseUrl}${url}`, {
             ...{ method: 'DELETE' },
             ...getOptions(signal),
         });

@@ -7,7 +7,7 @@ import {
     UserEntity,
     UserEmail,
     User,
-    UserWithPassword,
+    UserWithPassword, UserId,
 } from '../entities/user.entity';
 import { RolesService } from '../../roles/services/roles.service';
 import { UserProfileService } from './user-profile.service';
@@ -64,5 +64,9 @@ export class UserService implements UserUseCase {
 
     async updateUser(properties: UserCreateProperties & UserProfileCreateProperties): Promise<UserProfile> {
         return Promise.resolve(undefined);
+    }
+
+    async getUserById(userId: UserId): Promise<LargeUser> {
+        return await this._userPort.getUserById(userId);
     }
 }

@@ -1,5 +1,5 @@
 import { UserProfile, UserProfileCreateProperties } from '../entities/user-profile.entity';
-import { LargeUser, UserCreateProperties, UserEmail } from '../entities/user.entity';
+import { LargeUser, UserCreateProperties, UserEmail, UserId } from '../entities/user.entity';
 
 export interface UserUseCase {
     createUserAccount(properties: UserProfileCreateProperties & UserCreateProperties): Promise<LargeUser>;
@@ -7,4 +7,6 @@ export interface UserUseCase {
     getUserByLogin(login: UserEmail): Promise<LargeUser>;
 
     updateUser(properties: UserCreateProperties & UserProfileCreateProperties): Promise<UserProfile>;
+
+    getUserById(userId: UserId): Promise<LargeUser>;
 }
