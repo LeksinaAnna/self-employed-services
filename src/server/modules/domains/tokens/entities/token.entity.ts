@@ -25,8 +25,8 @@ export interface TokenData {
     userId: UserId;
     email: UserEmail;
     roles: RoleType[];
-    iat: number;
-    exp: number;
+    iat: number; // дата начала действия в секундах
+    exp: number; // дата окончания в секундах
 }
 
 export interface Token {

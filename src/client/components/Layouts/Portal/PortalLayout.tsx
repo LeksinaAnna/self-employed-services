@@ -4,8 +4,9 @@ import { observer } from 'mobx-react-lite';
 import { defaultPortalColor } from '../../../client-tools/styles/color';
 import { useStores } from '../../../client-tools/hooks/use-stores';
 import { LoginModal } from '../../entities/Auth/modals/LoginModal';
-import { TopBar } from './TopBar';
+import { RegistrationModal } from '../../entities/Auth/modals/RegistrationModal';
 import { ServiceMenuPanel } from './ServiceMenuPanel/ServiceMenuPanel';
+import { PortalHeader } from './Head/PortalHeader';
 
 export const APP_HEIGHT = '500px';
 
@@ -34,7 +35,7 @@ export const PortalLayout: React.FC<Props> = observer(({ children }) => {
     const { isLoginModal, isRegistrationModal } = authStore;
     return (
         <LayoutContainer>
-            <TopBar />
+            <PortalHeader />
             <BodyWrapper>
                 {/* Меню слева */}
                 <ServiceMenuPanel />
@@ -46,6 +47,7 @@ export const PortalLayout: React.FC<Props> = observer(({ children }) => {
                 </ContentBlockWrapper>
             </BodyWrapper>
             {isLoginModal && <LoginModal />}
+            {isRegistrationModal && <RegistrationModal />}
         </LayoutContainer>
     );
 });

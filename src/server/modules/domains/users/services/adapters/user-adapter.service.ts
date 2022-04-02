@@ -34,7 +34,7 @@ export class UserAdapterService extends PersistenceAdapter implements UserPort {
 
     async getUserById(userId: UserId): Promise<LargeUser> {
         return await createQueryBuilder<LargeUser>(UserOrmEntity, 'user')
-            .where(`user.userId = :userId`, { userId })
+            .where(`user.accountId = :userId`, { userId })
             .leftJoinAndSelect(`user.profile`, 'profile')
             .leftJoinAndSelect('user.roles', 'role')
             .getOne();

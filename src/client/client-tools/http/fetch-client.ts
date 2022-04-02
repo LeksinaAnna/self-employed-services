@@ -12,7 +12,8 @@ export class FetchClient {
             const tokenData = jwtDecode<TokenData>(accessToken);
 
             // Если до окончания токена остается менее 3 минут то отправляем запрос на обновление токена
-            const isExpired = Date.now() + 3 * 60 * 1000 > tokenData.exp;
+            const isExpired = Date.now() / 1000 + 3 * 60 > tokenData.exp;
+
             if (isExpired) {
                 accessToken = await this.refreshToken(accessToken);
             }
@@ -22,7 +23,7 @@ export class FetchClient {
         config.headers = {
             ...config.headers,
             Authorization: `Bearer ${accessToken}`,
-        }
+        };
 
         const response = await this.originalRequest(url, config);
 
@@ -36,7 +37,7 @@ export class FetchClient {
     }
 
     private async refreshToken(accessToken: AccessToken): Promise<AccessToken> {
-        const response = await fetch(`${this._baseUrl}/api/v1/auth/refresh`, {
+        const response = await fetch(`/api/v1/auth/refresh`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +46,8 @@ export class FetchClient {
         });
 
         const data: WithAccessToken = await response.json();
-        localStorage.setItem('AccessToken', JSON.stringify(data.accessToken));
+
+        localStorage.setItem('AccessToken', data.accessToken || null);
 
         return data.accessToken;
     }

@@ -1,8 +1,5 @@
 import { ApiBaseClient } from '../../api-client/api-client';
-import {
-    UserProfile,
-    UserProfileCreateProperties,
-} from '../../../../../server/modules/domains/users/entities/user-profile.entity';
+import { UserProfileCreateProperties } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { WithAccessToken } from '../../../../../server/modules/domains/tokens/entities/token.entity';
 import { LargeUser, UserCreateProperties } from '../../../../../server/modules/domains/users/entities/user.entity';
 
@@ -13,8 +10,8 @@ export class AuthApi extends ApiBaseClient {
         super(baseUrl);
     }
 
-    public async login(body: UserCreateProperties, signal?: AbortSignal): Promise<UserProfile & WithAccessToken> {
-        return await this.post<UserProfile & WithAccessToken>(`${this.prefix}/login`, body, signal);
+    public async login(body: UserCreateProperties, signal?: AbortSignal): Promise<LargeUser & WithAccessToken> {
+        return await this.post<LargeUser & WithAccessToken>(`${this.prefix}/login`, body, signal);
     }
 
     public async registration(

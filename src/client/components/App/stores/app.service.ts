@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from '../../../stores/root.store';
 import { AuthApi } from '../../../client-tools/api/entities/auth/auth-api';
 import { AppStore } from './app.store';
@@ -13,19 +13,33 @@ export class AppService {
     }
 
     async init(signal?: AbortSignal): Promise<void> {
-        this._appStore.setIsLoading(true);
+        runInAction(() => {
+            this._appStore.setIsLoading(true);
+        });
+
         const accessToken = localStorage.getItem('AccessToken');
         let user;
 
         if (accessToken) {
-            user = await this._authApi.checkAuth(signal);
+            try {
+                user = await this._authApi.checkAuth(signal);
+            } catch (e) {
+                if (e.statusCode === 401) {
+                    localStorage.removeItem('AccessToken');
+                }
+            }
         }
 
         if (user) {
-            this._appStore.setUserData(user);
-            this._appStore.setIsAuth(true);
+            runInAction(() => {
+                this._appStore.setUserData(user);
+                this._appStore.setIsAuth(true);
+            });
         }
 
-        this._appStore.setIsLoading(false);
+        runInAction(() => {
+            this._appStore.setIsLoading(false);
+            this._appStore.setAppIsInit(true);
+        });
     }
 }

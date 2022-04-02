@@ -1,27 +1,33 @@
-import React from 'react';
-import { Button, Gapped, Input, Modal } from '@skbkontur/react-ui';
-import { Stack } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Button, Gapped, Modal } from '@skbkontur/react-ui';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
+import { InputWithCaption } from '../../../ui/Inputs/InputWithCaption';
 
 export const LoginModal: React.FC = observer(() => {
     const { authStore } = useStores();
-    const { login, password, setLogin, setPassword } = authStore;
+    const { login, password, setLogin, setPassword, service, isLoading } = authStore;
+
+    useEffect(() => service.destroy, []);
 
     return (
-        <Modal>
+        <Modal onClose={service.closeLoginModal}>
             <Modal.Header>Авторизация</Modal.Header>
             <Modal.Body>
                 <Gapped vertical gap={10}>
-                    <Input placeholder="E-mail" value={login} onValueChange={setLogin} />
-                    <Input placeholder="Пароль" type="password" value={password} onValueChange={setPassword} />
+                    <InputWithCaption vertical value={login} onValueChange={setLogin} caption={'E-mail'} />
+                    <InputWithCaption vertical type="password" value={password} onValueChange={setPassword} caption={'Пароль'} />
                 </Gapped>
             </Modal.Body>
             <Modal.Footer panel>
-                <Stack direction='row' spacing={6}>
-                    <Button use="primary">Войти</Button>
-                    <Button use="default">Отмена</Button>
-                </Stack>
+                <Gapped gap={40}>
+                    <Button use="primary" onClick={service.login} loading={isLoading}>
+                        Войти
+                    </Button>
+                    <Button use="default" onClick={service.closeLoginModal}>
+                        Отмена
+                    </Button>
+                </Gapped>
             </Modal.Footer>
         </Modal>
     );
