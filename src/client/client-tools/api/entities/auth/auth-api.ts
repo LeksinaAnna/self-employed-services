@@ -14,6 +14,10 @@ export class AuthApi extends ApiBaseClient {
         return await this.post<LargeUser & WithAccessToken>(`${this.prefix}/login`, body, signal);
     }
 
+    public async logout(signal?: AbortSignal): Promise<{message: 'OK'}> {
+        return await this.delete(`${this.prefix}/logout`, signal);
+    }
+
     public async registration(
         body: UserProfileCreateProperties & UserCreateProperties,
         signal?: AbortSignal,

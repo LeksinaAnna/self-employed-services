@@ -31,7 +31,8 @@ export class ApiBaseClient {
             getOptions(signal),
         );
         if (!response.ok) {
-            throw new ApiError(response.statusText, response.status);
+            const { message } = await response.json();
+            throw new ApiError(message, response.status);
         }
 
         return (await response.json()) as TResult;
@@ -46,7 +47,8 @@ export class ApiBaseClient {
             ...getOptions(signal),
         });
         if (!response.ok) {
-            throw new ApiError(response.statusText, response.status);
+            const { message } = await response.json();
+            throw new ApiError(message, response.status);
         }
         return (await response.json()) as TResult;
     }
@@ -60,7 +62,8 @@ export class ApiBaseClient {
             ...getOptions(signal),
         });
         if (!response.ok) {
-            throw new ApiError(response.statusText, response.status);
+            const { message } = await response.json();
+            throw new ApiError(message, response.status);
         }
         return (await response.json()) as TResult;
     }
@@ -74,7 +77,8 @@ export class ApiBaseClient {
             ...getOptions(signal),
         });
         if (!response.ok) {
-            throw new ApiError(response.statusText, response.status);
+            const { message } = await response.json();
+            throw new ApiError(message, response.status);
         }
         return (await response.json()) as TResult;
     }
@@ -85,7 +89,8 @@ export class ApiBaseClient {
             ...getOptions(signal),
         });
         if (!response.ok) {
-            throw new ApiError(response.statusText, response.status);
+            const { message } = await response.json();
+            throw new ApiError(message, response.status);
         }
         return (await response.json()) as TResult;
     }

@@ -42,4 +42,9 @@ export class AppService {
             this._appStore.setAppIsInit(true);
         });
     }
+
+    destroy(): void {
+        this._appStore.setIsAuth(false);
+        this._appStore.setUserData(null);
+    }
 }

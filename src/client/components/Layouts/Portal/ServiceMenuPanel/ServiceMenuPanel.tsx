@@ -1,23 +1,33 @@
 import React from 'react';
-import { HomeOutlined } from '@mui/icons-material';
+import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
+import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { defaultPortalColor } from '../../../../client-tools/styles/color';
-import { ServiceMenuItem } from './ServiceMenuItem/ServiceMenuItem';
+import { AdminMenu } from './Menus/AdminMenu';
+import { SpecialistMenu } from './Menus/SpecialistMenu';
 
-const MenuWrapper = styled.div`
-  width: 100px;
-  border-right: 1px solid ${defaultPortalColor};
-  background-color: #dcdbdb;
+export const MenuWrapper = styled.div`
+    width: 100px;
+    border-right: 1px solid ${defaultPortalColor};
+    display: flex;
+    flex-direction: column;
 `;
 
-export const ServiceMenuPanel: React.FC = () => {
-    return (
-        <MenuWrapper>
-            <ServiceMenuItem
-                title={'Локации'}
-                to={'/locations'}
-                icon={<HomeOutlined color={'disabled'} fontSize={'large'} />}
-            />
-        </MenuWrapper>
-    );
-};
+export const ServiceMenuPanel: React.FC = observer(() => {
+    const { appStore } = useStores();
+    const { userData } = appStore;
+
+    switch (userData?.roles[0]?.value) {
+        case 'ADMIN':
+            return <AdminMenu />;
+
+        case 'SPECIALIST':
+            return <SpecialistMenu />;
+
+        case 'USER':
+            return <></>;
+
+        default:
+            return <></>;
+    }
+});

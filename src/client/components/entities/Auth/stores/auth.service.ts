@@ -23,7 +23,7 @@ export class AuthService {
 
         const { accessToken, ...user } = await this._authApi.login({
             email: this._authStore.login,
-            password: this._authStore.password
+            password: this._authStore.password,
         });
 
         if (user && accessToken) {
@@ -38,6 +38,28 @@ export class AuthService {
         runInAction(() => {
             this._authStore.setIsLoading(false);
         });
+    }
+
+    async logout(): Promise<void> {
+        runInAction(() => {
+            this._appStore.setIsLoading(true);
+        });
+
+        try {
+            await this._authApi.logout();
+        } catch (e) {
+            Toast.push('Произошла ошибка.');
+            runInAction(() => {
+                this._appStore.setIsLoading(false);
+            });
+            return;
+        }
+
+        runInAction(() => {
+            localStorage.removeItem('AccessToken');
+            this._appStore.service.destroy();
+            this._appStore.setIsLoading(false);
+        })
     }
 
     async registration(): Promise<void> {
@@ -55,12 +77,12 @@ export class AuthService {
                 phone: this._authStore.phone,
                 email: this._authStore.login,
                 vk: '',
-                instagram: ''
-            }
+                instagram: '',
+            },
         });
 
         if (user) {
-            Toast.push('Пользователь успешно зарегистрирован')
+            Toast.push('Пользователь успешно зарегистрирован');
             this._authStore.setIsLoading(false);
             this._authStore.setIsRegistrationModal(false);
         }

@@ -5,6 +5,7 @@ import { defaultPortalColor } from '../../../client-tools/styles/color';
 import { useStores } from '../../../client-tools/hooks/use-stores';
 import { LoginModal } from '../../entities/Auth/modals/LoginModal';
 import { RegistrationModal } from '../../entities/Auth/modals/RegistrationModal';
+import { LoadingLayout } from '../LoadingLoyaout/LoadingLayout';
 import { ServiceMenuPanel } from './ServiceMenuPanel/ServiceMenuPanel';
 import { PortalHeader } from './Head/PortalHeader';
 
@@ -31,23 +32,25 @@ interface Props {
 }
 
 export const PortalLayout: React.FC<Props> = observer(({ children }) => {
-    const { authStore } = useStores();
-    const { isLoginModal, isRegistrationModal } = authStore;
+    const { authStore, appStore } = useStores();
+    const { isLoginModal, isRegistrationModal, isLoading } = authStore;
     return (
-        <LayoutContainer>
-            <PortalHeader />
-            <BodyWrapper>
-                {/* Меню слева */}
-                <ServiceMenuPanel />
+        <LoadingLayout isLoading={appStore.isLoading}>
+            <LayoutContainer>
+                <PortalHeader />
+                <BodyWrapper>
+                    {/* Меню слева */}
+                    <ServiceMenuPanel />
 
-                {/* Контент посередине */}
-                <ContentBlockWrapper>
-                    Контент контейнер
-                    {children}
-                </ContentBlockWrapper>
-            </BodyWrapper>
-            {isLoginModal && <LoginModal />}
-            {isRegistrationModal && <RegistrationModal />}
-        </LayoutContainer>
+                    {/* Контент посередине */}
+                    <ContentBlockWrapper>
+                        Контент контейнер
+                        {children}
+                    </ContentBlockWrapper>
+                </BodyWrapper>
+                {isLoginModal && <LoginModal />}
+                {isRegistrationModal && <RegistrationModal />}
+            </LayoutContainer>
+        </LoadingLayout>
     );
 });

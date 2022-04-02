@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { InputWithCaption } from '../../../ui/Inputs/InputWithCaption';
 import { ProfessionTypeDict } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
-import { disabledText } from '../../../../client-tools/styles/color';
+import { secondaryText } from '../../../../client-tools/styles/color';
 import { Typography } from '../../../ui/Text/Typography';
 
 export const RegistrationModal = observer(() => {
@@ -32,7 +32,7 @@ export const RegistrationModal = observer(() => {
                 <Gapped vertical gap={10}>
                     <InputWithCaption caption={'Фамилия Имя'} vertical value={fullName} onValueChange={setFullName} />
                     <Gapped vertical gap={5}>
-                        <Typography color={disabledText}>Выберите ваш профиль</Typography>
+                        <Typography color={secondaryText}>Выберите ваш профиль</Typography>
                         <Select
                             width={200}
                             items={userProfessionList}

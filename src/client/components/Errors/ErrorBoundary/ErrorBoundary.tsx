@@ -1,4 +1,5 @@
 import React from 'react';
+import { Toast } from '@skbkontur/react-ui';
 import { ApiError } from '../../../client-tools/api/api-client/api-error';
 
 interface State {
@@ -12,12 +13,12 @@ interface Props {
 }
 
 export class ErrorBoundary extends React.Component<Props, State> {
+
     public state = {
         error: undefined,
         errorInfo: undefined,
         location: undefined,
     }
-
     public static getDerivedStateFromError(error: Error): State {
         return { error };
     }
@@ -50,7 +51,6 @@ export class ErrorBoundary extends React.Component<Props, State> {
                 );
 
             case 401:
-                // Редирект на главную
                 break;
 
             case 403:
@@ -83,4 +83,6 @@ export class ErrorBoundary extends React.Component<Props, State> {
         }
         return this.props.children;
     }
+
+
 }

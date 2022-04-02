@@ -1,7 +1,7 @@
 import React from 'react';
 import { Gapped, Input, InputType } from '@skbkontur/react-ui';
 import { Typography } from '../Text/Typography';
-import { disabledText } from '../../../client-tools/styles/color';
+import { secondaryText } from '../../../client-tools/styles/color';
 
 interface Props {
     value: string;
@@ -21,7 +21,7 @@ export const InputWithCaption: React.FC<Props> = ({
     type = 'text',
 }) => (
     <Gapped gap={gap} vertical={vertical}>
-        <Typography color={disabledText}>{caption}</Typography>
+        <Typography color={secondaryText}>{caption}</Typography>
         <Input type={type} value={value} onValueChange={onValueChange} />
     </Gapped>
 );

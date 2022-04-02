@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { darkBackground, secondaryText } from '../../../../../client-tools/styles/color';
+import { Typography } from '../../../../ui/Text/Typography';
 
 interface Props {
     title: string;
@@ -9,12 +11,12 @@ interface Props {
 }
 
 const ItemWrapper = styled.div<{active: boolean}>(({ active }) => ({
-    textDecoration: 'none',
     textAlign: 'center',
     padding: 5,
-    backgroundColor: active && '#b7b7b7',
+    backgroundColor: active && darkBackground,
+    borderBottom: `1px solid ${secondaryText}`,
     ['&:hover']: {
-        backgroundColor: '#b7b7b7',
+        backgroundColor: darkBackground,
     },
 }));
 
@@ -23,9 +25,9 @@ export const ServiceMenuItem: React.FC<Props> = ({ title, icon, to }) => {
 
     return (
         <ItemWrapper active={locationHook.pathname === to}>
-            <NavLink to={to}>
+            <NavLink style={{ textDecoration: 'none', color: secondaryText }} to={to}>
                 <div>{icon}</div>
-                <div>{title}</div>
+                <Typography fontSize={'18px'}>{title}</Typography>
             </NavLink>
         </ItemWrapper>
     );

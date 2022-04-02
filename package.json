@@ -15,6 +15,7 @@
     "@sentry/minimal": "^6.19.2",
     "@sentry/node": "^6.19.2",
     "@skbkontur/react-ui": "^4.0.3",
+    "@skbkontur/react-ui-validations": "^1.8.1",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.4",
     "@testing-library/user-event": "^13.5.0",
