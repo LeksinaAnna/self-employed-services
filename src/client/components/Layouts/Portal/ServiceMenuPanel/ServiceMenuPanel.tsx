@@ -5,6 +5,7 @@ import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { defaultPortalColor } from '../../../../client-tools/styles/color';
 import { AdminMenu } from './Menus/AdminMenu';
 import { SpecialistMenu } from './Menus/SpecialistMenu';
+import { DefaultMenu } from './Menus/DefaultMenu';
 
 export const MenuWrapper = styled.div`
     width: 100px;
@@ -17,17 +18,19 @@ export const ServiceMenuPanel: React.FC = observer(() => {
     const { appStore } = useStores();
     const { userData } = appStore;
 
-    switch (userData?.roles[0]?.value) {
-        case 'ADMIN':
-            return <AdminMenu />;
+    const roles = userData?.roles?.map(role => role.value) || [];
 
-        case 'SPECIALIST':
-            return <SpecialistMenu />;
-
-        case 'USER':
-            return <></>;
-
-        default:
-            return <></>;
+    if (roles.includes('ADMIN')) {
+        return <AdminMenu />;
     }
+
+    if (roles.includes('SPECIALIST')) {
+        return <SpecialistMenu />;
+    }
+
+    if (roles.includes('USER')) {
+        return <></>;
+    }
+
+    return <DefaultMenu />;
 });
