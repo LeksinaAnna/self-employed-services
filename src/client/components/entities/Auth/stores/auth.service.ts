@@ -21,15 +21,31 @@ export class AuthService {
             this._authStore.setIsLoading(true);
         });
 
-        const { accessToken, ...user } = await this._authApi.login({
-            email: this._authStore.login,
-            password: this._authStore.password,
-        });
+        let token;
+        let userData;
 
-        if (user && accessToken) {
-            localStorage.setItem('AccessToken', accessToken);
+        try {
+            const { accessToken, ...user } = await this._authApi.login({
+                email: this._authStore.login,
+                password: this._authStore.password,
+            });
+
+            token = accessToken;
+            userData = user;
+
+        } catch (e) {
             runInAction(() => {
-                this._appStore.setUserData(user);
+                this._authStore.setIsLoading(false);
+                this._authStore.isError = true;
+                this._authStore.errorMessage = e.message;
+            });
+            return;
+        }
+
+        if (userData && token) {
+            localStorage.setItem('AccessToken', token);
+            runInAction(() => {
+                this._appStore.setUserData(userData);
                 this._appStore.setIsAuth(true);
                 this._authStore.setIsLoginModal(false);
             });
@@ -99,6 +115,8 @@ export class AuthService {
         this._authStore.phone = '';
         this._authStore.profession = null;
         this._authStore.isLoading = false;
+        this._authStore.isError = false;
+        this._authStore.errorMessage = '';
     }
 
     openLoginModal(): void {

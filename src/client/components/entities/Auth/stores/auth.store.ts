@@ -11,6 +11,8 @@ export class AuthStore {
     isLoginModal = false;
     isRegistrationModal = false;
     isLoading = false;
+    isError = false;
+    errorMessage = '';
 
     login = '';
     password = '';

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Routes } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { defaultPortalColor } from '../../../client-tools/styles/color';
@@ -18,6 +19,7 @@ const LayoutContainer = styled.div`
 `;
 
 const ContentBlockWrapper = styled.div`
+    padding: 14px 24px;
     width: 890px;
 `;
 
@@ -44,8 +46,9 @@ export const PortalLayout: React.FC<Props> = observer(({ children }) => {
 
                     {/* Контент посередине */}
                     <ContentBlockWrapper>
-                        Контент контейнер
-                        {children}
+                        <Routes>
+                            {children}
+                        </Routes>
                     </ContentBlockWrapper>
                 </BodyWrapper>
                 {isLoginModal && <LoginModal />}
