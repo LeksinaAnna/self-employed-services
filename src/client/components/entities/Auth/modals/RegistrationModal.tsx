@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { ValidationContainer, ValidationWrapper, createValidator } from '@skbkontur/react-ui-validations';
+import { ValidationContainer, ValidationWrapper, createValidator, tooltip } from '@skbkontur/react-ui-validations';
 import { Button, Gapped, Input, Modal, Select } from '@skbkontur/react-ui';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import {
@@ -9,6 +9,7 @@ import {
 } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { Nullable } from '../../../../../common/interfaces/common';
 import { FormLine } from '../../../ui/FormLine/FormLine';
+import { isRequiredField, validateEmail, validateLengthText } from '../../../../client-tools/validations/validators';
 
 interface RegInfo {
     email: string;
@@ -49,39 +50,19 @@ export const RegistrationModal = observer(() => {
         }
     };
 
-    const validate = createValidator<RegInfo>(rule => {
-        rule.prop(
-            x => x.email,
-            b => {
-                b.invalid(x => !x, 'Укажите email', 'submit');
-                b.invalid(x => !/^[a-z]+@[a-z]+.[a-z]+$/.test(x), 'Неверный формат email');
-            },
-        );
-
-        rule.prop(
-            x => x.password,
-            b => {
-                b.invalid(x => !x, 'Укажите пароль', 'submit');
-                b.invalid(x => x.length <= 6, 'Пароль должен быть больше 6 символов');
-            },
-        );
-    });
-
-    const validation = validate({ email: login, fullName, password, profession });
-
     return (
         <Modal onClose={service.closeRegistrationModal}>
             <Modal.Header>Регистрация</Modal.Header>
             <Modal.Body>
                 <ValidationContainer ref={refContainer}>
-                    <Gapped vertical gap={10}>
+                    <Gapped vertical gap={18}>
                         <FormLine caption={'Фамилия Имя'} vertical>
-                            <ValidationWrapper validationInfo={null}>
+                            <ValidationWrapper validationInfo={isRequiredField(fullName)}>
                                 <Input value={fullName} onValueChange={setFullName} />
                             </ValidationWrapper>
                         </FormLine>
                         <FormLine caption={'Выберите ваш профиль'} vertical>
-                            <ValidationWrapper validationInfo={null}>
+                            <ValidationWrapper validationInfo={isRequiredField(profession)}>
                                 <Select
                                     width={200}
                                     items={userProfessionList}
@@ -91,12 +72,12 @@ export const RegistrationModal = observer(() => {
                             </ValidationWrapper>
                         </FormLine>
                         <FormLine caption={'Электронная почта'} vertical>
-                            <ValidationWrapper validationInfo={validation.getNode(x => x.email).get()}>
+                            <ValidationWrapper validationInfo={validateEmail(login)} renderMessage={tooltip('top center')}>
                                 <Input value={login} onValueChange={setLogin} />
                             </ValidationWrapper>
                         </FormLine>
                         <FormLine caption={'Пароль'} vertical>
-                            <ValidationWrapper validationInfo={validation.getNode(x => x.password).get()}>
+                            <ValidationWrapper validationInfo={validateLengthText(6, password)}>
                                 <Input value={password} onValueChange={setPassword} />
                             </ValidationWrapper>
                         </FormLine>
