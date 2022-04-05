@@ -6,6 +6,7 @@ import {
 import { Room } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { RootStore } from '../../../../stores/root.store';
 import { LocationsService } from './locations.service';
+import moment from 'moment';
 
 export class LocationsStore {
     title = '';
@@ -13,7 +14,7 @@ export class LocationsStore {
     profession: ProfessionType = null;
     locations: Room[] = [];
     isCreateModal = false;
-    currentDate = Date.now();
+    currentDate = moment().format('DD.MM.YYYY');
 
     readonly service: LocationsService;
 
@@ -30,6 +31,10 @@ export class LocationsStore {
 
     setTitle(value: string): void {
         this.title = value;
+    }
+
+    setCurrentDate(value: string): void {
+        this.currentDate = value;
     }
 
     setPrice(value: number): void {

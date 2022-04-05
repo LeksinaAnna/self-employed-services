@@ -6,13 +6,13 @@ import { HeadLocations } from './HeadLocations';
 
 export const Locations: React.FC = observer(() => {
     const { locationsStore } = useStores();
-    const { locations } = locationsStore;
+    const { locations, currentDate, setCurrentDate } = locationsStore;
 
     return (
         <div>
             <HeadLocations />
-            <div style={{ margin: '18px 0'}}>
-                <DatePicker width={100} onValueChange={() => {}} />
+            <div style={{ margin: '18px 0' }}>
+                <DatePicker value={currentDate} width={100} onValueChange={setCurrentDate} />
             </div>
         </div>
     );
