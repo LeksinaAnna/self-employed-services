@@ -41,6 +41,20 @@ export class AuthStore {
         return this._isError;
     }
 
+    get redirectPath(): string {
+        if (this._rootStore.appStore.isAdmin) {
+            return 'admin/locations';
+        }
+
+        if (this._rootStore.appStore.isSpecialist) {
+            return 'specialist/services';
+        }
+
+        if (this._rootStore.appStore.isUser) {
+            return 'user/records';
+        }
+    }
+
     setIsError(value: boolean): void {
         this._isError = value;
     }

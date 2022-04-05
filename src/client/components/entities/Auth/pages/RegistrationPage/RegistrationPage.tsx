@@ -3,13 +3,14 @@ import styled from '@emotion/styled';
 import { Button, Gapped } from '@skbkontur/react-ui';
 import { observer } from 'mobx-react-lite';
 import { Alert, Box } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useStores } from '../../../../../client-tools/hooks/use-stores';
 import { BackgroundContainer } from '../../../../ui/Containers/BackgroundContainer';
 import { FooterPage } from './FooterPage';
 import { Body, BodyPage } from './Body';
 
 export const RegistrationPage = observer(() => {
+    const { authStore, appStore } = useStores()
     const {
         isLoading,
         setIsLoading,
@@ -20,7 +21,9 @@ export const RegistrationPage = observer(() => {
         errorMessage,
         setErrorMessage,
         isRegistration,
-    } = useStores().authStore;
+        redirectPath
+    } = authStore;
+
     const navigation = useNavigate();
 
     const onSubmitForm = async () => {
@@ -68,6 +71,7 @@ export const RegistrationPage = observer(() => {
                     )}
                 </FooterPage>
             </Box>
+            {appStore.isAuth && <Navigate to={`/${redirectPath}`} replace={true} />}
         </BackgroundContainer>
     );
 });

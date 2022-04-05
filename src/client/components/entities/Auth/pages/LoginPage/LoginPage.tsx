@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Button, Gapped, Input } from '@skbkontur/react-ui';
 import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
@@ -13,6 +13,7 @@ import { isRequiredField } from '../../../../../client-tools/validations/validat
 import { FooterPage } from '../RegistrationPage/FooterPage';
 
 export const LoginPage = observer(() => {
+    const { authStore, appStore } = useStores();
     const {
         login,
         setLogin,
@@ -27,7 +28,8 @@ export const LoginPage = observer(() => {
         setIsLoading,
         container,
         refContainer,
-    } = useStores().authStore;
+        redirectPath,
+    } = authStore;
 
     const navigation = useNavigate();
 
@@ -35,7 +37,6 @@ export const LoginPage = observer(() => {
         if (await container.validate()) {
             try {
                 await service.login();
-                navigation('/', { replace: true });
             } catch (e) {
                 setIsError(true);
                 setErrorMessage(e.message);
@@ -78,6 +79,7 @@ export const LoginPage = observer(() => {
                     </Gapped>
                 </FooterPage>
             </Box>
+            {appStore.isAuth && <Navigate to={`/${redirectPath}`} replace={true} />}
         </BackgroundContainer>
     );
 });

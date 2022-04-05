@@ -19,13 +19,20 @@ export const App: React.FC = observer(() => {
     return (
         <LoadingLayout isLoading={appStore.isLoading}>
             <Routes>
-                <Route path="/registration" element={<RegistrationPage />} />
+                <Route path="registration" element={<RegistrationPage />} />
                 <Route path="login" element={<LoginPage />} />
-                <Route path="/" element={<PortalLayout />}>
-                    <Route path="/services" />
-                    <Route path="/clients" />
-                    <Route path="/report" />
-                    <Route path="/records" />
+                <Route path="*" element={<PortalLayout />}>
+                    <Route path="admin">
+                        <Route path="locations" element={<div>ТЕСТ</div>}/>
+                        <Route path="tenantry" element={<div>ТЕСТ</div>}/>
+                        <Route path="report" element={<div>ТЕСТ</div>}/>
+                    </Route>
+                    <Route path="specialist">
+                        <Route path="services" element={<div>ТЕСТ</div>}/>
+                        <Route path="clients" element={<div>ТЕСТ</div>}/>
+                        <Route path="report" element={<div>ТЕСТ</div>}/>
+                        <Route path="records" element={<div>ТЕСТ</div>}/>
+                    </Route>
                 </Route>
             </Routes>
         </LoadingLayout>

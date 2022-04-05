@@ -1,6 +1,8 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from '../../../stores/root.store';
 import { AuthApi } from '../../../client-tools/api/entities/auth/auth-api';
+import { Role } from '../../../../server/modules/domains/roles/entities/role.entity';
+import { LargeUser } from '../../../../server/modules/domains/users/entities/user.entity';
 import { AppStore } from './app.store';
 
 export class AppService {
@@ -18,7 +20,7 @@ export class AppService {
         });
 
         const accessToken = localStorage.getItem('AccessToken');
-        let user;
+        let user: LargeUser;
 
         if (accessToken) {
             try {
@@ -34,6 +36,7 @@ export class AppService {
             runInAction(() => {
                 this._appStore.setUserData(user);
                 this._appStore.setIsAuth(true);
+                this.setRole(user.roles);
             });
         }
 
@@ -41,6 +44,21 @@ export class AppService {
             this._appStore.setIsLoading(false);
             this._appStore.setAppIsInit(true);
         });
+    }
+
+    setRole(userRoles: Role[]): void {
+        const roles = userRoles.map(role => role.value);
+        if (roles.includes('ADMIN')) {
+            this._appStore.isAdmin = true;
+        }
+
+        if (roles.includes('SPECIALIST')) {
+            this._appStore.isUser = true;
+        }
+
+        if (roles.includes('USER')) {
+            this._appStore.isUser = true;
+        }
     }
 
     destroy(): void {

@@ -30,6 +30,7 @@ export const PortalLayout: React.FC = () => (
         <BodyWrapper>
             {/* Меню слева */}
             <ServiceMenuPanel />
+
             {/* Контент посередине */}
             <ContentBlockWrapper>
                 <Outlet />

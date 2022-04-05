@@ -1,4 +1,5 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import styled from '@emotion/styled';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
@@ -20,17 +21,25 @@ export const ServiceMenuPanel: React.FC = observer(() => {
 
     const roles = userData?.roles?.map(role => role.value) || [];
 
-    if (roles.includes('ADMIN')) {
-        return <AdminMenu />;
+    const getMenu = () => {
+        if (roles.includes('ADMIN')) {
+            return <Route path='admin/*' element={<AdminMenu />} />;
+        }
+
+        if (roles.includes('SPECIALIST')) {
+            return <Route path='specialist/*' element={<SpecialistMenu />} />;
+        }
+
+        if (roles.includes('USER')) {
+            return <></>;
+        }
+
+        return <Route path='/*' element={<DefaultMenu />} />;
     }
 
-    if (roles.includes('SPECIALIST')) {
-        return <SpecialistMenu />;
-    }
-
-    if (roles.includes('USER')) {
-        return <></>;
-    }
-
-    return <DefaultMenu />;
+    return (
+        <Routes>
+            {getMenu()}
+        </Routes>
+    )
 });

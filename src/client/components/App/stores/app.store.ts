@@ -8,6 +8,9 @@ export class AppStore {
 
     userData: LargeUser = null;
     isAuth = false;
+    isAdmin = false;
+    isSpecialist = false;
+    isUser = false;
     isLoading = false;
     appIsInit = false;
 
