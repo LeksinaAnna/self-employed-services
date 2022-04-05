@@ -9,7 +9,7 @@ import { notActiveText } from '../../../../../client-tools/styles/color';
 
 export const TopBarIsAuth: React.FC = observer(() => {
     const { authStore, appStore } = useStores();
-    const { setIsLoginModal, service } = authStore;
+    const { service } = authStore;
 
     return (
         <TopBarContainer>

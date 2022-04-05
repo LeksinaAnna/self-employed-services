@@ -3,7 +3,7 @@ import { ValidationInfo } from '@skbkontur/react-ui-validations/src/ValidationWr
 
 export const isRequiredField = (value: string): Nullable<ValidationInfo> => {
     if (!value || value.length === 0) {
-        return { message: 'Поле обязательно для заполнения', type: 'lostfocus' }
+        return { message: 'Поле обязательно для заполнения', type: 'submit' }
     }
 
     return null;
@@ -17,7 +17,7 @@ export const validateEmail = (value: string): Nullable<ValidationInfo> => {
     return null;
 }
 
-const isValidPhone = (value: string): Nullable<ValidationInfo> => {
+export const validatePhone = (value: string): Nullable<ValidationInfo> => {
     if (!/^\+7\s\d{3}\s\d{3}-\d{2}-\d{2}$/.test(value)) {
         return { message: 'Номер телефона невалиден', type: 'submit' }
     }

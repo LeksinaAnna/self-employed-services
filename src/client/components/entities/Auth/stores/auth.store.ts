@@ -1,6 +1,8 @@
 import { makeAutoObservable } from 'mobx';
+import { ValidationContainer } from '@skbkontur/react-ui-validations';
 import { RoleType } from '../../../../../server/modules/domains/roles/entities/role.entity';
 import { RootStore } from '../../../../stores/root.store';
+import { Nullable } from '../../../../../common/interfaces/common';
 import {
     ProfessionType,
     ProfessionTypeDict,
@@ -8,11 +10,10 @@ import {
 import { AuthService } from './auth.service';
 
 export class AuthStore {
-    isLoginModal = false;
-    isRegistrationModal = false;
     isLoading = false;
-    isError = false;
+    _isError = false;
     errorMessage = '';
+    isRegistration = false;
 
     login = '';
     password = '';
@@ -20,6 +21,8 @@ export class AuthStore {
     fullName = '';
     phone = '';
     userRole: RoleType = 'SPECIALIST';
+
+    container: Nullable<ValidationContainer> = null;
 
     readonly service: AuthService;
 
@@ -32,6 +35,22 @@ export class AuthStore {
     get userProfessionList(): string[] {
         const profArr: ProfessionType[] = ['browist', 'barber', 'lashmaker', 'manicurist'];
         return profArr.map(prof => ProfessionTypeDict[prof]);
+    }
+
+    get isError(): boolean {
+        return this._isError;
+    }
+
+    setIsError(value: boolean): void {
+        this._isError = value;
+    }
+
+    setErrorMessage(value: string): void {
+        this.errorMessage = value;
+    }
+
+    refContainer(ref: ValidationContainer): void {
+        this.container = ref;
     }
 
     setIsLoading(value: boolean): void {
@@ -60,13 +79,5 @@ export class AuthStore {
                 this.profession = profKey;
             }
         });
-    }
-
-    setIsLoginModal(value: boolean): void {
-        this.isLoginModal = value;
-    }
-
-    setIsRegistrationModal(value: boolean): void {
-        this.isRegistrationModal = value;
     }
 }

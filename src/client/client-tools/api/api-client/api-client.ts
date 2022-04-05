@@ -77,7 +77,13 @@ export class ApiBaseClient {
             ...getOptions(signal),
         });
         if (!response.ok) {
-            const { message } = await response.json();
+            const data = await response.json();
+            let message = data.message;
+
+            if (response.status >= 500) {
+                message = 'Серверная ошибка'
+            }
+
             throw new ApiError(message, response.status);
         }
         return (await response.json()) as TResult;

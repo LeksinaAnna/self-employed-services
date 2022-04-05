@@ -7,7 +7,7 @@ import { InputWithCaption } from '../../../ui/Inputs/InputWithCaption';
 
 export const LoginModal: React.FC = observer(() => {
     const { authStore } = useStores();
-    const { login, isError, errorMessage, password, setLogin, setPassword, service, isLoading } = authStore;
+    const { login, _isError, errorMessage, password, setLogin, setPassword, service, isLoading } = authStore;
 
     useEffect(() => service.destroy, []);
 
@@ -24,7 +24,7 @@ export const LoginModal: React.FC = observer(() => {
                         onValueChange={setPassword}
                         caption={'Пароль'}
                     />
-                    {isError && <Alert severity="error">{errorMessage}</Alert>}
+                    {_isError && <Alert severity="error">{errorMessage}</Alert>}
                 </Gapped>
             </Modal.Body>
             <Modal.Footer panel>

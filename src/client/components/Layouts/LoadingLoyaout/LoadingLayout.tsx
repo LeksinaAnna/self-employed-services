@@ -6,11 +6,14 @@ interface Props {
     children: React.ReactNode;
 }
 
-export const LoadingLayout: React.FC<Props> = ({ isLoading, children }) => {
-    return (
-        <React.Fragment>
-            {isLoading && <LinearProgress sx={{ color: 'grey.500' }} color='inherit' />}
-            {children}
-        </React.Fragment>
-    )
-};
+export const LoadingLayout: React.FC<Props> = ({ isLoading, children }) => (
+    <div style={{ position: 'relative' }}>
+        {isLoading && (
+            <LinearProgress
+                sx={{ color: 'grey.500', position: 'absolute', top: -30, right: 0, bottom: 0, left: 0 }}
+                color="inherit"
+            />
+        )}
+        {children}
+    </div>
+);

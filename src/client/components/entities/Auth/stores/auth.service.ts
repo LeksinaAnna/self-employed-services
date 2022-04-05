@@ -21,33 +21,16 @@ export class AuthService {
             this._authStore.setIsLoading(true);
         });
 
-        let token;
-        let userData;
+        const { accessToken, ...user } = await this._authApi.login({
+            email: this._authStore.login,
+            password: this._authStore.password,
+        });
 
-        try {
-            const { accessToken, ...user } = await this._authApi.login({
-                email: this._authStore.login,
-                password: this._authStore.password,
-            });
-
-            token = accessToken;
-            userData = user;
-
-        } catch (e) {
+        if (user && accessToken) {
+            localStorage.setItem('AccessToken', accessToken);
             runInAction(() => {
-                this._authStore.setIsLoading(false);
-                this._authStore.isError = true;
-                this._authStore.errorMessage = e.message;
-            });
-            return;
-        }
-
-        if (userData && token) {
-            localStorage.setItem('AccessToken', token);
-            runInAction(() => {
-                this._appStore.setUserData(userData);
+                this._appStore.setUserData(user);
                 this._appStore.setIsAuth(true);
-                this._authStore.setIsLoginModal(false);
             });
         }
 
@@ -75,7 +58,7 @@ export class AuthService {
             localStorage.removeItem('AccessToken');
             this._appStore.service.destroy();
             this._appStore.setIsLoading(false);
-        })
+        });
     }
 
     async registration(): Promise<void> {
@@ -97,41 +80,25 @@ export class AuthService {
             },
         });
 
-        if (user) {
-            Toast.push('Пользователь успешно зарегистрирован');
-            this._authStore.setIsLoading(false);
-            this._authStore.setIsRegistrationModal(false);
-        }
-
         runInAction(() => {
+            if (user) {
+                this._authStore.isRegistration = true;
+            }
+
             this._authStore.setIsLoading(false);
         });
     }
 
     destroy(): void {
-        this._authStore.password = '';
-        this._authStore.login = '';
-        this._authStore.fullName = '';
-        this._authStore.phone = '';
-        this._authStore.profession = null;
-        this._authStore.isLoading = false;
-        this._authStore.isError = false;
-        this._authStore.errorMessage = '';
-    }
-
-    openLoginModal(): void {
-        this._authStore.setIsLoginModal(true);
-    }
-
-    closeLoginModal(): void {
-        this._authStore.setIsLoginModal(false);
-    }
-
-    openRegistrationModal(): void {
-        this._authStore.setIsRegistrationModal(true);
-    }
-
-    closeRegistrationModal(): void {
-        this._authStore.setIsRegistrationModal(false);
+        this._authStore.setPassword('');
+        this._authStore.setLogin('');
+        this._authStore.setFullName('');
+        this._authStore.setPhone('');
+        this._authStore.setProfession(null);
+        this._authStore.setIsLoading(false);
+        this._authStore.setIsError(false);
+        this._authStore.setErrorMessage('');
+        this._authStore.isRegistration = false;
+        this._authStore.refContainer(null);
     }
 }

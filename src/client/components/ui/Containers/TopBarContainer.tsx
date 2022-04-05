@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import styled from '@emotion/styled';
 
 interface Props {
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 
 const TopBarWrapper = styled.div`
