@@ -34,5 +34,8 @@ export class AppStore {
 
     setUserData(data: LargeUser): void {
         this.userData = data;
+        if (data) {
+            this.service.setRole(data.roles);
+        }
     }
 }

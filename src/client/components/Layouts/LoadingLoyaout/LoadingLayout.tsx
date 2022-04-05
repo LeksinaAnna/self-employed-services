@@ -3,10 +3,11 @@ import { LinearProgress } from '@mui/material';
 
 interface Props {
     isLoading: boolean;
+    isInit: boolean;
     children: React.ReactNode;
 }
 
-export const LoadingLayout: React.FC<Props> = ({ isLoading, children }) => (
+export const LoadingLayout: React.FC<Props> = ({ isLoading, children, isInit }) => (
     <div style={{ position: 'relative' }}>
         {isLoading && (
             <LinearProgress
@@ -14,6 +15,6 @@ export const LoadingLayout: React.FC<Props> = ({ isLoading, children }) => (
                 color="inherit"
             />
         )}
-        {children}
+        {isInit && children}
     </div>
 );

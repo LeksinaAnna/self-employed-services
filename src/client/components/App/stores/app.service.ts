@@ -34,8 +34,8 @@ export class AppService {
 
         if (user) {
             runInAction(() => {
-                this._appStore.setUserData(user);
                 this._appStore.setIsAuth(true);
+                this._appStore.setUserData(user);
                 this.setRole(user.roles);
             });
         }
