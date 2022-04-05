@@ -5,7 +5,7 @@ import { RootStore } from '../../../../stores/root.store';
 import { Nullable } from '../../../../../common/interfaces/common';
 import {
     ProfessionType,
-    ProfessionTypeDict,
+    professionTypeDict,
 } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { AuthService } from './auth.service';
 
@@ -34,7 +34,7 @@ export class AuthStore {
 
     get userProfessionList(): string[] {
         const profArr: ProfessionType[] = ['browist', 'barber', 'lashmaker', 'manicurist'];
-        return profArr.map(prof => ProfessionTypeDict[prof]);
+        return profArr.map(prof => professionTypeDict[prof]);
     }
 
     get isError(): boolean {
@@ -88,10 +88,10 @@ export class AuthStore {
     }
 
     setProfession(profession: string): void {
-        Object.keys(ProfessionTypeDict).forEach((profKey: ProfessionType) => {
-            if (ProfessionTypeDict[profKey] === profession) {
-                this.profession = profKey;
+        for (const key in professionTypeDict) {
+            if (professionTypeDict.hasOwnProperty(key) && professionTypeDict[key] === profession) {
+                this.profession = key as ProfessionType;
             }
-        });
+        }
     }
 }

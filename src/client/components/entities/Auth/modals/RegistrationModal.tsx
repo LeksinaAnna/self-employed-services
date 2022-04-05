@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
-import { ValidationContainer, ValidationWrapper, createValidator, tooltip } from '@skbkontur/react-ui-validations';
+import { ValidationContainer, ValidationWrapper, tooltip } from '@skbkontur/react-ui-validations';
 import { Button, Gapped, Input, Modal, Select } from '@skbkontur/react-ui';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import {
     ProfessionType,
-    ProfessionTypeDict,
+    professionTypeDict,
 } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { Nullable } from '../../../../../common/interfaces/common';
 import { FormLine } from '../../../ui/FormLine/FormLine';
@@ -66,7 +66,7 @@ export const RegistrationModal = observer(() => {
                                 <Select
                                     width={200}
                                     items={userProfessionList}
-                                    value={ProfessionTypeDict[profession]}
+                                    value={professionTypeDict[profession]}
                                     onValueChange={setProfession}
                                 />
                             </ValidationWrapper>

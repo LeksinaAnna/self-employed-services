@@ -8,6 +8,7 @@ import { LoginPage } from '../entities/Auth/pages/LoginPage/LoginPage';
 import { LoadingLayout } from '../Layouts/LoadingLoyaout/LoadingLayout';
 import { PortalLayout } from '../Layouts/Portal/PortalLayout';
 import { CheckAuth } from '../Layouts/Portal/CheckAuth';
+import { Locations } from '../entities/Locations/Locations';
 
 export const App: React.FC = observer(() => {
     const { appStore } = useStores();
@@ -24,7 +25,7 @@ export const App: React.FC = observer(() => {
                 <Route path="login" element={<LoginPage />} />
                 <Route path="*" element={<PortalLayout />}>
                     <Route path="admin" element={<CheckAuth />}>
-                        <Route path="locations" element={<div>ТЕСТ</div>}/>
+                        <Route path="locations" element={<Locations />}/>
                         <Route path="tenantry" element={<div>ТЕСТ</div>}/>
                         <Route path="report" element={<div>ТЕСТ</div>}/>
                         <Route path="*" element={<div>НЕТ СТРАНИЦЫ</div>} />

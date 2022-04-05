@@ -14,7 +14,7 @@ const LayoutContainer = styled.div`
 `;
 
 const ContentBlockWrapper = styled.div`
-    padding: 14px 24px;
+    padding: 34px 24px;
     width: 890px;
 `;
 

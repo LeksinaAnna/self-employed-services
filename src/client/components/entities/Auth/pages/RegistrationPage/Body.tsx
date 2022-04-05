@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { FormLine } from '../../../../ui/FormLine/FormLine';
 import { Nullable } from '../../../../../../common/interfaces/common';
 import { useStores } from '../../../../../client-tools/hooks/use-stores';
-import { ProfessionTypeDict } from '../../../../../../server/modules/domains/users/entities/user-profile.entity';
+import { professionTypeDict } from '../../../../../../server/modules/domains/users/entities/user-profile.entity';
 import {
     isRequiredField,
     validateEmail,
@@ -56,7 +56,7 @@ export const Body = observer(() => {
                             <Select
                                 width={200}
                                 items={userProfessionList}
-                                value={ProfessionTypeDict[profession]}
+                                value={professionTypeDict[profession]}
                                 onValueChange={setProfession}
                             />
                         </ValidationWrapper>

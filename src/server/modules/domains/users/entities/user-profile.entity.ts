@@ -3,7 +3,7 @@ import { UserId } from './user.entity';
 export type ProfileId = UserId;
 export type ProfessionType = 'barber' | 'browist' | 'lashmaker' | 'manicurist'; // парикмахер, бровист, лешмейкер, мастер маникюра
 
-export const ProfessionTypeDict = {
+export const professionTypeDict = {
     barber: 'Парикмахер',
     browist: 'Бровист',
     lashmaker: 'Лешмейкер',
