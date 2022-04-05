@@ -7,22 +7,22 @@ export const SpecialistMenu: React.FC = () => (
     <MenuWrapper>
         <ServiceMenuLink
             title={'Услуги'}
-            to={'/services'}
+            to={'services'}
             icon={<HomeOutlined color={'disabled'} fontSize={'large'} />}
         />
         <ServiceMenuLink
             title={'Клиенты'}
-            to={'/clients'}
+            to={'clients'}
             icon={<GroupsOutlined color={'disabled'} fontSize={'large'} />}
         />
         <ServiceMenuLink
             title={'Отчёт'}
-            to={'/report'}
+            to={'report'}
             icon={<EqualizerOutlined color={'disabled'} fontSize={'large'} />}
         />
         <ServiceMenuLink
             title={'Записи'}
-            to={'/records'}
+            to={'records'}
             icon={<EventNoteOutlined color={'disabled'} fontSize={'large'} />}
         />
     </MenuWrapper>

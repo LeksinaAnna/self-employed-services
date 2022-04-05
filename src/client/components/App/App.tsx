@@ -27,12 +27,14 @@ export const App: React.FC = observer(() => {
                         <Route path="locations" element={<div>ТЕСТ</div>}/>
                         <Route path="tenantry" element={<div>ТЕСТ</div>}/>
                         <Route path="report" element={<div>ТЕСТ</div>}/>
+                        <Route path="*" element={<div>НЕТ СТРАНИЦЫ</div>} />
                     </Route>
                     <Route path="specialist" element={<CheckAuth />}>
-                        <Route path="services" element={<div>ТЕСТ</div>}/>
-                        <Route path="clients" element={<div>ТЕСТ</div>}/>
-                        <Route path="report" element={<div>ТЕСТ</div>}/>
-                        <Route path="records" element={<div>ТЕСТ</div>}/>
+                        <Route path="services" element={<div>УСЛУГИ</div>}/>
+                        <Route path="clients" element={<div>КЛИЕНТЫ</div>}/>
+                        <Route path="report" element={<div>ОТЧЕТ</div>}/>
+                        <Route path="records" element={<div>ЗАПИСИ</div>}/>
+                        <Route path="*" element={<div>НЕТ СТРАНИЦЫ</div>} />
                     </Route>
                 </Route>
             </Routes>

@@ -53,7 +53,7 @@ export class AppService {
         }
 
         if (roles.includes('SPECIALIST')) {
-            this._appStore.isUser = true;
+            this._appStore.isSpecialist = true;
         }
 
         if (roles.includes('USER')) {
