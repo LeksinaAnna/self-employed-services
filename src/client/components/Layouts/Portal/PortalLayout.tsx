@@ -33,7 +33,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-export const PortalLayout: React.FC<Props> = observer(({ children }) => {
+export const PortalLayout: React.FC<Props> = ({ children }) => {
     const { authStore, appStore } = useStores();
     const { isLoginModal, isRegistrationModal, isLoading } = authStore;
     return (
@@ -46,9 +46,7 @@ export const PortalLayout: React.FC<Props> = observer(({ children }) => {
 
                     {/* Контент посередине */}
                     <ContentBlockWrapper>
-                        <Routes>
-                            {children}
-                        </Routes>
+                        {children}
                     </ContentBlockWrapper>
                 </BodyWrapper>
                 {isLoginModal && <LoginModal />}
@@ -56,4 +54,4 @@ export const PortalLayout: React.FC<Props> = observer(({ children }) => {
             </LayoutContainer>
         </LoadingLayout>
     );
-});
+};

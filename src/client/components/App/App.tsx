@@ -10,13 +10,19 @@ export const App: React.FC = observer(() => {
     const { appStore } = useStores();
     const { service } = appStore;
 
-    useAsyncEffectWithError(async (abortSignal) => {
+    useAsyncEffectWithError(async abortSignal => {
         await service.init(abortSignal);
-    }, [])
+    }, []);
 
     return (
-        <PortalLayout>
-                <Route path='/registration' element={<RegistrationPage />} />
-        </PortalLayout>
+        <Routes>
+            <Route path="/registration" element={<RegistrationPage />} />
+                <Route path="/" element={(
+                    <PortalLayout>
+                        Тест
+                    </PortalLayout>
+                )}>
+                </Route>
+        </Routes>
     );
 });
