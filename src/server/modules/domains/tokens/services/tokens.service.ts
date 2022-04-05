@@ -14,7 +14,7 @@ export class TokensService implements TokensUseCase {
     }
 
     generateTokens(payload: TokenPayload): Tokens {
-        const accessToken = this._jwtService.sign(payload, { expiresIn: '1m' });
+        const accessToken = this._jwtService.sign(payload, { expiresIn: '20m' });
         const refreshToken = this._jwtService.sign(payload, { expiresIn: '30d' });
 
         return { accessToken, refreshToken };

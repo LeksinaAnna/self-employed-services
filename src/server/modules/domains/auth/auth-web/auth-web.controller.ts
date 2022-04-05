@@ -62,6 +62,7 @@ export class AuthWebController {
         return { message: 'OK' };
     }
 
+    @NotAuthDecorator()
     @Get('/refresh')
     async refreshAccessToken(
         // passthrough: true ставим для того чтобы логика неста на response не прервалась
