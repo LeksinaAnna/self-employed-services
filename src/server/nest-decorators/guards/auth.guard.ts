@@ -49,7 +49,7 @@ export class AuthGuard implements CanActivate {
             return this.jwtService.verify(token);
         } catch (e) {
             console.log(`[ERROR] - ${e.message}`);
-            throw new UnauthorizedException(`AccessToken истёк.`);
+            throw new UnauthorizedException(`AccessToken истёк`);
         }
     }
 
@@ -60,7 +60,7 @@ export class AuthGuard implements CanActivate {
 
         if (!token) {
             response.clearCookie('refreshToken');
-            throw new UnauthorizedException(`Авторизация сброшена. Произведен вход с другого устройства.`);
+            throw new UnauthorizedException(`Авторизация сброшена. Произведен вход с другого устройства`);
         }
     }
 }

@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { AuthUseCase } from '../ports/auth.use-case';
-import { LargeUser, UserCreateProperties, UserId } from '../../users/entities/user.entity';
+import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
 import { UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
 import { RefreshToken, Tokens } from '../../tokens/entities/token.entity';
 import { UserService } from '../../users/services/user.service';
@@ -32,9 +32,11 @@ export class AuthService implements AuthUseCase {
         }
         const userInfo = await this._userService.getUserByLogin(authData.email);
 
+        // Проверяем совпадают ли хэш пароля который ввели с хэшем пароля из базы
         const passwordEquals = await bcrypt.compare(authData.password, user.password);
 
-        if (user && passwordEquals) {
+        // Если пароли совпали
+        if (passwordEquals) {
             // Получаем пару токенов
             const roles = userInfo.roles.map(role => role.value);
             const tokens = this._tokensService.generateTokens({
