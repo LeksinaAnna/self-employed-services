@@ -13,7 +13,7 @@ export const Locations: React.FC = observer(() => {
 
     useAsyncEffectWithError(async (signal) => {
         await service.init(signal);
-    }, []);
+    }, [currentDate]);
 
     React.useEffect(() => destroy, []);
 
@@ -23,8 +23,8 @@ export const Locations: React.FC = observer(() => {
             <div style={{ margin: '18px 0' }}>
                 <DatePicker value={currentDate} width={100} onValueChange={setCurrentDate} />
             </div>
-            <Gapped vertical gap={10}>
-                {locations.map(room => <LocationItem room={room} />)}
+            <Gapped vertical gap={25}>
+                {locations.map(room => <LocationItem key={room.roomId} room={room} />)}
             </Gapped>
             {isCreateModal && <CreateModal />}
         </div>

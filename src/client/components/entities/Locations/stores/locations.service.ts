@@ -43,6 +43,7 @@ export class LocationsService {
     async init(signal?: AbortSignal): Promise<void> {
         runInAction(() => {
             this._rootStore.appStore.setIsLoading(true);
+            this._locationsStore.fillObject();
         });
 
         const startDate = moment(this._locationsStore.currentDate, 'DD.MM.YYYY').format();

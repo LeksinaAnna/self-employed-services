@@ -8,7 +8,7 @@ import { PortalHeader } from './Head/PortalHeader';
 export const APP_HEIGHT = '500px';
 
 const LayoutContainer = styled.div`
-    width: 1000px;
+    min-width: 1000px;
     margin: 50px 250px;
     padding: 15px;
 `;
@@ -21,7 +21,7 @@ const ContentBlockWrapper = styled.div`
 const BodyWrapper = styled.div`
     display: flex;
     border: 1px solid ${defaultPortalColor};
-    height: ${APP_HEIGHT};
+    min-height: ${APP_HEIGHT};
 `;
 
 export const PortalLayout: React.FC = () => (

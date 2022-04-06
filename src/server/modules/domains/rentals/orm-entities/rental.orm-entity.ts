@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { RoomOrmEntity } from '../../rooms/orm-entities/room.orm-entity';
 import { UserId } from '../../users/entities/user.entity';
 import { Rental } from '../entities/rental.entity';
+import { UserProfileOrmEntity } from '../../users/orm-entities/user-profile.orm-entity';
 
 @Entity({ schema: 'rooms', name: 'rentals' })
 export class RentalOrmEntity implements Rental {
@@ -35,4 +36,8 @@ export class RentalOrmEntity implements Rental {
     @ManyToOne(() => RoomOrmEntity, room => room.rentals)
     @JoinColumn({ name: 'room_id', referencedColumnName: 'roomId' })
     room: RoomOrmEntity;
+
+    @ManyToOne(() => UserProfileOrmEntity, user => user.rentals)
+    @JoinColumn({ name: 'specialist_id', referencedColumnName: 'profileId' })
+    specialist: UserProfileOrmEntity;
 }

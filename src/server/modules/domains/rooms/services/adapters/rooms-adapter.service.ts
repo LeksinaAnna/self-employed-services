@@ -71,6 +71,7 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
                     finishDate: finish_date,
                 },
             )
+            .leftJoinAndSelect(`rental.specialist`, `specialist`)
             .take(parseInt(take, 10))
             .skip(parseInt(skip, 10))
             .getManyAndCount();
