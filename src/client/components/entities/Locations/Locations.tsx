@@ -1,10 +1,11 @@
 import React from 'react';
-import { DatePicker } from '@skbkontur/react-ui';
+import { DatePicker, Gapped } from '@skbkontur/react-ui';
 import { observer } from 'mobx-react-lite';
 import { useAsyncEffectWithError } from '../../../client-tools/hooks/use-async-effect';
 import { useStores } from '../../../client-tools/hooks/use-stores';
 import { HeadLocations } from './HeadLocations';
 import { CreateModal } from './CreateModal/CreateModal';
+import { LocationItem } from './LocationItem/LocationItem';
 
 export const Locations: React.FC = observer(() => {
     const { locationsStore } = useStores();
@@ -22,6 +23,9 @@ export const Locations: React.FC = observer(() => {
             <div style={{ margin: '18px 0' }}>
                 <DatePicker value={currentDate} width={100} onValueChange={setCurrentDate} />
             </div>
+            <Gapped vertical gap={10}>
+                {locations.map(room => <LocationItem room={room} />)}
+            </Gapped>
             {isCreateModal && <CreateModal />}
         </div>
     );

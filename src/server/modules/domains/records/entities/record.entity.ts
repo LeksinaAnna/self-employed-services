@@ -6,6 +6,10 @@ import { UserId } from '../../users/entities/user.entity';
 export type RecordId = string;
 export type RecordStatus = 'considered' | 'accepted' | 'canceled';
 
+export interface WithRecords {
+    records: Record[];
+}
+
 export interface RecordContacts {
     name: string;
     email: string;

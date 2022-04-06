@@ -4,6 +4,10 @@ import { UserId } from '../../users/entities/user.entity';
 
 export type RentalId = string;
 
+export interface WithRentals {
+    rentals: Rental[];
+}
+
 export interface Rental {
     rentalId?: RentalId;
     roomId: string;

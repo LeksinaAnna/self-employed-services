@@ -3,6 +3,7 @@ import { RoomsUseCase } from '../ports/rooms.use-case';
 import { Room, RoomCreateProperties, RoomEntity, RoomId } from '../entities/room.entity';
 import { UserId } from '../../users/entities/user.entity';
 import { ManyItem, QueryType, WithCreator, WithUpdater } from '../../../../../common/interfaces/common';
+import { WithRentals } from '../../rentals/entities/rental.entity';
 import { RoomsAdapterService } from './adapters/rooms-adapter.service';
 
 @Injectable()
@@ -45,7 +46,7 @@ export class RoomsService implements RoomsUseCase {
         return await this._roomsAdapter.saveRoom(updatedEntity);
     }
 
-    async getRooms(query?: QueryType): Promise<ManyItem<Room>> {
+    async getRooms(query?: QueryType): Promise<ManyItem<Room & WithRentals>> {
         return this._roomsAdapter.getRooms(query);
     }
 }

@@ -5,6 +5,7 @@ import {
     professionTypeDict,
 } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { Room } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { RootStore } from '../../../../stores/root.store';
 import { LocationsService } from './locations.service';
 
@@ -12,7 +13,7 @@ export class LocationsStore {
     title = '';
     price: number;
     profession: ProfessionType = null;
-    locations: Room[] = [];
+    locations: Array<Room & WithRentals> = [];
     isCreateModal = false;
     currentDate = moment().format('DD.MM.YYYY');
 
@@ -43,7 +44,7 @@ export class LocationsStore {
         this.price = value;
     }
 
-    setRooms(rooms: Room[]): void {
+    setRooms(rooms: Array<Room & WithRentals>): void {
         this.locations = rooms;
     }
 

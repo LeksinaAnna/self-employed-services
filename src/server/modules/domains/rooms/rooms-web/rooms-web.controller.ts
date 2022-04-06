@@ -5,6 +5,7 @@ import { Room, RoomCreateProperties, RoomId } from '../entities/room.entity';
 import { Roles } from '../../../../nest-decorators/decorators/roles.decorator';
 import { CurrentUser } from '../../../../nest-decorators/decorators/current-user.decorator';
 import { TokenData } from '../../tokens/entities/token.entity';
+import { WithRentals } from '../../rentals/entities/rental.entity';
 
 @Roles('ADMIN')
 @Controller('rooms')
@@ -13,7 +14,7 @@ export class RoomsWebController {
 
     @Roles('SPECIALIST', 'ADMIN')
     @Get('/')
-    async getRooms(@Query() query: QueryType): Promise<ManyItem<Room>> {
+    async getRooms(@Query() query: QueryType): Promise<ManyItem<Room & WithRentals>> {
         return await this._roomsService.getRooms(query);
     }
 

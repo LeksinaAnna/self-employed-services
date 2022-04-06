@@ -6,6 +6,7 @@ import { Room, RoomId } from '../../entities/room.entity';
 import { PersistenceAdapter } from '../../../../common/persistence-adapter/persistence-adapter';
 import { RoomOrmEntity } from '../../orm-entities/room.orm-entity';
 import { ManyItem, QueryType } from '../../../../../../common/interfaces/common';
+import { WithRentals } from '../../../rentals/entities/rental.entity';
 
 @Injectable()
 export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort {
@@ -44,7 +45,14 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
             .getOne();
     }
 
-    async getRooms({ take = '10', skip = '0', search, type }: QueryType): Promise<ManyItem<Room>> {
+    async getRooms({
+        take = '10',
+        skip = '0',
+        search,
+        type,
+        start_date,
+        finish_date,
+    }: QueryType): Promise<ManyItem<Room & WithRentals>> {
         const [items, count] = await createQueryBuilder(RoomOrmEntity, 'room')
             .where(qb => {
                 if (search) {
@@ -54,6 +62,15 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
                     qb.andWhere(`room.type = :type`, { type });
                 }
             })
+            .leftJoinAndSelect(
+                `room.rentals`,
+                'rental',
+                'rental.startDate >= :startDate AND rental.finishDate <= :finishDate',
+                {
+                    startDate: start_date,
+                    finishDate: finish_date,
+                },
+            )
             .take(parseInt(take, 10))
             .skip(parseInt(skip, 10))
             .getManyAndCount();

@@ -1,6 +1,7 @@
 import { Room, RoomId } from '../entities/room.entity';
 import { UserId } from '../../users/entities/user.entity';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
+import { WithRentals } from '../../rentals/entities/rental.entity';
 
 export interface RoomsPort {
     saveRoom(properties: Room): Promise<Room>;
@@ -9,5 +10,5 @@ export interface RoomsPort {
 
     getRoomById(id: RoomId): Promise<Room>;
 
-    getRooms(query?: QueryType): Promise<ManyItem<Room>>;
+    getRooms(query?: QueryType): Promise<ManyItem<Room & WithRentals>>;
 }

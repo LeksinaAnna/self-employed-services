@@ -1,6 +1,7 @@
 import { Room, RoomCreateProperties, RoomId } from '../entities/room.entity';
 import { UserId } from '../../users/entities/user.entity';
 import { ManyItem, QueryType, WithUpdater } from '../../../../../common/interfaces/common';
+import { WithRentals } from '../../rentals/entities/rental.entity';
 
 export interface RoomsUseCase {
     createRoom(properties: RoomCreateProperties): Promise<Room>;
@@ -11,7 +12,7 @@ export interface RoomsUseCase {
 
     getRoomById(roomId: RoomId): Promise<Room>;
 
-    getRooms(query?: QueryType): Promise<ManyItem<Room>>;
+    getRooms(query?: QueryType): Promise<ManyItem<Room & WithRentals>>;
 
     deleteRoom(id: RoomId, updater: UserId): Promise<Room>;
 }
