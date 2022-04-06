@@ -16,6 +16,8 @@ export class LocationsStore {
     isCreateModal = false;
     currentDate = moment().format('DD.MM.YYYY');
 
+    isLoading = false;
+
     readonly service: LocationsService;
 
     constructor(private readonly _rootStore: RootStore) {
@@ -45,11 +47,24 @@ export class LocationsStore {
         this.locations = rooms;
     }
 
+    setIsLoading(value: boolean): void {
+        this.isLoading = value;
+    }
+
     setProfession(profession: string): void {
+        if (!profession) {
+            this.profession = null;
+        }
+
         for (const key in professionTypeDict) {
             if (professionTypeDict.hasOwnProperty(key) && professionTypeDict[key] === profession) {
                 this.profession = key as ProfessionType;
             }
         }
+    }
+
+    destroy(): void {
+        this.locations = [];
+        this.title = '';
     }
 }

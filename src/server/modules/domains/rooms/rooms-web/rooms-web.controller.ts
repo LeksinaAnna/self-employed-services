@@ -11,13 +11,13 @@ import { TokenData } from '../../tokens/entities/token.entity';
 export class RoomsWebController {
     constructor(private readonly _roomsService: RoomsService) {}
 
-    @Roles('SPECIALIST')
+    @Roles('SPECIALIST', 'ADMIN')
     @Get('/')
     async getRooms(@Query() query: QueryType): Promise<ManyItem<Room>> {
         return await this._roomsService.getRooms(query);
     }
 
-    @Roles('SPECIALIST')
+    @Roles('SPECIALIST', 'ADMIN')
     @Get('/:roomId')
     async getRoomById(@Param('roomId') roomId: RoomId): Promise<Room> {
         return await this._roomsService.getRoomById(roomId);
