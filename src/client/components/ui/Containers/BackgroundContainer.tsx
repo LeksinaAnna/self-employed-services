@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 
 interface Props {
     children: React.ReactNode;
+    marginTop?: number | string;
 }
 
 const BackgroundFragment = styled.div`
@@ -27,14 +28,14 @@ const ContentWrapper = styled.div`
   display: inline-block;
   text-align: left;
   vertical-align: middle;
-  margin: 40px 20px;
+  margin: 0 20px 40px 20px;
 `;
 
-export const BackgroundContainer: React.FC<Props> = ({ children }) => (
+export const BackgroundContainer: React.FC<Props> = ({ children, marginTop= 40 }) => (
     <div style={{ height: '100%', width: '100%', left: 0, top: 0, position: 'fixed' }}>
         <BackgroundFragment />
         <ContainerWrapper>
-            <ContentWrapper>
+            <ContentWrapper style={{ marginTop }}>
                 {children}
             </ContentWrapper>
         </ContainerWrapper>

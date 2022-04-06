@@ -9,6 +9,7 @@ import { LoadingLayout } from '../Layouts/LoadingLoyaout/LoadingLayout';
 import { PortalLayout } from '../Layouts/Portal/PortalLayout';
 import { CheckAuth } from '../Layouts/Portal/CheckAuth';
 import { Locations } from '../entities/Locations/Locations';
+import { Modal } from '../ui/Modal/Modal';
 
 export const App: React.FC = observer(() => {
     const { appStore } = useStores();
@@ -23,6 +24,7 @@ export const App: React.FC = observer(() => {
             <Routes>
                 <Route path="registration" element={<RegistrationPage />} />
                 <Route path="login" element={<LoginPage />} />
+                <Route path="modal" element={<Modal />} />
                 <Route path="*" element={<PortalLayout />}>
                     <Route path="admin" element={<CheckAuth />}>
                         <Route path="locations" element={<Locations />}/>
