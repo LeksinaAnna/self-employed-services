@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { RoomsService } from '../services/rooms.service';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 import { Room, RoomCreateProperties, RoomId } from '../entities/room.entity';
@@ -28,7 +28,7 @@ export class RoomsWebController {
         return await this._roomsService.createRoom({ ...body, creator: currentUser.userId });
     }
 
-    @Put('/:roomId')
+    @Patch('/:roomId')
     async updateRoom(
         @Body() body: RoomCreateProperties,
         @CurrentUser() currentUser: TokenData,
