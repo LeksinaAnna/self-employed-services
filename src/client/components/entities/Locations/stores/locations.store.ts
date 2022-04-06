@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import moment from 'moment';
 import {
     ProfessionType,
     professionTypeDict,
@@ -6,11 +7,10 @@ import {
 import { Room } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { RootStore } from '../../../../stores/root.store';
 import { LocationsService } from './locations.service';
-import moment from 'moment';
 
 export class LocationsStore {
     title = '';
-    price = 0;
+    price: number;
     profession: ProfessionType = null;
     locations: Room[] = [];
     isCreateModal = false;

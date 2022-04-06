@@ -7,4 +7,16 @@ export class LocationsService {
 
         makeAutoObservable(this, {}, { autoBind: true });
     }
+
+    openCreateModal(): void {
+        this._locationsStore.isCreateModal = true;
+    }
+
+    closeCreateModal(): void {
+        this._locationsStore.isCreateModal = false;
+    }
+
+    async createLocation(): Promise<void> {
+        console.log('CREATE');
+    }
 }

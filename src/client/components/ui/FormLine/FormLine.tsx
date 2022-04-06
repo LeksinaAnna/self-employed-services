@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { secondaryText } from '../../../client-tools/styles/color';
 
 interface Props {
-    gap?: number;
     vertical?: boolean;
     children: React.ReactNode;
     caption: string;
@@ -12,7 +11,7 @@ interface Props {
 const LineContainer = styled.div<{ vertical?: boolean }>(({ vertical }) => ({
     display: 'flex',
     flexDirection: vertical ? 'column' : 'row',
-    alignItems: 'center'
+    alignItems: !vertical ? 'center' : 'start'
 }));
 
 const TextWrapper = styled.div`
@@ -21,7 +20,7 @@ const TextWrapper = styled.div`
   font-size: 16px;
 `;
 
-export const FormLine: React.FC<Props> = ({ gap = 5, vertical, children, caption }) => (
+export const FormLine: React.FC<Props> = ({ vertical, children, caption }) => (
     <LineContainer vertical={vertical}>
         {caption && <TextWrapper color={secondaryText}>{caption}</TextWrapper>}
         {children}
