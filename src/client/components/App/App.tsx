@@ -9,16 +9,25 @@ import { LoadingLayout } from '../Layouts/LoadingLoyaout/LoadingLayout';
 import { PortalLayout } from '../Layouts/Portal/PortalLayout';
 import { CheckAuth } from '../Layouts/Portal/CheckAuth';
 import { Locations } from '../entities/Locations/Locations';
-import { Modal } from '../ui/Modal/Modal';
+import { PageNotFound } from '../Errors/PageNotFound/PageNotFound';
 
+
+/**
+ *
+ * Главный компонент, который рисует все приложение
+ */
 export const App: React.FC = observer(() => {
     const { appStore } = useStores();
     const { service } = appStore;
 
+    // Состояние проинициализировалось ли приложение
     const [appInit, setAppInit] = useState<boolean>(false);
 
+    // При первой отрисовки приложения выполняется эта функция
     useAsyncEffectWithError(async abortSignal => {
         await service.init(abortSignal);
+
+        // После успешных инициализационных запросов считаем что приложение проинициализировано
         setAppInit(true);
     }, []);
 
@@ -27,20 +36,16 @@ export const App: React.FC = observer(() => {
             <Routes>
                 <Route path="registration" element={<RegistrationPage />} />
                 <Route path="login" element={<LoginPage />} />
-                <Route path="modal" element={<Modal />} />
-                <Route path="*" element={<PortalLayout />}>
-                    <Route path="admin" element={<CheckAuth />}>
-                        <Route path="locations" element={<Locations />}/>
-                        <Route path="tenantry" element={<div>ТЕСТ</div>}/>
-                        <Route path="report" element={<div>ТЕСТ</div>}/>
-                        <Route path="*" element={<div>НЕТ СТРАНИЦЫ</div>} />
-                    </Route>
-                    <Route path="specialist" element={<CheckAuth />}>
-                        <Route path="services" element={<div>УСЛУГИ</div>}/>
-                        <Route path="clients" element={<div>КЛИЕНТЫ</div>}/>
-                        <Route path="report" element={<div>ОТЧЕТ</div>}/>
-                        <Route path="records" element={<div>ЗАПИСИ</div>}/>
-                        <Route path="*" element={<div>НЕТ СТРАНИЦЫ</div>} />
+                <Route path="*" element={<CheckAuth />}>
+                    <Route path="*" element={<PortalLayout />}>
+                        <Route path="admin/locations" element={<Locations />} />
+                        <Route path="admin/tenantry" element={<div>ТЕСТ</div>} />
+                        <Route path="admin/report" element={<div>ТЕСТ</div>} />
+                        <Route path="specialist/services" element={<div>УСЛУГИ</div>} />
+                        <Route path="specialist/clients" element={<div>КЛИЕНТЫ</div>} />
+                        <Route path="specialist/report" element={<div>ОТЧЕТ</div>} />
+                        <Route path="specialist/records" element={<div>ЗАПИСИ</div>} />
+                        <Route path="*" element={<PageNotFound />} />
                     </Route>
                 </Route>
             </Routes>
