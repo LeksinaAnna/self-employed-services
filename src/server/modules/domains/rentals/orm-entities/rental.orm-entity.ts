@@ -39,5 +39,5 @@ export class RentalOrmEntity implements Rental {
 
     @ManyToOne(() => UserProfileOrmEntity, user => user.rentals)
     @JoinColumn({ name: 'specialist_id', referencedColumnName: 'profileId' })
-    specialist: UserProfileOrmEntity;
+    profile: UserProfileOrmEntity;
 }

@@ -47,6 +47,7 @@ export class LocationsService {
             this._rootStore.appStore.setIsLoading(true);
         });
 
+        // Преобразовываем даты вида DD.MM.YYYY в вид TIMESTAMP WITH LOCAL TIME ZONE
         const startDate = moment(this._locationsStore.currentDate, 'DD.MM.YYYY').format();
         const finishDate = moment(this._locationsStore.currentDate, 'DD.MM.YYYY').add(1, 'days').format();
 
@@ -83,8 +84,9 @@ export class LocationsService {
                 const endHour = Number(endTime.split(':')[0]);
 
                 for (let i = startHour + 1; i < endHour; i++) {
+                    const formatKey = i < 10 ? `0${i}` : i;
                     // eslint-disable-next-line @typescript-eslint/tslint/config
-                    delete rentalsObject[`${i}:00`];
+                    delete rentalsObject[`${formatKey}:00`];
                 }
             });
         }

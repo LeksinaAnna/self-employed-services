@@ -20,6 +20,6 @@ export class UserProfileOrmEntity implements UserProfile {
     @Column({ name: 'profession', type: 'character varying' })
     profession: ProfessionType;
 
-    @OneToMany(() => RentalOrmEntity, rental => rental.specialist)
+    @OneToMany(() => RentalOrmEntity, rental => rental.profile)
     rentals: RentalOrmEntity[];
 }
