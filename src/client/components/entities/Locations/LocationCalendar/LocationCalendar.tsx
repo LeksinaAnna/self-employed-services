@@ -1,32 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
-import { Nullable } from '../../../../../common/interfaces/common';
-import { LargeRental } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { LargeRoom } from '../../../../../server/modules/domains/rooms/entities/room.entity';
-import { CalendarCell } from './CalendarCell';
-import { CalendarTimes } from './CalendarTimes';
+import { EmptyLine } from './Lines/EmptyLine';
+import { ActiveLine } from './Lines/ActiveLine';
 
 interface Props {
     room: LargeRoom;
 }
 
+const LineWrapper = styled.div<{widthProp: number}>(({widthProp}) => ({
+    width: widthProp,
+    height: 35,
+    position: 'relative',
+}));
+
 export const LocationCalendar: React.FC<Props> = observer(({ room }) => {
     const { locationsStore } = useStores();
-    const { service, times } = locationsStore;
-    const [rentals, setRentals] = useState<{ [key: string]: Nullable<LargeRental> }>();
+    const { times, endTime, startTime } = locationsStore;
 
-    useEffect(() => {
-        const rentalsFilled = service.fillRentals(room.rentals);
-        setRentals(rentalsFilled);
-    }, [room.rentals]);
+    const lineWidth = (Number(endTime.split(':')[0]) - Number(startTime.split(':')[0])) * 60;
 
     return (
-        <div style={{ display: 'relative' }}>
-            <div style={{ display: 'flex' }}>
-                {rentals && Object.keys(rentals).map(key => <CalendarCell key={key} rental={rentals[key]} />)}
-            </div>
-            {rentals && <CalendarTimes times={times} />}
-        </div>
+            <LineWrapper widthProp={lineWidth}>
+                <EmptyLine times={times} />
+                <ActiveLine rentals={room?.rentals} />
+            </LineWrapper>
     );
 });

@@ -5,8 +5,6 @@ import {
     professionTypeDict,
 } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { LargeRoom } from '../../../../../server/modules/domains/rooms/entities/room.entity';
-import { Nullable } from '../../../../../common/interfaces/common';
-import { LargeRental } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { RootStore } from '../../../../stores/root.store';
 import { LocationsService } from './locations.service';
 
@@ -41,20 +39,10 @@ export class LocationsStore {
         const endHour = Number(this.endTime.split(':')[0]);
         const times = [];
 
-        for (let i = 0; i <= endHour - startHour; i++) {
+        for (let i = 0; i < endHour - startHour; i++) {
             times.push(`${startHour + i}:00`);
         }
 
-        return times;
-    }
-
-    getTimes(rentals: {[key: string]: Nullable<LargeRental>}): string[] {
-        const times = [];
-        for (const time in rentals) {
-            if (rentals.hasOwnProperty(time)) {
-                times.push(time)
-            }
-        }
         return times;
     }
 
