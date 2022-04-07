@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '../../client-tools/hooks/use-stores';
@@ -15,12 +15,15 @@ export const App: React.FC = observer(() => {
     const { appStore } = useStores();
     const { service } = appStore;
 
+    const [appInit, setAppInit] = useState<boolean>(false);
+
     useAsyncEffectWithError(async abortSignal => {
         await service.init(abortSignal);
+        setAppInit(true);
     }, []);
 
     return (
-        <LoadingLayout isLoading={appStore.isLoading} isInit={appStore.appIsInit}>
+        <LoadingLayout isLoading={appStore.isLoading} isInit={appInit}>
             <Routes>
                 <Route path="registration" element={<RegistrationPage />} />
                 <Route path="login" element={<LoginPage />} />

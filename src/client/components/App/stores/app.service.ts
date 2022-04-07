@@ -42,7 +42,6 @@ export class AppService {
 
         runInAction(() => {
             this._appStore.setIsLoading(false);
-            this._appStore.setAppIsInit(true);
         });
     }
 

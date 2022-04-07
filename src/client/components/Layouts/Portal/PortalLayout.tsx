@@ -9,8 +9,7 @@ export const APP_HEIGHT = '500px';
 
 const LayoutContainer = styled.div`
     min-width: 1000px;
-    margin: 50px 250px;
-    padding: 15px;
+    padding: 65px 265px;
 `;
 
 const ContentBlockWrapper = styled.div`

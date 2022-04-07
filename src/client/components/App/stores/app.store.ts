@@ -12,16 +12,11 @@ export class AppStore {
     isSpecialist = false;
     isUser = false;
     isLoading = false;
-    appIsInit = false;
 
     constructor(private readonly _rootStore: RootStore) {
         this.service = new AppService(this._rootStore, this);
 
         makeAutoObservable(this, {}, { autoBind: true });
-    }
-
-    setAppIsInit(value: boolean): void {
-        this.appIsInit = value;
     }
 
     setIsAuth(value: boolean): void {
