@@ -7,7 +7,7 @@ import { HeadLocations } from './HeadLocations';
 import { CreateModal } from './CreateModal/CreateModal';
 import { LocationItem } from './LocationItem/LocationItem';
 
-export const Locations: React.FC = observer(() => {
+export const LocationsPage: React.FC = observer(() => {
     const { locationsStore } = useStores();
     const { locations, currentDate, setCurrentDate, isCreateModal, service, destroy } = locationsStore;
 

@@ -61,29 +61,33 @@ export class LocationsService {
     fillRentals(rentals: LargeRental[]): { [key: string]: Nullable<LargeRental> } {
         const rentalsObject = {};
 
-        const startTime = Number(moment(this._locationsStore.startTime, 'hh:mm').format('x'));
-        const endTime = Number(moment(this._locationsStore.endTime, 'hh:mm').format('x'));
-        const deferenceHours = (endTime - startTime) / 1000 / 60 / 60;
+        this._locationsStore.times.forEach(time => {
+            if (!rentalsObject[time] && time !== '22:00') {
 
-        for (let i = 0; i < deferenceHours + 1; i++) {
-            rentalsObject[moment(this._locationsStore.startTime, 'hh:mm').add(i, 'hours').format('HH:mm')] = null;
-        }
-
-        if (rentals.length === 0) {
-            return rentalsObject;
-        }
-
-        rentals?.forEach(rental => {
-            const rentalStart = moment(rental.startDate).format('x');
-            const rentalEnd = moment(rental.finishDate).format('x');
-
-            // разница между началом и окончанием в часах
-            const hours = (Number(rentalEnd) - Number(rentalStart)) / 1000 / 60 / 60;
-
-            for (let i = 0; i < hours; i++) {
-                rentalsObject[moment(rental.startDate).add(i, 'hours').format('HH:mm')] = rental;
+                // Время в формате 8:00 преобразовываем в 08:00, для того, чтобы корректно работать с ключами
+                const formatTime = Number(time.split(':')[0]) < 10 ? `0${time}` : time;
+                rentalsObject[formatTime] = null;
             }
         });
+
+        if (rentals.length) {
+            rentals.forEach(rental => {
+                const startTime = moment(rental.startDate).format('HH:mm');
+                const endTime = moment(rental.finishDate).format('HH:mm');
+
+                // заполняем аренду по ключу начала аренды
+                rentalsObject[startTime] = rental;
+
+                // Очищаем ключи в деапозоне аренды
+                const startHour = Number(startTime.split(':')[0]);
+                const endHour = Number(endTime.split(':')[0]);
+
+                for (let i = startHour + 1; i < endHour; i++) {
+                    // eslint-disable-next-line @typescript-eslint/tslint/config
+                    delete rentalsObject[`${i}:00`];
+                }
+            });
+        }
 
         return rentalsObject;
     }

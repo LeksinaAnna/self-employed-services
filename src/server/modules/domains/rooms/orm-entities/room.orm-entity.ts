@@ -3,6 +3,7 @@ import { UserId } from '../../users/entities/user.entity';
 import { RentalOrmEntity } from '../../rentals/orm-entities/rental.orm-entity';
 import { Room } from '../entities/room.entity';
 import { ProfessionType } from '../../users/entities/user-profile.entity';
+import { LargeRental } from '../../rentals/entities/rental.entity';
 
 @Entity({ name: 'rooms', schema: 'rooms' })
 export class RoomOrmEntity implements Room {
@@ -38,5 +39,5 @@ export class RoomOrmEntity implements Room {
 
     @OneToMany(() => RentalOrmEntity, rental => rental.room)
     @JoinColumn({ name: 'room_id', referencedColumnName: 'roomId' })
-    rentals: RentalOrmEntity[];
+    rentals: LargeRental[];
 }

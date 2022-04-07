@@ -8,8 +8,8 @@ import { LoginPage } from '../entities/Auth/pages/LoginPage/LoginPage';
 import { LoadingLayout } from '../Layouts/LoadingLoyaout/LoadingLayout';
 import { PortalLayout } from '../Layouts/Portal/PortalLayout';
 import { CheckAuth } from '../Layouts/Portal/CheckAuth';
-import { Locations } from '../entities/Locations/Locations';
 import { PageNotFound } from '../Errors/PageNotFound/PageNotFound';
+import { LocationsPage } from '../entities/Locations/LocationsPage';
 
 
 /**
@@ -38,7 +38,7 @@ export const App: React.FC = observer(() => {
                 <Route path="login" element={<LoginPage />} />
                 <Route path="*" element={<CheckAuth />}>
                     <Route path="*" element={<PortalLayout />}>
-                        <Route path="admin/locations" element={<Locations />} />
+                        <Route path="admin/locations" element={<LocationsPage />} />
                         <Route path="admin/tenantry" element={<div>ТЕСТ</div>} />
                         <Route path="admin/report" element={<div>ТЕСТ</div>} />
                         <Route path="specialist/services" element={<div>УСЛУГИ</div>} />

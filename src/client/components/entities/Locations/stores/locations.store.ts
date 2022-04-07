@@ -36,6 +36,18 @@ export class LocationsStore {
         return profArr.map(prof => professionTypeDict[prof]);
     }
 
+    get times(): string[] {
+        const startHour = Number(this.startTime.split(':')[0]);
+        const endHour = Number(this.endTime.split(':')[0]);
+        const times = [];
+
+        for (let i = 0; i <= endHour - startHour; i++) {
+            times.push(`${startHour + i}:00`);
+        }
+
+        return times;
+    }
+
     getTimes(rentals: {[key: string]: Nullable<LargeRental>}): string[] {
         const times = [];
         for (const time in rentals) {

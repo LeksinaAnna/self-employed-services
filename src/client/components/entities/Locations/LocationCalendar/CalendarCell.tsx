@@ -1,46 +1,27 @@
 import React from 'react';
+import moment from 'moment';
 import styled from '@emotion/styled';
-import { observer } from 'mobx-react-lite';
 import { LargeRental } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
-import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { notActiveText, secondaryText } from '../../../../client-tools/styles/color';
 
 interface Props {
     rental: LargeRental;
-    time: string;
-    isLast: boolean;
 }
 
-const ItemWrapper = styled.div<{ isActive: boolean }>(({isActive}) => ({
-    width: 60,
+const ItemWrapper = styled.div<{ isActive: boolean; widthProp?: number }>(({ isActive, widthProp }) => ({
+    width: `${61 * widthProp}px`,
     height: 35,
     backgroundColor: !isActive ? '#fff' : notActiveText,
-    borderLeft: `1px solid ${secondaryText}`,
-    position: 'relative',
-    color: notActiveText
+    boxShadow: `0 0 0 1px ${secondaryText}`,
+    color: notActiveText,
 }));
 
-const StartTimeWrapper = styled.div`
-  position: absolute;
-  left: -19px;
-  bottom: -19px;
-`;
+export const CalendarCell: React.FC<Props> = ({ rental }) => {
+    const getDeference = () => {
+        const startTime = Number(moment(rental.startDate).format('HH'));
+        const finishTime = Number(moment(rental.finishDate).format('HH'));
+        return finishTime - startTime;
+    };
 
-const EndTimeWrapper = styled.div`
-  position: absolute;
-  right: -19px;
-  bottom: -19px;
-`;
-
-export const CalendarCell: React.FC<Props> = observer(({ rental, time, isLast }) => {
-    const {
-        locationsStore: { endTime },
-    } = useStores();
-
-    return (
-        <ItemWrapper isActive={!!rental}>
-            <StartTimeWrapper>{time}</StartTimeWrapper>
-            { isLast && <EndTimeWrapper>{endTime}</EndTimeWrapper> }
-        </ItemWrapper>
-    );
-});
+    return <ItemWrapper isActive={!!rental} widthProp={!!rental ? getDeference() : 1} />;
+};
