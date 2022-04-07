@@ -2,6 +2,8 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import moment from 'moment';
 import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
 import { RootStore } from '../../../../stores/root.store';
+import { LargeRental } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { Nullable } from '../../../../../common/interfaces/common';
 import { LocationsStore } from './locations.store';
 
 export class LocationsService {
@@ -35,15 +37,14 @@ export class LocationsService {
         await this.init();
 
         runInAction(() => {
-           this._locationsStore.setIsLoading(false);
-           this.closeCreateModal();
+            this._locationsStore.setIsLoading(false);
+            this.closeCreateModal();
         });
     }
 
     async init(signal?: AbortSignal): Promise<void> {
         runInAction(() => {
             this._rootStore.appStore.setIsLoading(true);
-            this._locationsStore.fillObject();
         });
 
         const startDate = moment(this._locationsStore.currentDate, 'DD.MM.YYYY').format();
@@ -55,5 +56,35 @@ export class LocationsService {
             this._locationsStore.setRooms(rooms.items);
             this._rootStore.appStore.setIsLoading(false);
         });
+    }
+
+    fillRentals(rentals: LargeRental[]): { [key: string]: Nullable<LargeRental> } {
+        const rentalsObject = {};
+
+        const startTime = Number(moment(this._locationsStore.startTime, 'hh:mm').format('x'));
+        const endTime = Number(moment(this._locationsStore.endTime, 'hh:mm').format('x'));
+        const deferenceHours = (endTime - startTime) / 1000 / 60 / 60;
+
+        for (let i = 0; i < deferenceHours + 1; i++) {
+            rentalsObject[moment(this._locationsStore.startTime, 'hh:mm').add(i, 'hours').format('HH:mm')] = null;
+        }
+
+        if (rentals.length === 0) {
+            return rentalsObject;
+        }
+
+        rentals?.forEach(rental => {
+            const rentalStart = moment(rental.startDate).format('x');
+            const rentalEnd = moment(rental.finishDate).format('x');
+
+            // разница между началом и окончанием в часах
+            const hours = (Number(rentalEnd) - Number(rentalStart)) / 1000 / 60 / 60;
+
+            for (let i = 0; i < hours; i++) {
+                rentalsObject[moment(rental.startDate).add(i, 'hours').format('HH:mm')] = rental;
+            }
+        });
+
+        return rentalsObject;
     }
 }

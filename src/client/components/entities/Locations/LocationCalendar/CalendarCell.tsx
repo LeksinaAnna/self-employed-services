@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
-import { Rental } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
-import { UserProfile } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
+import { LargeRental } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { notActiveText, secondaryText } from '../../../../client-tools/styles/color';
 
 interface Props {
-    rental: Rental & { specialist: UserProfile };
+    rental: LargeRental;
     time: string;
     isLast: boolean;
 }

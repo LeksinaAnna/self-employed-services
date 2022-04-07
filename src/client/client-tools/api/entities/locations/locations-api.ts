@@ -1,6 +1,10 @@
 import { ApiBaseClient } from '../../api-client/api-client';
-import { Room, RoomCreateProperties, RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
-import { WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
+import {
+    LargeRoom,
+    Room,
+    RoomCreateProperties,
+    RoomId,
+} from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 
 export class LocationsApi extends ApiBaseClient {
@@ -18,7 +22,7 @@ export class LocationsApi extends ApiBaseClient {
         return await this.patch(`${this.prefix}/${properties.roomId}`, properties, signal);
     }
 
-    public async getRooms(query: QueryType = {}, signal?: AbortSignal): Promise<ManyItem<Room & WithRentals>> {
+    public async getRooms(query: QueryType = {}, signal?: AbortSignal): Promise<ManyItem<LargeRoom>> {
         return await this.get(`${this.prefix}`, query, signal);
     }
 

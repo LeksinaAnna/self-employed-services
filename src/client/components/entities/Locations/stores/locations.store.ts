@@ -4,8 +4,9 @@ import {
     ProfessionType,
     professionTypeDict,
 } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
-import { Room } from '../../../../../server/modules/domains/rooms/entities/room.entity';
-import { Rental, WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { LargeRoom } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { Nullable } from '../../../../../common/interfaces/common';
+import { LargeRental } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { RootStore } from '../../../../stores/root.store';
 import { LocationsService } from './locations.service';
 
@@ -13,14 +14,12 @@ export class LocationsStore {
     title = '';
     price: number;
     profession: ProfessionType = null;
-    locations: Array<Room & WithRentals> = [];
+    locations: LargeRoom[] = [];
     isCreateModal = false;
     currentDate = moment().format('DD.MM.YYYY');
 
     startTime = '8:00';
     endTime = '22:00';
-
-    rentals = new Map();
 
     isLoading = false;
 
@@ -37,10 +36,12 @@ export class LocationsStore {
         return profArr.map(prof => professionTypeDict[prof]);
     }
 
-    get times(): string[] {
+    getTimes(rentals: {[key: string]: Nullable<LargeRental>}): string[] {
         const times = [];
-        for (const time of this.rentals.keys()) {
-            times.push(time)
+        for (const time in rentals) {
+            if (rentals.hasOwnProperty(time)) {
+                times.push(time)
+            }
         }
         return times;
     }
@@ -57,7 +58,7 @@ export class LocationsStore {
         this.price = value;
     }
 
-    setRooms(rooms: Array<Room & WithRentals>): void {
+    setRooms(rooms: LargeRoom[]): void {
         this.locations = rooms;
     }
 
@@ -77,36 +78,8 @@ export class LocationsStore {
         }
     }
 
-    setRentals(rentals: Rental[]): void {
-        if (rentals.length === 0) {
-            return
-        }
-
-        rentals?.forEach(rental => {
-            const startTime = moment(rental.startDate).format('x');
-            const endTime = moment(rental.finishDate).format('x');
-
-            // разница между началом и окончанием в часах
-            const deferenceHours = (Number(endTime) - Number(startTime))/1000/60/60;
-
-            for (let i = 0; i < deferenceHours; i++) {
-                this.rentals.set(moment(rental.startDate).add(i, 'hours').format('HH:mm'), rental);
-            }
-        });
-    }
-
     destroy(): void {
         this.locations = [];
         this.title = '';
-    }
-
-    fillObject(): void {
-        const startTime = Number(moment(this.startTime, 'hh:mm').format('x'));
-        const endTime = Number(moment(this.endTime, 'hh:mm').format('x'));
-        const deferenceHours = (endTime - startTime)/1000/60/60;
-
-        for (let i = 0; i < deferenceHours + 1; i++) {
-            this.rentals.set(moment(this.startTime, 'hh:mm').add(i, 'hours').format('HH:mm'), null);
-        }
     }
 }

@@ -1,12 +1,15 @@
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import { UserId } from '../../users/entities/user.entity';
+import { WithUserProfile } from '../../users/entities/user-profile.entity';
 
 export type RentalId = string;
 
 export interface WithRentals {
-    rentals: Rental[];
+    rentals: LargeRental[];
 }
+
+export type LargeRental = Rental & WithUserProfile;
 
 export interface Rental {
     rentalId?: RentalId;

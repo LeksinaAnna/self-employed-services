@@ -1,24 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Gapped } from '@skbkontur/react-ui';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { secondaryText } from '../../../../client-tools/styles/color';
+import { Nullable } from '../../../../../common/interfaces/common';
+import { LargeRental } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { LargeRoom } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { CalendarCell } from './CalendarCell';
 
-export const LocationCalendar: React.FC = observer(() => {
+interface Props {
+    room: LargeRoom;
+}
+
+export const LocationCalendar: React.FC<Props> = observer(({ room }) => {
     const { locationsStore } = useStores();
-    const { times, rentals } = locationsStore;
+    const { getTimes, service } = locationsStore;
+    const [rentals, setRentals] = useState<{ [key: string]: Nullable<LargeRental> }>();
+
+    useEffect(() => {
+        const rentalsFilled = service.fillRentals(room.rentals);
+        setRentals(rentalsFilled);
+    }, []);
 
     return (
         <div style={{ border: `1px solid ${secondaryText}`, borderLeft: 'none', display: 'flex' }}>
-            {times.map(
+            {getTimes(rentals).map(
                 (time, index) =>
-                    index + 1 < rentals.size && (
+                    index + 1 < Object.values(rentals).length && (
                         <CalendarCell
-                            isLast={index + 2 === rentals.size}
+                            isLast={index + 2 === Object.values(rentals).length}
                             key={time}
                             time={time}
-                            rental={rentals.get(time)}
+                            rental={rentals[time]}
                         />
                     ),
             )}

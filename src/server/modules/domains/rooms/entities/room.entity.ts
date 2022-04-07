@@ -1,9 +1,12 @@
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import { UserId } from '../../users/entities/user.entity';
-import { ProfessionType } from '../../users/entities/user-profile.entity';
+import { ProfessionType, WithUserProfile } from '../../users/entities/user-profile.entity';
+import { WithRentals } from '../../rentals/entities/rental.entity';
 
 export type RoomId = string;
+
+export type LargeRoom = Room & WithRentals & WithUserProfile;
 
 export interface RoomCreateProperties {
     roomId?: RoomId;
