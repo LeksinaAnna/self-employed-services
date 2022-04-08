@@ -1,7 +1,7 @@
 import React  from 'react';
 import styled from '@emotion/styled';
-import { CalendarCell } from '../CalendarCell';
-import { secondaryText } from '../../../../../client-tools/styles/color';
+import { secondaryText } from '../../../../../../client-tools/styles/color';
+import { EmptyCell } from './EmptyCell';
 
 interface Props {
     times: string[];
@@ -22,7 +22,7 @@ export const EmptyLine: React.FC<Props> = ({ times }) => (
     <LineWrapper>
         {times.map(time => (
             <div key={`empty-${time}`}>
-                <CalendarCell key={`time-${time}`} width={60} hintText={'Нажмите, чтобы добавить аренду'} time={time} />
+                <EmptyCell key={`time-${time}`} width={60} hintText={'Нажмите, чтобы добавить аренду'} time={time} />
                 <TimeWrapper>
                     {time}
                     {time === '21:00' && <span style={{ marginLeft: 20 }}>22:00</span>}

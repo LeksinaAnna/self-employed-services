@@ -1,8 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 import styled from '@emotion/styled';
-import { CalendarCell } from '../CalendarCell';
-import { LargeRental } from '../../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { LargeRental } from '../../../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { CalendarCell } from '../../CalendarCell';
 
 interface Props {
     rentals: LargeRental[];
@@ -38,7 +38,7 @@ export const ActiveLine: React.FC<Props> = ({ rentals }) => {
         <>
             {rentals?.map(rental => (
                 <CellWrapper key={rental.rentalId} leftProp={getPosition(rental)}>
-                    <CalendarCell hintText={'Тут инфа об аренде'} width={getWidth(rental)} isActive />
+                    <CalendarCell isActive widthProp={getWidth(rental)} />
                 </CellWrapper>
             ))}
         </>

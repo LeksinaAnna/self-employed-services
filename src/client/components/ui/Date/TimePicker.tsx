@@ -1,5 +1,6 @@
 import React, { CSSProperties, useEffect } from 'react';
 import { Input } from '@skbkontur/react-ui';
+import { voidFunction } from '../../../../common/js-tools/void-function';
 
 interface Props {
     width?: number | string;
@@ -14,14 +15,12 @@ export const TimePicker: React.FC<Props> = ({
     width,
     styles,
     value = '00:00',
-    onValueChange = () => {},
+    onValueChange = voidFunction,
     minTime = '00:00',
     maxTime = '23:00',
 }) => {
-    const [_value, setValue] = React.useState<string>(value);
-
     useEffect(() => {
-        let [hours, minutes] = _value.split(':');
+        let [hours, minutes] = value.split(':');
         const [minHours] = minTime.split(':');
         const [maxHours] = maxTime.split(':');
 
@@ -37,10 +36,9 @@ export const TimePicker: React.FC<Props> = ({
             minutes = '59';
         }
 
-        const result = [hours, minutes].join(':')
-        setValue(result);
+        const result = [hours, minutes].join(':');
         onValueChange(result);
-    }, [_value]);
+    }, [value]);
 
-    return <Input style={styles} width={width} mask={'99:99'} value={_value} onValueChange={setValue} />;
+    return <Input style={styles} width={width} mask={'99:99'} value={value} onValueChange={onValueChange} />;
 };

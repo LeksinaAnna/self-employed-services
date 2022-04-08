@@ -16,7 +16,7 @@ export class LocationsStore {
     isCreateModal = false;
     currentDate = moment().format('DD.MM.YYYY');
 
-    openedCreateRentalModal = false;
+    isCreateRentalModal = false;
 
     startTime = '8:00';
     endTime = '22:00';
@@ -42,7 +42,11 @@ export class LocationsStore {
         const times = [];
 
         for (let i = 0; i < endHour - startHour; i++) {
-            times.push(`${startHour + i}:00`);
+            if (startHour + i < 10) {
+                times.push(`0${startHour + i}:00`);
+            } else {
+                times.push(`${startHour + i}:00`);
+            }
         }
 
         return times;
@@ -69,7 +73,7 @@ export class LocationsStore {
     }
 
     setRentalModal(value: boolean): void {
-        this.openedCreateRentalModal = value;
+        this.isCreateRentalModal = value;
     }
 
     setProfession(profession: string): void {

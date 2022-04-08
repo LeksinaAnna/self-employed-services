@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { LargeRoom } from '../../../../../server/modules/domains/rooms/entities/room.entity';
-import { EmptyLine } from './Lines/EmptyLine';
-import { ActiveLine } from './Lines/ActiveLine';
+import { EmptyLine } from './Lines/Empty/EmptyLine';
+import { ActiveLine } from './Lines/Active/ActiveLine';
 
 interface Props {
     room: LargeRoom;
