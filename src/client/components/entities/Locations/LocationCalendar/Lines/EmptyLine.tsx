@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 import styled from '@emotion/styled';
 import { CalendarCell } from '../CalendarCell';
 import { secondaryText } from '../../../../../client-tools/styles/color';
@@ -13,16 +13,16 @@ const LineWrapper = styled.div`
 `;
 
 const TimeWrapper = styled.div`
-  font-size: 14px;
-  color: ${secondaryText};
-  margin: 4px 0 0 -10px;
+    font-size: 14px;
+    color: ${secondaryText};
+    margin: 4px 0 0 -10px;
 `;
 
 export const EmptyLine: React.FC<Props> = ({ times }) => (
     <LineWrapper>
         {times.map(time => (
-            <div>
-                <CalendarCell key={`time-${time}`} widthProp={60} />
+            <div key={`empty-${time}`}>
+                <CalendarCell key={`time-${time}`} width={60} hintText={'Нажмите, чтобы добавить аренду'} time={time} />
                 <TimeWrapper>
                     {time}
                     {time === '21:00' && <span style={{ marginLeft: 20 }}>22:00</span>}

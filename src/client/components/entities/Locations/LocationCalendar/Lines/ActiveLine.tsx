@@ -12,7 +12,6 @@ const CellWrapper = styled.div<{ leftProp: number | string }>(({ leftProp }) => 
     position: 'absolute',
     left: leftProp,
     top: 0,
-    zIndex: 10,
 }));
 
 export const ActiveLine: React.FC<Props> = ({ rentals }) => {
@@ -39,7 +38,7 @@ export const ActiveLine: React.FC<Props> = ({ rentals }) => {
         <>
             {rentals?.map(rental => (
                 <CellWrapper key={rental.rentalId} leftProp={getPosition(rental)}>
-                    <CalendarCell isActive widthProp={getWidth(rental)} />
+                    <CalendarCell hintText={'Тут инфа об аренде'} width={getWidth(rental)} isActive />
                 </CellWrapper>
             ))}
         </>
