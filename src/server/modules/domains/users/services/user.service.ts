@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 import { UserUseCase } from '../ports/user.use-case';
 import { UserProfile, UserProfileCreateProperties } from '../entities/user-profile.entity';
 import {
@@ -68,5 +69,9 @@ export class UserService implements UserUseCase {
 
     async getUserById(userId: UserId): Promise<LargeUser> {
         return await this._userPort.getUserById(userId);
+    }
+
+    async getSpecialists(query: QueryType): Promise<ManyItem<LargeUser>> {
+        return await this._userPort.getSpecialists(query);
     }
 }

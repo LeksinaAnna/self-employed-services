@@ -4,6 +4,8 @@ import styled from '@emotion/styled';
 import { TimePicker } from '../../../ui/Date/TimePicker';
 import { Typography } from '../../../ui/Text/Typography';
 import { LargeUser } from '../../../../../server/modules/domains/users/entities/user.entity';
+import { useStores } from '../../../../client-tools/hooks/use-stores';
+import { useAsyncEffectWithError } from '../../../../client-tools/hooks/use-async-effect';
 
 interface Props {
     time: string;
@@ -32,9 +34,15 @@ const ModalWrapper = styled.div`
 
 export const CreateRental: React.FC<Props> = ({ time, close }) => {
     const ref = useRef();
+    const {
+        commonApi,
+    } = useStores();
+
     const [startTime, setStartTime] = useState<string>(time);
     const [finishTime, setFinishTime] = useState<string>();
-    const [specialists, setSpecialists] = useState<LargeUser[]>()
+    const [specialists, setSpecialists] = useState<LargeUser[]>();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [selectedSpec, setSelectedSpec] = useState<LargeUser>();
 
     const onClickWithout = e => {
         // если клик вне окна то запускаем close()
@@ -42,6 +50,15 @@ export const CreateRental: React.FC<Props> = ({ time, close }) => {
             close();
         }
     };
+
+    useAsyncEffectWithError(async abortSignal => {
+        setLoading(true);
+
+        const response = await commonApi.users.getSpecialists({}, abortSignal);
+
+        setSpecialists(response.items);
+        setLoading(false);
+    }, []);
 
     useEffect(() => {
         // отлавливаем клик
@@ -59,6 +76,8 @@ export const CreateRental: React.FC<Props> = ({ time, close }) => {
         // удаляем отлавливальщика чтобы избежать утечки памяти
         return () => document.removeEventListener('click', onClickWithout);
     }, []);
+
+    const getSpecialistsArr = () => specialists?.map(user => user.profile?.fullName);
 
     return (
         <ModalWrapper ref={ref}>
@@ -83,7 +102,13 @@ export const CreateRental: React.FC<Props> = ({ time, close }) => {
                 />
             </div>
             <div style={{ marginTop: 10 }}>
-                <Select placeholder={'Выберите арендатор'} width={220} />
+                <Select
+                    placeholder={'Выберите арендатор'}
+                    value={selectedSpec}
+                    onValueChange={setSelectedSpec}
+                    items={getSpecialistsArr()}
+                    width={220}
+                />
             </div>
             <div style={{ marginTop: 10 }}>
                 <Gapped gap={10}>

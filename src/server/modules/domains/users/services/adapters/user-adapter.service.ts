@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { createQueryBuilder } from 'typeorm';
+import { ManyItem, QueryType } from '../../../../../../common/interfaces/common';
 import { PersistenceAdapter } from '../../../../common/persistence-adapter/persistence-adapter';
 import { User, UserEntity, UserEmail, UserWithPassword, LargeUser, UserId } from '../../entities/user.entity';
 import { UserOrmEntity } from '../../orm-entities/user.orm-entity';
@@ -10,6 +11,16 @@ import { UserPort } from '../../ports/user.port';
 export class UserAdapterService extends PersistenceAdapter implements UserPort {
     constructor() {
         super();
+    }
+
+    async getSpecialists({ search = '', take = '10', skip = '0' }: QueryType): Promise<ManyItem<LargeUser>> {
+        const [items, count] = await createQueryBuilder(UserOrmEntity, 'user')
+            .leftJoinAndSelect('user.profile', 'profile', 'profile.profession IS NOT NULL')
+            .skip(parseInt(skip, 10))
+            .take(parseInt(take, 10))
+            .getManyAndCount();
+
+        return { items, count }
     }
 
     public async createAccount(properties: User & UserWithPassword): Promise<User> {
