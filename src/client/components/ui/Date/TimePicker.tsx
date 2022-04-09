@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { Input } from '@skbkontur/react-ui';
 import { voidFunction } from '../../../../common/js-tools/void-function';
 
@@ -19,10 +19,21 @@ export const TimePicker: React.FC<Props> = ({
     minTime = '00:00',
     maxTime = '23:00',
 }) => {
+    const [_value, setValue] = useState<string>(value);
+
     useEffect(() => {
-        let [hours, minutes] = value.split(':');
+        setValue(value);
+    }, [value]);
+
+    useEffect(() => {
+        let [hours, minutes] = _value.split(':');
         const [minHours] = minTime.split(':');
         const [maxHours] = maxTime.split(':');
+
+        if (!hours) {
+            hours = minHours;
+            minutes = '00';
+        }
 
         if (Number(hours) > Number(maxHours)) {
             hours = maxHours;
@@ -37,8 +48,9 @@ export const TimePicker: React.FC<Props> = ({
         }
 
         const result = [hours, minutes].join(':');
+        setValue(result);
         onValueChange(result);
-    }, [value]);
+    }, [_value]);
 
-    return <Input style={styles} width={width} mask={'99:99'} value={value} onValueChange={onValueChange} />;
+    return <Input style={styles} width={width} mask={'99:99'} value={_value} onValueChange={setValue} />;
 };

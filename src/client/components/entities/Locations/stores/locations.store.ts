@@ -16,8 +16,6 @@ export class LocationsStore {
     isCreateModal = false;
     currentDate = moment().format('DD.MM.YYYY');
 
-    isCreateRentalModal = false;
-
     startTime = '8:00';
     endTime = '22:00';
 
@@ -70,10 +68,6 @@ export class LocationsStore {
 
     setIsLoading(value: boolean): void {
         this.isLoading = value;
-    }
-
-    setRentalModal(value: boolean): void {
-        this.isCreateRentalModal = value;
     }
 
     setProfession(profession: string): void {

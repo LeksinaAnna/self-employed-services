@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { LargeRoom } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { voidFunction } from '../../../../../common/js-tools/void-function';
 import { EmptyLine } from './Lines/Empty/EmptyLine';
 import { ActiveLine } from './Lines/Active/ActiveLine';
+import { CreateRental } from './CreateRental/CreateRental';
 
 interface Props {
     room: LargeRoom;
 }
 
-const LineWrapper = styled.div<{widthProp: number}>(({widthProp}) => ({
+const LineWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
     width: widthProp,
     height: 35,
     position: 'relative',
@@ -20,12 +22,31 @@ export const LocationCalendar: React.FC<Props> = observer(({ room }) => {
     const { locationsStore } = useStores();
     const { times, endTime, startTime } = locationsStore;
 
+    const [position, setPosition] = useState<number>();
+    const [selectedTime, setSelectedTime] = useState<string>();
+    const [isModal, setModal] = useState<boolean>();
+
     const lineWidth = (Number(endTime.split(':')[0]) - Number(startTime.split(':')[0])) * 60;
 
+    const openCreateModal = (positionProp: number, time: string) => {
+        setSelectedTime(time);
+        setPosition(positionProp);
+        setModal(true);
+    };
+
+    const closeCreateModal = () => {
+        setModal(false);
+        setPosition(null);
+        setSelectedTime('');
+    };
+
     return (
-            <LineWrapper widthProp={lineWidth}>
-                <EmptyLine times={times} />
-                <ActiveLine rentals={room?.rentals} />
-            </LineWrapper>
+        <LineWrapper widthProp={lineWidth}>
+            <EmptyLine openModal={openCreateModal} times={times} />
+            <ActiveLine rentals={room?.rentals} />
+            {isModal && (
+                <CreateRental time={selectedTime} position={position} accept={voidFunction} close={closeCreateModal} />
+            )}
+        </LineWrapper>
     );
 });

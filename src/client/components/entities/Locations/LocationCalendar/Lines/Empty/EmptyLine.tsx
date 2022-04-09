@@ -1,10 +1,11 @@
-import React  from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { secondaryText } from '../../../../../../client-tools/styles/color';
-import { EmptyCell } from './EmptyCell';
+import { CalendarCell } from '../../CalendarCell';
 
 interface Props {
     times: string[];
+    openModal: (position: number, time: string) => void;
 }
 
 const LineWrapper = styled.div`
@@ -18,11 +19,12 @@ const TimeWrapper = styled.div`
     margin: 4px 0 0 -10px;
 `;
 
-export const EmptyLine: React.FC<Props> = ({ times }) => (
+export const EmptyLine: React.FC<Props> = ({ times, openModal }) => (
     <LineWrapper>
-        {times.map(time => (
+        {times.map((time, index) => (
             <div key={`empty-${time}`}>
-                <EmptyCell key={`time-${time}`} width={60} hintText={'Нажмите, чтобы добавить аренду'} time={time} />
+                {/* position = берем порядковый номер ячейки умножаем на ее ширину и отнимаем половину ширины */}
+                <CalendarCell widthProp={60} onClick={() => openModal((index + 1) * 60 - 30, time)} />
                 <TimeWrapper>
                     {time}
                     {time === '21:00' && <span style={{ marginLeft: 20 }}>22:00</span>}

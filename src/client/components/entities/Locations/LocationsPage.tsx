@@ -19,11 +19,11 @@ export const LocationsPage: React.FC = observer(() => {
 
     return (
         <div>
-            <HeadLocations openModal={service.openCreateModal} />
+            <HeadLocations isModal={isCreateModal} openModal={service.openCreateModal} />
             <div style={{ margin: '18px 0' }}>
-                <DatePicker value={currentDate} width={100} onValueChange={setCurrentDate} />
+                <DatePicker disabled={isCreateModal} value={currentDate} width={100} onValueChange={setCurrentDate} />
             </div>
-            <Gapped vertical gap={25}>
+            <Gapped vertical gap={40}>
                 {locations.map(room => <LocationItem key={room.roomId} room={room} />)}
             </Gapped>
             {isCreateModal && <CreateModal />}

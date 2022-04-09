@@ -9,9 +9,10 @@ import { secondaryText } from '../../../client-tools/styles/color';
 
 interface Props {
     openModal: () => void;
+    isModal: boolean;
 }
 
-export const HeadLocations: React.FC<Props> = ({ openModal }) => (
+export const HeadLocations: React.FC<Props> = ({ openModal, isModal }) => (
     <SpaceBetweenContainer align={'center'}>
         <Gapped gap={40} verticalAlign={'middle'}>
             <Typography color={secondaryText} fontSize="34px" fontWeight={700}>
@@ -25,6 +26,7 @@ export const HeadLocations: React.FC<Props> = ({ openModal }) => (
             width={300}
             placeholder="Поиск локаций"
             rightIcon={<SearchIcon color="action" style={{ marginTop: '5px' }} />}
+            disabled={isModal}
         />
     </SpaceBetweenContainer>
 );
