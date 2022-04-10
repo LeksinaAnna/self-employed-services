@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import { CurrencyRuble } from '@mui/icons-material';
 import { observer } from 'mobx-react-lite';
 import { Alert } from '@mui/material';
@@ -7,6 +8,8 @@ import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modal/Moda
 import { FormLine } from '../../../ui/FormLine/FormLine';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { professionTypeDict } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
+import { Nullable } from '../../../../../common/interfaces/common';
+import { isRequiredField } from '../../../../client-tools/validations/validators';
 
 export const CreateModal: React.FC = observer(() => {
     const { locationsStore } = useStores();
@@ -24,6 +27,7 @@ export const CreateModal: React.FC = observer(() => {
     } = locationsStore;
     const [error, setError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
+    const [container, refContainer] = useState<Nullable<ValidationContainer>>(null);
 
     React.useEffect(
         () => () => {
@@ -35,12 +39,14 @@ export const CreateModal: React.FC = observer(() => {
     );
 
     const submitForm = async () => {
-        try {
-            await service.createLocation();
-        } catch (e) {
-            setError(true);
-            setErrorMessage(e.message);
-            setIsLoading(false);
+        if (await container.validate()){
+            try {
+                await service.createLocation();
+            } catch (e) {
+                setError(true);
+                setErrorMessage(e.message);
+                setIsLoading(false);
+            }
         }
     };
 
@@ -48,28 +54,36 @@ export const CreateModal: React.FC = observer(() => {
         <Modal onClose={service.closeCreateModal}>
             <ModalHead>Добавление локации</ModalHead>
             <ModalBody>
-                <Gapped vertical gap={10}>
-                    <FormLine vertical caption="Название локации">
-                        <Input placeholder="Название" value={title} onValueChange={setTitle} />
-                    </FormLine>
-                    <FormLine vertical caption="Ценна аренды за час">
-                        <CurrencyInput
-                            width={100}
-                            value={price}
-                            fractionDigits={2}
-                            onValueChange={setPrice}
-                            rightIcon={<CurrencyRuble style={{ fontSize: '16px', marginTop: '5px' }} color="action" />}
-                        />
-                    </FormLine>
-                    <FormLine vertical caption="Профиль локации">
-                        <Select
-                            width={200}
-                            items={professionList}
-                            onValueChange={setProfession}
-                            value={professionTypeDict[profession]}
-                        />
-                    </FormLine>
-                </Gapped>
+                <ValidationContainer ref={refContainer}>
+                    <Gapped vertical gap={10}>
+                        <FormLine vertical caption="Название локации">
+                            <ValidationWrapper validationInfo={isRequiredField(title)}>
+                                <Input placeholder="Название" value={title} onValueChange={setTitle} />
+                            </ValidationWrapper>
+                        </FormLine>
+                        <FormLine vertical caption="Ценна аренды за час">
+                            <ValidationWrapper validationInfo={isRequiredField(price)}>
+                                <CurrencyInput
+                                    width={100}
+                                    value={price}
+                                    fractionDigits={2}
+                                    onValueChange={setPrice}
+                                    rightIcon={<CurrencyRuble style={{ fontSize: '16px', marginTop: '5px' }} color="action" />}
+                                />
+                            </ValidationWrapper>
+                        </FormLine>
+                        <FormLine vertical caption="Профиль локации">
+                            <ValidationWrapper validationInfo={isRequiredField(profession)}>
+                                <Select
+                                    width={200}
+                                    items={professionList}
+                                    onValueChange={setProfession}
+                                    value={professionTypeDict[profession]}
+                                />
+                            </ValidationWrapper>
+                        </FormLine>
+                    </Gapped>
+                </ValidationContainer>
             </ModalBody>
             {error && <Alert severity="error">{errorMessage}</Alert>}
             <ModalFooter>
