@@ -94,13 +94,15 @@ export class RentalsAdapterService extends PersistenceAdapter implements Rentals
     async isRentalByDates(startDate: string, finishDate: string, roomId: RoomId): Promise<Rental[]> {
         return await createQueryBuilder(RentalOrmEntity, 'rental')
             .where(`rental.roomId = :roomId`, { roomId })
-            .andWhere(qb => {
-                qb.where(`rental.startDate < :startDate AND rental.finishDate > :startDate`, { startDate });
-                qb.orWhere(`rental.startDate > :startDate AND rental.startDate < :finishDate`, {
-                    startDate,
-                    finishDate,
-                });
-            })
+            .andWhere(
+                new Brackets(qb => {
+                    qb.where(`rental.startDate < :startDate AND rental.finishDate > :startDate`, { startDate });
+                    qb.orWhere(`rental.startDate > :startDate AND rental.startDate < :finishDate`, {
+                        startDate,
+                        finishDate,
+                    });
+                }),
+            )
             .getMany();
     }
 }
