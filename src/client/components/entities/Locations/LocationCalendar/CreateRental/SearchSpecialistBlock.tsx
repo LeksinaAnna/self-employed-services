@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { ValidationInfo, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import { Button, Input } from '@skbkontur/react-ui';
 import { LargeUser } from '../../../../../../server/modules/domains/users/entities/user.entity';
 import { useAsyncEffectWithError } from '../../../../../client-tools/hooks/use-async-effect';
 import { useStores } from '../../../../../client-tools/hooks/use-stores';
 import { Typography } from '../../../../ui/Text/Typography';
 import { secondaryText } from '../../../../../client-tools/styles/color';
+import { Nullable } from '../../../../../../common/interfaces/common';
 import { SpecialistItem } from './SpecialistItem';
 
 const ContainerWrapper = styled.div`
@@ -43,9 +45,10 @@ const SelectedItem = styled.div`
 interface Props {
     selectedItem: LargeUser;
     setSelectedItem: (value: LargeUser) => void;
+    validation?: () => Nullable<ValidationInfo>;
 }
 
-export const SearchSpecialistBlock: React.FC<Props> = ({ selectedItem, setSelectedItem }) => {
+export const SearchSpecialistBlock: React.FC<Props> = ({ selectedItem, setSelectedItem, validation }) => {
     const { commonApi } = useStores();
     const [value, setValue] = useState<string>('');
     const [items, setItems] = useState<LargeUser[]>([]);
@@ -72,7 +75,17 @@ export const SearchSpecialistBlock: React.FC<Props> = ({ selectedItem, setSelect
             <Typography color={'#fff'} fontSize={'14px'}>
                 Арендатор
             </Typography>
-            {!selectedItem && (
+            {!selectedItem && validation && (
+                <ValidationWrapper validationInfo={validation()}>
+                    <Input
+                        width={220}
+                        style={{ backgroundColor: '#c5c5c5', height: 40 }}
+                        value={value}
+                        onValueChange={setValue}
+                    />
+                </ValidationWrapper>
+            )}
+            {!selectedItem && !validation && (
                 <Input
                     width={220}
                     style={{ backgroundColor: '#c5c5c5', height: 40 }}

@@ -1,11 +1,14 @@
 import React, { CSSProperties, useEffect, useState } from 'react';
+import { ValidationInfo, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import { Input } from '@skbkontur/react-ui';
 import { voidFunction } from '../../../../common/js-tools/void-function';
+import { Nullable } from '../../../../../dist/common/interfaces/common';
 
 interface Props {
     width?: number | string;
     value?: string;
     onValueChange?: (value: string) => void;
+    validation?: () => Nullable<ValidationInfo>;
     minTime?: string;
     maxTime?: string;
     styles?: CSSProperties;
@@ -16,6 +19,7 @@ export const TimePicker: React.FC<Props> = ({
     styles,
     value = '00:00',
     onValueChange = voidFunction,
+    validation,
     minTime = '00:00',
     maxTime = '23:00',
 }) => {
@@ -52,5 +56,13 @@ export const TimePicker: React.FC<Props> = ({
         onValueChange(result);
     }, [_value]);
 
-    return <Input style={styles} width={width} mask={'99:99'} value={_value} onValueChange={setValue} />;
+    if (!validation) {
+        return <Input style={styles} width={width} mask={'99:99'} value={_value} onValueChange={setValue} />;
+    }
+
+    return (
+        <ValidationWrapper validationInfo={validation()}>
+            <Input style={styles} width={width} mask={'99:99'} value={_value} onValueChange={setValue} />
+        </ValidationWrapper>
+    );
 };
