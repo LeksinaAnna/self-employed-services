@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import { Alert } from '@mui/material';
 import { Button, Gapped } from '@skbkontur/react-ui';
 import styled from '@emotion/styled';
 import { TimePicker } from '../../../../ui/Date/TimePicker';
 import { Typography } from '../../../../ui/Text/Typography';
-import { LargeUser } from '../../../../../../server/modules/domains/users/entities/user.entity';
+import { RoomId } from '../../../../../../server/modules/domains/rooms/entities/room.entity';
+import { LargeUser, UserId } from '../../../../../../server/modules/domains/users/entities/user.entity';
 import { CalendarModal, CalendarModalBody, CalendarModalFooter, CalendarModalHead } from '../CalendarModal';
 import { SearchSpecialistBlock } from './SearchSpecialistBlock';
 
 interface Props {
     time: string;
-    accept: () => void;
+    accept: (startTime: string, finishTime: string, specialistId: UserId, roomId: RoomId) => Promise<void>;
+    currentRoomId: RoomId;
     close: () => void;
     position: number;
 }
@@ -26,12 +29,13 @@ const InputWrapper = styled.div`
     }
 `;
 
-export const CreateRental: React.FC<Props> = ({ time, close, position }) => {
+export const CreateRental: React.FC<Props> = ({ time, close, position, accept, currentRoomId }) => {
     const [startTime, setStartTime] = useState<string>();
     const [finishTime, setFinishTime] = useState<string>();
+    const [isError, setError] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>();
     const [selectedSpec, setSelectedSpec] = useState<LargeUser>();
-
-
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         let finishHours = time?.split(':')[0];
@@ -44,6 +48,18 @@ export const CreateRental: React.FC<Props> = ({ time, close, position }) => {
         setFinishTime(`${finishHours}:00`);
         setStartTime(time);
     }, []);
+
+    const onSubmit = async () => {
+        setLoading(true);
+        try {
+            await accept(startTime, finishTime, selectedSpec.accountId, currentRoomId);
+            close();
+        } catch (e) {
+            setError(true);
+            setErrorMessage(e.message);
+        }
+        setLoading(false);
+    }
 
     return (
         <div style={{ position: 'absolute', left: position, zIndex: 2, bottom: 38 }}>
@@ -73,9 +89,10 @@ export const CreateRental: React.FC<Props> = ({ time, close, position }) => {
                         <SearchSpecialistBlock selectedItem={selectedSpec} setSelectedItem={setSelectedSpec} />
                     </div>
                 </CalendarModalBody>
+                {isError && <Alert severity={'error'}>{errorMessage}</Alert>}
                 <CalendarModalFooter>
                     <Gapped gap={10}>
-                        <Button use={'success'} >Сохранить</Button>
+                        <Button loading={loading} use={'success'} onClick={onSubmit}>Сохранить</Button>
                         <Button onClick={close}>Отменить</Button>
                     </Gapped>
                 </CalendarModalFooter>

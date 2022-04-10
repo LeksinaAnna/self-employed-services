@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { LargeRoom } from '../../../../../server/modules/domains/rooms/entities/room.entity';
-import { voidFunction } from '../../../../../common/js-tools/void-function';
 import { EmptyLine } from './Lines/Empty/EmptyLine';
 import { ActiveLine } from './Lines/Active/ActiveLine';
 import { CreateRental } from './CreateRental/CreateRental';
@@ -20,7 +19,7 @@ const LineWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
 
 export const LocationCalendar: React.FC<Props> = observer(({ room }) => {
     const { locationsStore } = useStores();
-    const { times, endTime, startTime } = locationsStore;
+    const { times, endTime, startTime, service } = locationsStore;
 
     const [position, setPosition] = useState<number>();
     const [selectedTime, setSelectedTime] = useState<string>();
@@ -45,7 +44,13 @@ export const LocationCalendar: React.FC<Props> = observer(({ room }) => {
             <EmptyLine openModal={openCreateModal} times={times} />
             <ActiveLine rentals={room?.rentals} />
             {isModal && (
-                <CreateRental time={selectedTime} position={position} accept={voidFunction} close={closeCreateModal} />
+                <CreateRental
+                    time={selectedTime}
+                    position={position}
+                    currentRoomId={room.roomId}
+                    accept={service.createRental}
+                    close={closeCreateModal}
+                />
             )}
         </LineWrapper>
     );

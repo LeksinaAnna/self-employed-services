@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { RentalsUseCase } from '../ports/rentals.use-case';
 import { UserId } from '../../users/entities/user.entity';
@@ -41,7 +42,7 @@ export class RentalsService implements RentalsUseCase {
         // Получаем набор данных для сохранения
         const rentalEntity = new RentalEntity({
             ...properties,
-            specialistId: properties.creator,
+            createdBy: properties.creator,
             modifiedBy: properties.creator,
         });
 
@@ -73,12 +74,7 @@ export class RentalsService implements RentalsUseCase {
         }
 
         // Проверяем активную аренду в диапозоне дат
-        await this.checkActiveRental(
-            properties.roomId,
-            properties.startDate,
-            properties.finishDate,
-            rentalId
-        );
+        await this.checkActiveRental(properties.roomId, properties.startDate, properties.finishDate, rentalId);
 
         // Получаем набор данных для сохранения
         const updatedRental = new RentalEntity({ ...rental, ...properties, modifiedBy: properties.updater });
@@ -103,11 +99,7 @@ export class RentalsService implements RentalsUseCase {
         finishDate: string,
         rentalId?: RentalId,
     ): Promise<void> {
-        const { items } = await this._rentalsAdapter.getRentals({
-            start_date: startDate,
-            finish_date: finishDate,
-            room_id: roomId,
-        });
+        const items = await this._rentalsAdapter.isRentalByDates(startDate, finishDate, roomId);
 
         // Проверяем если нашлось всего 1 аренда и эта аренда обновляемая, то все ок
         if (items.some(rental => rental.rentalId === rentalId) && items.length === 1) {
@@ -115,7 +107,11 @@ export class RentalsService implements RentalsUseCase {
         }
 
         if (items.length > 0) {
-            throw new BadRequestException(`Это время уже занято другой арендой`);
+            throw new BadRequestException(
+                `Это время уже занято c ${moment(items[0].startDate).format('HH:mm')} до ${
+                    moment(items[0].finishDate).format('HH:mm')
+                }`,
+            );
         }
     }
 }

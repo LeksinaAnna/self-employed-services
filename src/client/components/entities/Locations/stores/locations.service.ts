@@ -2,13 +2,18 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import moment from 'moment';
 import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
 import { RootStore } from '../../../../stores/root.store';
+import { UserId } from '../../../../../server/modules/domains/users/entities/user.entity';
+import { RentalApi } from '../../../../client-tools/api/entities/rental/rental-api';
+import { RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { LocationsStore } from './locations.store';
 
 export class LocationsService {
     private readonly _locationsApi: LocationsApi;
+    private readonly _rentalApi: RentalApi;
 
     constructor(private readonly _locationsStore: LocationsStore, private readonly _rootStore: RootStore) {
         this._locationsApi = this._rootStore.commonApi.locations;
+        this._rentalApi = this._rootStore.commonApi.rental;
 
         makeAutoObservable(this, {}, { autoBind: true });
     }
@@ -55,5 +60,22 @@ export class LocationsService {
             this._locationsStore.setRooms(rooms.items);
             this._rootStore.appStore.setIsLoading(false);
         });
+    }
+
+    async createRental(startTime: string, endTime: string, specialistId: UserId, roomId: RoomId): Promise<void> {
+        const startDate = this._locationsStore.currentDate + ' ' + startTime;
+        const endDate = this._locationsStore.currentDate + ' ' + endTime;
+
+        const startFormatDate = moment(startDate, 'DD.MM.YYYY HH:mm').format();
+        const endFormatDate = moment(endDate, 'DD.MM.YYYY HH:mm').format();
+
+        await this._rentalApi.createRental({
+            startDate: startFormatDate,
+            finishDate: endFormatDate,
+            specialistId,
+            roomId,
+        });
+
+        await this.init();
     }
 }

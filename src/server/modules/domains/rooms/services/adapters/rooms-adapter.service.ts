@@ -72,7 +72,7 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
                 },
             )
             .leftJoinAndSelect(`rental.profile`, `specialist`)
-            .orderBy(`rental.created`, 'DESC')
+            .orderBy(`rental.created`, 'ASC')
             .take(parseInt(take, 10))
             .skip(parseInt(skip, 10))
             .getManyAndCount();

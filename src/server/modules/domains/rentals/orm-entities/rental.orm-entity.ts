@@ -27,6 +27,9 @@ export class RentalOrmEntity implements Rental {
     @Column( { name: 'modified', type: 'timestamp with time zone' })
     modified: string;
 
+    @Column({ name: 'created_by', type: 'uuid' })
+    createdBy: UserId;
+
     @Column({ name: 'modified_by', type: 'uuid' })
     modifiedBy: UserId;
 

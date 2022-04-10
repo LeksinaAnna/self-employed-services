@@ -14,12 +14,13 @@ export type LargeRental = Rental & WithUserProfile;
 export interface Rental {
     rentalId?: RentalId;
     roomId: string;
-    specialistId: UserId;
+    specialistId?: UserId;
     startDate: string;
     finishDate: string;
     created?: string;
     modified?: string;
     modifiedBy: UserId;
+    createdBy?: UserId;
     inBasket?: boolean;
 }
 
@@ -29,9 +30,9 @@ export interface RentalCreateProperties {
     specialistId: UserId;
     startDate: string;
     finishDate: string;
-    created?: string;
     modified?: string;
-    modifiedBy: UserId;
+    modifiedBy?: UserId;
+    createdBy?: UserId;
     inBasket?: boolean;
 }
 
@@ -40,21 +41,23 @@ export class RentalEntity implements Rental {
     readonly roomId: string;
     readonly specialistId: UserId;
     readonly created: string;
+    readonly createdBy: UserId;
     readonly startDate: string;
     readonly finishDate: string;
     readonly modified: string;
     readonly modifiedBy: UserId;
     readonly inBasket: boolean;
 
-    constructor({ rentalId, specialistId, roomId, startDate, finishDate, created, inBasket, modifiedBy }: Rental) {
+    constructor({ rentalId, specialistId, createdBy, roomId, startDate, finishDate, created, inBasket, modifiedBy }: Rental) {
         this.rentalId = rentalId || uuidv4();
         this.roomId = roomId;
-        this.specialistId = specialistId;
+        this.specialistId = specialistId || createdBy;
         this.startDate = startDate;
         this.finishDate = finishDate;
         this.created = created || moment().format();
         this.modified = moment().format();
         this.modifiedBy = modifiedBy;
         this.inBasket = inBasket || false;
+        this.createdBy = createdBy;
     }
 }
