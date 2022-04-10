@@ -3,29 +3,46 @@ import { DatePicker, Gapped } from '@skbkontur/react-ui';
 import { observer } from 'mobx-react-lite';
 import { useAsyncEffectWithError } from '../../../client-tools/hooks/use-async-effect';
 import { useStores } from '../../../client-tools/hooks/use-stores';
+import { secondaryText } from '../../../client-tools/styles/color';
+import { Typography } from '../../ui/Text/Typography';
 import { HeadLocations } from './HeadLocations';
 import { CreateModal } from './CreateModal/CreateModal';
 import { LocationItem } from './LocationItem/LocationItem';
 
 export const LocationsPage: React.FC = observer(() => {
     const { locationsStore } = useStores();
-    const { locations, currentDate, setCurrentDate, isCreateModal, service, destroy } = locationsStore;
+    const { locations, currentDate, setCurrentDate, searchValue, isCreateModal, service, destroy } = locationsStore;
 
-    useAsyncEffectWithError(async (signal) => {
-        await service.init(signal);
-    }, [currentDate]);
+    useAsyncEffectWithError(
+        async signal => {
+            await service.init(signal);
+        },
+        [currentDate],
+    );
 
     React.useEffect(() => destroy, []);
 
     return (
         <div>
-            <HeadLocations isModal={isCreateModal} openModal={service.openCreateModal} />
+            <HeadLocations
+                onValueChange={service.onSearchChange}
+                value={searchValue}
+                isModal={isCreateModal}
+                openModal={service.openCreateModal}
+            />
             <div style={{ margin: '18px 0' }}>
                 <DatePicker disabled={isCreateModal} value={currentDate} width={100} onValueChange={setCurrentDate} />
             </div>
             <Gapped vertical gap={40}>
-                {locations.map(room => <LocationItem key={room.roomId} room={room} />)}
+                {locations.map(room => (
+                    <LocationItem key={room.roomId} room={room} />
+                ))}
             </Gapped>
+            {locations.length === 0 && (
+                <Typography fontSize={'20px'} color={secondaryText}>
+                    Локации отсутствуют
+                </Typography>
+            )}
             {isCreateModal && <CreateModal />}
         </div>
     );

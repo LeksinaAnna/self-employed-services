@@ -96,8 +96,8 @@ export class RentalsAdapterService extends PersistenceAdapter implements Rentals
             .where(`rental.roomId = :roomId`, { roomId })
             .andWhere(
                 new Brackets(qb => {
-                    qb.where(`rental.startDate < :startDate AND rental.finishDate > :startDate`, { startDate });
-                    qb.orWhere(`rental.startDate > :startDate AND rental.startDate < :finishDate`, {
+                    qb.where(`rental.startDate <= :startDate AND rental.finishDate > :startDate`, { startDate });
+                    qb.orWhere(`rental.startDate >= :startDate AND rental.startDate < :finishDate`, {
                         startDate,
                         finishDate,
                     });

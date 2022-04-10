@@ -8,6 +8,7 @@ import { RoomId } from '../../../../../server/modules/domains/rooms/entities/roo
 import { LocationsStore } from './locations.store';
 
 export class LocationsService {
+    private timer: NodeJS.Timer;
     private readonly _locationsApi: LocationsApi;
     private readonly _rentalApi: RentalApi;
 
@@ -54,7 +55,14 @@ export class LocationsService {
         const startDate = moment(this._locationsStore.currentDate, 'DD.MM.YYYY').format();
         const finishDate = moment(this._locationsStore.currentDate, 'DD.MM.YYYY').add(1, 'days').format();
 
-        const rooms = await this._locationsApi.getRooms({ start_date: startDate, finish_date: finishDate }, signal);
+        const rooms = await this._locationsApi.getRooms(
+            {
+                start_date: startDate,
+                finish_date: finishDate,
+                search: this._locationsStore.searchValue,
+            },
+            signal,
+        );
 
         runInAction(() => {
             this._locationsStore.setRooms(rooms.items);
@@ -77,5 +85,17 @@ export class LocationsService {
         });
 
         await this.init();
+    }
+
+    onSearchChange(value: string): void {
+        clearTimeout(this.timer);
+
+        this.timer = setTimeout(async () => {
+            await this.init();
+        }, 300);
+
+        runInAction(() => {
+            this._locationsStore.setSearchValue(value);
+        })
     }
 }

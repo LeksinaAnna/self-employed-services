@@ -15,6 +15,7 @@ export class LocationsStore {
     locations: LargeRoom[] = [];
     isCreateModal = false;
     currentDate = moment().format('DD.MM.YYYY');
+    searchValue = '';
 
     startTime = '8:00';
     endTime = '22:00';
@@ -64,6 +65,10 @@ export class LocationsStore {
 
     setRooms(rooms: LargeRoom[]): void {
         this.locations = rooms;
+    }
+
+    setSearchValue(value: string): void {
+        this.searchValue = value;
     }
 
     setIsLoading(value: boolean): void {

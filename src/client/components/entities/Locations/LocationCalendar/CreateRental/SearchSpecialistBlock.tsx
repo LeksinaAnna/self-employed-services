@@ -93,13 +93,18 @@ export const SearchSpecialistBlock: React.FC<Props> = ({ selectedItem, setSelect
                     onValueChange={setValue}
                 />
             )}
-            {items.length > 0 && !selectedItem && value && (
+            {!selectedItem && value && (
                 <ItemsBlock>
                     {items.map(user => (
                         <div key={user.accountId} onClick={() => setSelectedItem(user)}>
                             <SpecialistItem fullName={user?.profile?.fullName} email={user?.email} />
                         </div>
                     ))}
+                    {items.length === 0 && (
+                        <Typography color={'#fff'}>
+                            <div style={{ marginLeft: 10 }}>Мастер не найден :(</div>
+                        </Typography>
+                    )}
                 </ItemsBlock>
             )}
             {selectedItem && (
