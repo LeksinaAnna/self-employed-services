@@ -1,11 +1,14 @@
 import React from 'react';
 import moment from 'moment';
+import { Hint } from '@skbkontur/react-ui';
 import styled from '@emotion/styled';
 import { LargeRental } from '../../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { CalendarCell } from '../CalendarCell';
 
 interface Props {
     rentals: LargeRental[];
+    openModal: (rental: LargeRental, position: number) => void;
+    openedModal: boolean;
 }
 
 const CellWrapper = styled.div<{ leftProp: number | string }>(({ leftProp }) => ({
@@ -14,7 +17,11 @@ const CellWrapper = styled.div<{ leftProp: number | string }>(({ leftProp }) => 
     top: 0,
 }));
 
-export const ActiveLine: React.FC<Props> = ({ rentals }) => {
+const MessageWrapper = styled.div`
+    background: #c5c5c5;
+`;
+
+export const ActiveLine: React.FC<Props> = ({ rentals, openModal, openedModal }) => {
     const getPosition = (rental: LargeRental) => {
         // получаем часы:минуты и разбиваем их на отдельные сущности
         const [hours, minutes] = moment(rental.startDate).format('HH:mm').split(':');
@@ -34,11 +41,31 @@ export const ActiveLine: React.FC<Props> = ({ rentals }) => {
         return (finish - start) / 1000 / 60;
     };
 
+    const renderMessage = (rental: LargeRental) => {
+        const startTime = moment(rental.startDate).format('HH:mm');
+        const endTime = moment(rental.finishDate).format('HH:mm');
+
+        return (
+            <div>
+                <div>{rental.profile.fullName}</div>
+                <div>
+                    {startTime} - {endTime}
+                </div>
+            </div>
+        );
+    };
+
     return (
         <>
             {rentals?.map(rental => (
-                <CellWrapper key={rental.rentalId} leftProp={getPosition(rental)}>
-                    <CalendarCell isActive widthProp={getWidth(rental)} />
+                <CellWrapper
+                    onClick={() => openModal(rental, getPosition(rental))}
+                    key={rental.rentalId}
+                    leftProp={getPosition(rental)}
+                >
+                    <Hint text={renderMessage(rental)} manual={openedModal} opened={!openedModal}>
+                        <CalendarCell isActive widthProp={getWidth(rental)} />
+                    </Hint>
                 </CellWrapper>
             ))}
         </>
