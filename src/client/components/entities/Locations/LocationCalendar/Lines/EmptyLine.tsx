@@ -5,7 +5,7 @@ import { CalendarCell } from '../CalendarCell';
 
 interface Props {
     times: string[];
-    openModal: (position: number, time: string) => void;
+    openModal: (time: string, position: number) => void;
 }
 
 const LineWrapper = styled.div`
@@ -24,7 +24,7 @@ export const EmptyLine: React.FC<Props> = ({ times, openModal }) => (
         {times.map((time, index) => (
             <div key={`empty-${time}`}>
                 {/* position = берем порядковый номер ячейки умножаем на ее ширину и отнимаем половину ширины */}
-                <CalendarCell widthProp={60} onClick={() => openModal((index + 1) * 60 - 30, time)} />
+                <CalendarCell widthProp={60} onClick={() => openModal(time, (index + 1) * 60 - 30)} />
                 <TimeWrapper>
                     {time}
                     {time === '21:00' && <span style={{ marginLeft: 20 }}>22:00</span>}

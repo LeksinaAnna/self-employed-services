@@ -14,11 +14,9 @@ export class LocationsStore {
     profession: ProfessionType = null;
     locations: LargeRoom[] = [];
     isCreateModal = false;
+
     currentDate = moment().format('DD.MM.YYYY');
     searchValue = '';
-
-    startTime = '8:00';
-    endTime = '22:00';
 
     isLoading = false;
 
@@ -33,22 +31,6 @@ export class LocationsStore {
     get professionList(): string[] {
         const profArr: ProfessionType[] = ['browist', 'barber', 'lashmaker', 'manicurist'];
         return profArr.map(prof => professionTypeDict[prof]);
-    }
-
-    get times(): string[] {
-        const startHour = Number(this.startTime.split(':')[0]);
-        const endHour = Number(this.endTime.split(':')[0]);
-        const times = [];
-
-        for (let i = 0; i < endHour - startHour; i++) {
-            if (startHour + i < 10) {
-                times.push(`0${startHour + i}:00`);
-            } else {
-                times.push(`${startHour + i}:00`);
-            }
-        }
-
-        return times;
     }
 
     setTitle(value: string): void {
