@@ -103,6 +103,7 @@ export class RentalsAdapterService extends PersistenceAdapter implements Rentals
                     });
                 }),
             )
+            .andWhere(`rental.inBasket = false`)
             .getMany();
     }
 }

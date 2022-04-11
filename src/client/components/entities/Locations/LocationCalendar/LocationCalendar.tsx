@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
-import { LargeRoom } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { LargeRoom, RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { RentalId } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { UserId } from '../../../../../server/modules/domains/users/entities/user.entity';
 import { EmptyLine } from './Lines/EmptyLine';
 import { ActiveLine } from './Lines/ActiveLine';
 import { CreateRental } from './CreateRental/CreateRental';
@@ -20,9 +22,23 @@ const LineWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
 }));
 
 export const LocationCalendar: React.FC<Props> = observer(({ room }) => {
-    const [calendarStore] = useState<CalendarStore>(() => new CalendarStore(useStores()));
+    const rootStore = useStores();
+    const { service: locationService } = rootStore.locationsStore;
+    const [calendarStore] = useState<CalendarStore>(() => new CalendarStore(rootStore));
     const { lineWidth, openModal, times, selectedRental, selectedTime, positionModal, service, closeModal } =
         calendarStore;
+
+    const onAccept = async (startTime: string, endTime: string, specialistId: UserId, roomId: RoomId) => {
+        await service.createRental(startTime, endTime, specialistId, roomId);
+        closeModal();
+        await locationService.init();
+    }
+
+    const onDelete = async (rentalId: RentalId) => {
+        await service.deleteRental(rentalId);
+        closeModal();
+        await locationService.init();
+    }
 
     return (
         <LineWrapper widthProp={lineWidth}>
@@ -33,11 +49,11 @@ export const LocationCalendar: React.FC<Props> = observer(({ room }) => {
                     time={selectedTime}
                     position={positionModal}
                     currentRoomId={room.roomId}
-                    accept={service.createRental}
+                    accept={onAccept}
                     close={closeModal}
                 />
             )}
-            {selectedRental && <InfoRental rental={selectedRental} position={positionModal} close={closeModal} />}
+            {selectedRental && <InfoRental onDelete={onDelete} rental={selectedRental} position={positionModal} close={closeModal} />}
         </LineWrapper>
     );
 });

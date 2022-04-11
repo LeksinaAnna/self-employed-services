@@ -4,18 +4,19 @@ import { voidFunction } from '../../../../../common/js-tools/void-function';
 
 interface ModalProps {
     width?: number;
+    background?: string;
     close?: () => void;
 }
 
-const ModalWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
+const ModalWrapper = styled.div<{ widthProp: number, backgroundColor?: string }>(({ widthProp, backgroundColor }) => ({
     padding: 10,
-    background: '#afacac',
+    background: backgroundColor || '#afacac',
     width: widthProp,
     marginLeft: -(widthProp + 20) / 2,
     marginTop: 5,
 }));
 
-export const CalendarModal: React.FC<ModalProps> = ({ width = 220, close = voidFunction, children }) => {
+export const CalendarModal: React.FC<ModalProps> = ({ width = 220, close = voidFunction, children , background}) => {
     const modalRef = useRef(null);
     const onClickWithout = e => {
         // если клик вне окна то запускаем close()
@@ -33,7 +34,7 @@ export const CalendarModal: React.FC<ModalProps> = ({ width = 220, close = voidF
     }, []);
 
     return (
-        <ModalWrapper ref={modalRef} widthProp={width}>
+        <ModalWrapper ref={modalRef} widthProp={width} backgroundColor={background}>
             {children}
         </ModalWrapper>
     );

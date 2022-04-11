@@ -65,13 +65,14 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
             .leftJoinAndSelect(
                 `room.rentals`,
                 'rental',
-                'rental.startDate >= :startDate AND rental.finishDate <= :finishDate',
+                'rental.startDate >= :startDate AND rental.finishDate <= :finishDate AND rental.inBasket = false',
                 {
                     startDate: start_date,
                     finishDate: finish_date,
                 },
             )
             .leftJoinAndSelect(`rental.profile`, `specialist`)
+            .andWhere(`room.inBasket = false`)
             .orderBy(`rental.created`, 'ASC')
             .take(parseInt(take, 10))
             .skip(parseInt(skip, 10))

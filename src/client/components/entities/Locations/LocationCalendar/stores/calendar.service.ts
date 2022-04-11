@@ -5,6 +5,7 @@ import { UserId } from '../../../../../../server/modules/domains/users/entities/
 import { RoomId } from '../../../../../../server/modules/domains/rooms/entities/room.entity';
 import { LocationsStore } from '../../stores/locations.store';
 import { RentalApi } from '../../../../../client-tools/api/entities/rental/rental-api';
+import { RentalId } from '../../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { CalendarStore } from './calendar.store';
 
 export class CalendarService {
@@ -39,5 +40,17 @@ export class CalendarService {
         runInAction(() => {
             this._calendarStore.setIsLoading(false);
         })
+    }
+
+    async deleteRental(rentalId: RentalId): Promise<void> {
+        runInAction(() => {
+            this._calendarStore.setIsLoading(true);
+        });
+
+        await this._rentalApi.deleteRental(rentalId);
+
+        runInAction(() => {
+            this._calendarStore.setIsLoading(false);
+        });
     }
 }
