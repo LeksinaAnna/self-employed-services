@@ -10,6 +10,7 @@ import { PortalLayout } from '../Layouts/Portal/PortalLayout';
 import { CheckAuth } from '../Layouts/Portal/CheckAuth';
 import { PageNotFound } from '../Errors/PageNotFound/PageNotFound';
 import { LocationsPage } from '../entities/Locations/LocationsPage';
+import { SpecialistsPage } from '../entities/Specialists/SpecialistsPage';
 
 
 /**
@@ -39,7 +40,7 @@ export const App: React.FC = observer(() => {
                 <Route path="*" element={<CheckAuth />}>
                     <Route path="*" element={<PortalLayout />}>
                         <Route path="admin/locations" element={<LocationsPage />} />
-                        <Route path="admin/tenantry" element={<div>ТЕСТ</div>} />
+                        <Route path="admin/tenantry" element={<SpecialistsPage />} />
                         <Route path="admin/report" element={<div>ТЕСТ</div>} />
                         <Route path="specialist/services" element={<div>УСЛУГИ</div>} />
                         <Route path="specialist/clients" element={<div>КЛИЕНТЫ</div>} />
