@@ -14,6 +14,7 @@ interface Props {
 const SpecialistWrapper = styled.div`
     display: flex;
     justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid ${notActiveText};
     padding: 10px;
 
@@ -34,6 +35,11 @@ export const SpecialistItem: React.FC<Props> = ({ user, openModal }) => (
             </div>
             <Typography color={secondaryText} fontSize={'18px'}>
                 {professionTypeDict[user.profile?.profession]}
+            </Typography>
+        </div>
+        <div style={{ width: 150 }}>
+            <Typography color={secondaryText} fontSize={'16px'}>
+                {user?.description}
             </Typography>
         </div>
     </SpecialistWrapper>

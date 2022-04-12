@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Gapped, Textarea } from '@skbkontur/react-ui';
+import { Alert } from '@mui/material';
 import { LargeUser, UserWithDescription } from '../../../../../server/modules/domains/users/entities/user.entity';
 import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modal/Modal';
 import { professionTypeDict } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
@@ -14,6 +15,21 @@ interface Props {
 
 export const SpecialistInfoModal: React.FC<Props> = ({ user, accept, close }) => {
     const [commentValue, setCommentValue] = useState<string>(user?.description || '');
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
+
+    const onSubmit = async () => {
+        setLoading(true);
+
+        try {
+            await accept(commentValue);
+            close();
+        } catch (e) {
+            setError(e.message);
+        }
+        
+        setLoading(false);
+    };
 
     return (
         <Modal onClose={close} width={300}>
@@ -44,9 +60,10 @@ export const SpecialistInfoModal: React.FC<Props> = ({ user, accept, close }) =>
                     <Textarea value={commentValue} onValueChange={setCommentValue} />
                 </div>
             </ModalBody>
+            {error && <Alert severity="error">{error}</Alert>}
             <ModalFooter>
                 <Gapped gap={20}>
-                    <Button use="success" onClick={() => accept(commentValue)}>
+                    <Button use="success" onClick={onSubmit} loading={loading}>
                         Сохранить
                     </Button>
                     <Button onClick={close}>Закрыть</Button>

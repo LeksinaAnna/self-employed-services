@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { ManyItem, QueryType, WithUpdater } from '../../../../../common/interfaces/common';
 import { UserUseCase } from '../ports/user.use-case';
 import { UserProfile, UserProfileCreateProperties } from '../entities/user-profile.entity';
 import {
@@ -8,7 +8,7 @@ import {
     UserEntity,
     UserEmail,
     User,
-    UserWithPassword, UserId, UserWithDescription,
+    UserWithPassword, UserId, UserWithDescription, UserUpdateProperties,
 } from '../entities/user.entity';
 import { RolesService } from '../../roles/services/roles.service';
 import { UserProfileService } from './user-profile.service';
@@ -77,5 +77,25 @@ export class UserService implements UserUseCase {
 
     async getSpecialistsWithDescription(query: QueryType): Promise<ManyItem<LargeUser & UserWithDescription>> {
         return await this._userPort.getSpecialists(query, true);
+    }
+
+    async updateSpecialist(properties: UserUpdateProperties & WithUpdater, specialistId: UserId): Promise<LargeUser & UserWithDescription> {
+        const specialist = await this._userPort.getUserById(specialistId);
+
+        if(!specialist) {
+            throw new NotFoundException('обновляемый пользователь не найден');
+        }
+
+        const account = await this._userPort.getAccount(specialist.email);
+
+        const updatedEntity = new UserEntity({
+            ...account,
+            ...properties,
+            modifiedBy: properties.updater
+        });
+
+        await this._userPort.saveUser(updatedEntity);
+
+        return specialist;
     }
 }

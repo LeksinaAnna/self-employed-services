@@ -1,6 +1,13 @@
 import { UserProfile, UserProfileCreateProperties } from '../entities/user-profile.entity';
-import { LargeUser, UserCreateProperties, UserEmail, UserId, UserWithDescription } from '../entities/user.entity';
-import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
+import {
+    LargeUser,
+    UserCreateProperties,
+    UserEmail,
+    UserId,
+    UserUpdateProperties,
+    UserWithDescription,
+} from '../entities/user.entity';
+import { ManyItem, QueryType, WithUpdater } from '../../../../../common/interfaces/common';
 
 export interface UserUseCase {
     createUserAccount(properties: UserProfileCreateProperties & UserCreateProperties): Promise<LargeUser>;
@@ -8,6 +15,8 @@ export interface UserUseCase {
     getUserByLogin(login: UserEmail): Promise<LargeUser>;
 
     updateUser(properties: UserCreateProperties & UserProfileCreateProperties): Promise<UserProfile>;
+
+    updateSpecialist(properties: UserUpdateProperties & WithUpdater, specialistId: UserId): Promise<LargeUser & UserWithDescription>;
 
     getUserById(userId: UserId): Promise<LargeUser>;
 

@@ -59,4 +59,8 @@ export class UserAdapterService extends PersistenceAdapter implements UserPort {
             .leftJoinAndSelect('user.roles', 'role')
             .getOne();
     }
+
+    async saveUser(properties: UserEntity): Promise<User> {
+        return await this._entityManager.save(UserMapper.mapToOrmEntity(properties));
+    }
 }

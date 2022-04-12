@@ -5,7 +5,6 @@ import { observer } from 'mobx-react-lite';
 import { useStores } from '../../../client-tools/hooks/use-stores';
 import { Typography } from '../../ui/Text/Typography';
 import { notActiveText, secondaryText } from '../../../client-tools/styles/color';
-import { voidFunction } from '../../../../common/js-tools/void-function';
 import { useAsyncEffectWithError } from '../../../client-tools/hooks/use-async-effect';
 import { SpecialistsHead } from './SpecialistsHead';
 import { SpecialistItem } from './SpecialistItem';
@@ -54,7 +53,7 @@ export const SpecialistsPage: React.FC = observer(() => {
                 </Center>
             )}
             {isInfoModal && selectedUser && (
-                <SpecialistInfoModal close={closeInfoModal} user={selectedUser} accept={voidFunction} />
+                <SpecialistInfoModal close={closeInfoModal} user={selectedUser} accept={service.updateSpecialist} />
             )}
         </div>
     );

@@ -12,6 +12,11 @@ export interface UserCreateProperties {
     role?: RoleType;
 }
 
+export interface UserUpdateProperties {
+    role?: RoleType;
+    description: string;
+}
+
 export type LargeUser = User & WithUserProfile & WithRoles;
 
 export interface User {

@@ -32,4 +32,17 @@ export class SpecialistsService {
             this._rootStore.appStore.setIsLoading(false);
         });
     }
+
+    async updateSpecialist(description: string): Promise<void> {
+        runInAction(() => {
+            this._specialistsStore.setIsLoading(true);
+        });
+
+        await this._usersAdminApi.updateSpecialist(this._specialistsStore.selectedUser.accountId, { description });
+        await this.init();
+
+        runInAction(() => {
+            this._specialistsStore.setIsLoading(false);
+        });
+    }
 }
