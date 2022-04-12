@@ -11,7 +11,7 @@ export class UserWebAdminController {
         private readonly _userService: UserService,
     ) {}
 
-    @Get('/specialists')
+    @Get('/')
     async getSpecialists(
         @Query() query: QueryType,
     ): Promise<ManyItem<LargeUser & UserWithDescription>> {

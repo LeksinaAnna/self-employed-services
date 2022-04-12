@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Button, Gapped, Textarea } from '@skbkontur/react-ui';
-import { LargeUser } from '../../../../../server/modules/domains/users/entities/user.entity';
+import { LargeUser, UserWithDescription } from '../../../../../server/modules/domains/users/entities/user.entity';
 import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modal/Modal';
 import { professionTypeDict } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { Typography } from '../../../ui/Text/Typography';
 import { secondaryText } from '../../../../client-tools/styles/color';
 
 interface Props {
-    user: LargeUser;
-    accept: () => void; // (comment: string) => void;
+    user: LargeUser & UserWithDescription;
+    accept: (description: string) => void; // (comment: string) => void;
     close: () => void;
 }
 
 export const SpecialistInfoModal: React.FC<Props> = ({ user, accept, close }) => {
-    const [commentValue, setCommentValue] = useState<string>('');
+    const [commentValue, setCommentValue] = useState<string>(user?.description || '');
 
     return (
         <Modal onClose={close} width={300}>
@@ -46,7 +46,7 @@ export const SpecialistInfoModal: React.FC<Props> = ({ user, accept, close }) =>
             </ModalBody>
             <ModalFooter>
                 <Gapped gap={20}>
-                    <Button use="success" onClick={accept}>
+                    <Button use="success" onClick={() => accept(commentValue)}>
                         Сохранить
                     </Button>
                     <Button onClick={close}>Закрыть</Button>

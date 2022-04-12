@@ -1,18 +1,18 @@
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from '../../../../stores/root.store';
-import { LargeUser } from '../../../../../server/modules/domains/users/entities/user.entity';
+import { LargeUser, UserWithDescription } from '../../../../../server/modules/domains/users/entities/user.entity';
 import { SpecialistsService } from './specialists.service';
 
 export class SpecialistsStore {
     isLoading = false
-    specialists: LargeUser[];
+    specialists: Array<LargeUser & UserWithDescription>;
     count = 0;
     skip = 0;
     take = 10;
     searchValue = '';
 
     isInfoModal = false;
-    selectedUser: LargeUser;
+    selectedUser: LargeUser & UserWithDescription;
 
     readonly service: SpecialistsService;
 
@@ -37,11 +37,11 @@ export class SpecialistsStore {
         this.skip = value;
     }
 
-    setSpecialists(specialists: LargeUser[]): void {
+    setSpecialists(specialists: Array<LargeUser & UserWithDescription>): void {
         this.specialists = specialists;
     }
 
-    openInfoModal(user: LargeUser): void {
+    openInfoModal(user: LargeUser & UserWithDescription): void {
         this.isInfoModal = true;
         this.selectedUser = user;
     }

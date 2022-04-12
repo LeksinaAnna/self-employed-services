@@ -1,13 +1,13 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from '../../../../stores/root.store';
-import { UsersApi } from '../../../../client-tools/api/entities/user/users-api';
+import { AdminUsersApi } from '../../../../client-tools/api/entities/user/admin-users-api';
 import { SpecialistsStore } from './specialists.store';
 
 export class SpecialistsService {
-    private readonly _usersApi: UsersApi;
+    private readonly _usersAdminApi: AdminUsersApi;
 
     constructor(private readonly _rootStore: RootStore, private readonly _specialistsStore: SpecialistsStore) {
-        this._usersApi = this._rootStore.commonApi.users;
+        this._usersAdminApi = this._rootStore.adminApi.users;
 
         makeAutoObservable(this, {}, { autoBind: true });
     }
@@ -17,7 +17,7 @@ export class SpecialistsService {
             this._rootStore.appStore.setIsLoading(true);
         });
 
-        const response = await this._usersApi.getSpecialists(
+        const response = await this._usersAdminApi.getSpecialists(
             {
                 take: this._specialistsStore.take.toString(),
                 skip: this._specialistsStore.skip.toString(),

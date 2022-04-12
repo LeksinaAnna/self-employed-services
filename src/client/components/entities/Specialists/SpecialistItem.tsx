@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { PersonOutline } from '@mui/icons-material';
-import { LargeUser } from '../../../../server/modules/domains/users/entities/user.entity';
+import { LargeUser, UserWithDescription } from '../../../../server/modules/domains/users/entities/user.entity';
 import { notActiveText, secondaryText } from '../../../client-tools/styles/color';
 import { Typography } from '../../ui/Text/Typography';
 import { professionTypeDict } from '../../../../server/modules/domains/users/entities/user-profile.entity';
 
 interface Props {
-    user: LargeUser;
+    user: LargeUser & UserWithDescription;
     openModal: (user: LargeUser) => void;
 }
 
