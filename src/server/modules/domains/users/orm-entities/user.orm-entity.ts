@@ -18,6 +18,15 @@ export class UserOrmEntity implements User {
     @Column({ name: 'created', type: 'timestamp with time zone' })
     created: string;
 
+    @Column({ name: 'modified', type: 'timestamp with time zone' })
+    modified: string;
+
+    @Column({ name: 'modified_by', type: 'uuid' })
+    modifiedBy: UserId;
+
+    @Column({ name: 'description', select: false, nullable: true })
+    description: string;
+
     @OneToOne(() => UserProfileOrmEntity)
     @JoinColumn({ name: 'account_id', referencedColumnName: 'profileId' })
     profile: UserProfile;

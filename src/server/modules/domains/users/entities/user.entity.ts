@@ -18,22 +18,34 @@ export interface User {
     accountId?: UserId;
     email: UserEmail;
     created?: string;
+    modified?: string;
+    modifiedBy?: UserId;
 }
 
 export interface UserWithPassword {
     password: string;
 }
 
-export class UserEntity implements User, UserWithPassword {
+export interface UserWithDescription {
+    description?: string;
+}
+
+export class UserEntity implements User, UserWithPassword, UserWithDescription {
     readonly accountId?: UserId;
     readonly email: UserEmail;
     readonly password: string;
     readonly created?: string;
+    readonly description?: string;
+    readonly modified?: string;
+    readonly modifiedBy?: string;
 
-    constructor({ accountId, password, email, created }: User & UserWithPassword) {
+    constructor({ accountId, password, email, created, description, modifiedBy  }: User & UserWithPassword & UserWithDescription) {
         this.accountId = accountId || uuidv4();
         this.email = email;
         this.password = password;
         this.created = created || moment().format();
+        this.modified = moment().format();
+        this.modifiedBy = modifiedBy || accountId;
+        this.description = description || null;
     }
 }

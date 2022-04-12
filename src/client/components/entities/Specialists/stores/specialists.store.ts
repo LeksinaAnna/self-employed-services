@@ -11,6 +11,9 @@ export class SpecialistsStore {
     take = 10;
     searchValue = '';
 
+    isInfoModal = false;
+    selectedUser: LargeUser;
+
     readonly service: SpecialistsService;
 
     constructor(private readonly _rootStore: RootStore) {
@@ -36,5 +39,15 @@ export class SpecialistsStore {
 
     setSpecialists(specialists: LargeUser[]): void {
         this.specialists = specialists;
+    }
+
+    openInfoModal(user: LargeUser): void {
+        this.isInfoModal = true;
+        this.selectedUser = user;
+    }
+
+    closeInfoModal(): void {
+        this.isInfoModal = false;
+        this.selectedUser = null;
     }
 }
