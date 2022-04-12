@@ -1,5 +1,5 @@
 import { UserProfile, UserProfileCreateProperties } from '../entities/user-profile.entity';
-import { LargeUser, UserCreateProperties, UserEmail, UserId } from '../entities/user.entity';
+import { LargeUser, UserCreateProperties, UserEmail, UserId, UserWithDescription } from '../entities/user.entity';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 
 export interface UserUseCase {
@@ -12,4 +12,6 @@ export interface UserUseCase {
     getUserById(userId: UserId): Promise<LargeUser>;
 
     getSpecialists(query: QueryType): Promise<ManyItem<LargeUser>>;
+
+    getSpecialistsWithDescription(query: QueryType): Promise<ManyItem<LargeUser & UserWithDescription>>;
 }

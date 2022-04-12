@@ -13,12 +13,16 @@ export class UserAdapterService extends PersistenceAdapter implements UserPort {
         super();
     }
 
-    async getSpecialists({ search = '', take = '10', skip = '0' }: QueryType): Promise<ManyItem<LargeUser>> {
+    async getSpecialists({ search = '', take = '10', skip = '0' }: QueryType, withDescription = false): Promise<ManyItem<LargeUser>> {
         const [items, count] = await createQueryBuilder(UserOrmEntity, 'user')
             .leftJoinAndSelect('user.profile', 'profile', 'profile.profession IS NOT NULL')
             .where(qb => {
                 if (search) {
-                    qb.where(`profile.fullName ILIKE :value OR user.email ILIKE :value`, {value: `%${search}%`})
+                    qb.where(`profile.fullName ILIKE :value OR user.email ILIKE :value`, {value: `%${search}%`});
+                }
+
+                if (withDescription) {
+                    qb.addSelect(`user.description`);
                 }
             })
             .skip(parseInt(skip, 10))

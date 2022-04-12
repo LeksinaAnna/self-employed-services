@@ -8,5 +8,5 @@ export interface UserPort {
 
     getUserById(userId: UserId): Promise<LargeUser>;
 
-    getSpecialists(query: QueryType): Promise<ManyItem<LargeUser>>;
+    getSpecialists(query: QueryType, withDescription?: boolean): Promise<ManyItem<LargeUser>>;
 }

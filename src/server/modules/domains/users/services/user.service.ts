@@ -8,7 +8,7 @@ import {
     UserEntity,
     UserEmail,
     User,
-    UserWithPassword, UserId,
+    UserWithPassword, UserId, UserWithDescription,
 } from '../entities/user.entity';
 import { RolesService } from '../../roles/services/roles.service';
 import { UserProfileService } from './user-profile.service';
@@ -73,5 +73,9 @@ export class UserService implements UserUseCase {
 
     async getSpecialists(query: QueryType): Promise<ManyItem<LargeUser>> {
         return await this._userPort.getSpecialists(query);
+    }
+
+    async getSpecialistsWithDescription(query: QueryType): Promise<ManyItem<LargeUser & UserWithDescription>> {
+        return await this._userPort.getSpecialists(query, true);
     }
 }

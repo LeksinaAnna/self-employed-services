@@ -6,6 +6,7 @@ import { UserProfileAdapterService } from '../services/adapters/user-profile-ada
 import { RolesService } from '../../roles/services/roles.service';
 import { RolesAdapterService } from '../../roles/services/adapters/roles-adapter.service';
 import { UserWebController } from './user-web.controller';
+import { UserWebAdminController } from './user-web-admin.controller';
 
 @Module({
     providers: [
@@ -14,10 +15,9 @@ import { UserWebController } from './user-web.controller';
         UserAdapterService,
         UserProfileAdapterService,
         RolesService,
-        RolesAdapterService
+        RolesAdapterService,
     ],
-    controllers: [UserWebController],
+    controllers: [UserWebController, UserWebAdminController],
     exports: [UserService],
 })
-export class UserWebModule {
-}
+export class UserWebModule {}
