@@ -21,7 +21,6 @@ export const SpecialistsPage: React.FC = observer(() => {
     const { specialistsStore } = useStores();
     const {
         searchValue,
-        setSearchValue,
         specialists,
         isInfoModal,
         openInfoModal,
@@ -36,7 +35,7 @@ export const SpecialistsPage: React.FC = observer(() => {
 
     return (
         <div>
-            <SpecialistsHead searchValue={searchValue} onValueChange={setSearchValue} />
+            <SpecialistsHead searchValue={searchValue} onValueChange={service.onValueSearch} />
             {specialists && (
                 <TableHead>
                     <Typography color={secondaryText} fontSize={'14px'}>

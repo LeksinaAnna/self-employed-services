@@ -4,6 +4,8 @@ import { AdminUsersApi } from '../../../../client-tools/api/entities/user/admin-
 import { SpecialistsStore } from './specialists.store';
 
 export class SpecialistsService {
+    timer: NodeJS.Timer;
+
     private readonly _usersAdminApi: AdminUsersApi;
 
     constructor(private readonly _rootStore: RootStore, private readonly _specialistsStore: SpecialistsStore) {
@@ -13,9 +15,11 @@ export class SpecialistsService {
     }
 
     async init(signal?: AbortSignal): Promise<void> {
-        runInAction(() => {
+        // Если в течении 300мс данные не загрузились то будет показан лоадер
+        // таким образом предотвращается мигание лоадера
+        const timer = setTimeout(() => {
             this._rootStore.appStore.setIsLoading(true);
-        });
+        }, 300);
 
         const response = await this._usersAdminApi.getSpecialists(
             {
@@ -25,6 +29,8 @@ export class SpecialistsService {
             },
             signal,
         );
+
+        clearTimeout(timer);
 
         runInAction(() => {
             this._specialistsStore.setSpecialists(response.items);
@@ -44,5 +50,17 @@ export class SpecialistsService {
         runInAction(() => {
             this._specialistsStore.setIsLoading(false);
         });
+    }
+
+    async onValueSearch(value: string): Promise<void> {
+        runInAction(() => {
+            this._specialistsStore.setSearchValue(value);
+        });
+
+        clearTimeout(this.timer)
+
+        this.timer = setTimeout(async () => {
+            await this.init();
+        }, 300);
     }
 }
