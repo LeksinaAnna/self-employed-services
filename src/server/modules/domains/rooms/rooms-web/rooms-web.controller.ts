@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
 import { RoomsService } from '../services/rooms.service';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
-import { Room, RoomCreateProperties, RoomId } from '../entities/room.entity';
+import { RoomWithProfit, Room, RoomCreateProperties, RoomId } from '../entities/room.entity';
 import { Roles } from '../../../../nest-decorators/decorators/roles.decorator';
 import { CurrentUser } from '../../../../nest-decorators/decorators/current-user.decorator';
 import { TokenData } from '../../tokens/entities/token.entity';
@@ -16,6 +16,13 @@ export class RoomsWebController {
     @Get('/')
     async getRooms(@Query() query: QueryType): Promise<ManyItem<Room & WithRentals>> {
         return await this._roomsService.getRooms(query);
+    }
+
+    @Get('/profit')
+    async getProfit(
+        @Query() query: QueryType,
+    ): Promise<RoomWithProfit[]> {
+        return await this._roomsService.getProfit(query);
     }
 
     @Roles('SPECIALIST', 'ADMIN')

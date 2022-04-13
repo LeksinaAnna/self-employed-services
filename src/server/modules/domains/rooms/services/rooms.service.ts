@@ -1,14 +1,46 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import moment from 'moment';
 import { RoomsUseCase } from '../ports/rooms.use-case';
-import { Room, RoomCreateProperties, RoomEntity, RoomId } from '../entities/room.entity';
+import { RoomWithProfit, Room, RoomCreateProperties, RoomEntity, RoomId } from '../entities/room.entity';
 import { UserId } from '../../users/entities/user.entity';
 import { ManyItem, QueryType, WithCreator, WithUpdater } from '../../../../../common/interfaces/common';
-import { WithRentals } from '../../rentals/entities/rental.entity';
+import { LargeRental, WithRentals } from '../../rentals/entities/rental.entity';
 import { RoomsAdapterService } from './adapters/rooms-adapter.service';
 
 @Injectable()
 export class RoomsService implements RoomsUseCase {
     constructor(private readonly _roomsAdapter: RoomsAdapterService) {}
+
+    private static calculateProfit(rental: LargeRental, price: number): number {
+        const diff = moment(rental.finishDate).diff(rental.startDate) / (1000 * 60); // Разница в минутах
+        const pricePerMinute = price / 60;
+
+        return diff * pricePerMinute;
+    }
+
+    async getProfit(query: QueryType): Promise<RoomWithProfit[]> {
+        const rooms = await this.getRooms({ take: '50', ...query });
+
+        return rooms.items.map(room => {
+            // Получаем массив с профитом по каждой аренде
+            const calculatedProfits = room.rentals.map(rental => RoomsService.calculateProfit(rental, room.price));
+
+            // складываем все числа между собой и получаем итоговый профит по комнате
+            const calculateProfit = calculatedProfits.reduce((prev, current) => prev + current, 0);
+
+            const profitEntity: RoomWithProfit = {
+                type: room.type,
+                roomId: room.roomId,
+                countRental: room.rentals.length,
+                price: room.price,
+                title: room.title,
+                profit: Math.round(calculateProfit) // Округляем число к ближайшему 22.51 = 23, 22.49 = 22
+            }
+
+            return profitEntity
+        });
+
+    }
 
     async getRoomById(roomId: RoomId): Promise<Room> {
         return await this._roomsAdapter.getRoomById(roomId);
