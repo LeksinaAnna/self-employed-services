@@ -26,6 +26,7 @@ export class AdminReportService {
 
         runInAction(() => {
             this._adminReportStore.setRooms(rooms);
+            this._rootStore.appStore.setIsLoading(false);
         })
     }
 }

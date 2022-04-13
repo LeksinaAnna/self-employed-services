@@ -25,7 +25,7 @@ export const ReportPage: React.FC = observer(() => {
 
     useAsyncEffectWithError(async abortSignal => {
         await service.init(abortSignal);
-    }, []);
+    }, [startDate, finishDate]);
 
     return (
         <div style={{ position: 'relative', height: '100%', marginBottom: 25 }}>
