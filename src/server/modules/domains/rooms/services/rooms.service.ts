@@ -11,11 +11,11 @@ import { RoomsAdapterService } from './adapters/rooms-adapter.service';
 export class RoomsService implements RoomsUseCase {
     constructor(private readonly _roomsAdapter: RoomsAdapterService) {}
 
-    private static calculateProfit(rental: LargeRental, price: number): number {
+    private static calculateProfit(rental: LargeRental, price: number): { profit: number, minutes: number } {
         const diff = moment(rental.finishDate).diff(rental.startDate) / (1000 * 60); // Разница в минутах
         const pricePerMinute = price / 60;
 
-        return diff * pricePerMinute;
+        return { profit: diff * pricePerMinute, minutes: diff };
     }
 
     async getProfit(query: QueryType): Promise<RoomWithProfit[]> {
@@ -23,14 +23,17 @@ export class RoomsService implements RoomsUseCase {
 
         return rooms.items.map(room => {
             // Получаем массив с профитом по каждой аренде
-            const calculatedProfits = room.rentals.map(rental => RoomsService.calculateProfit(rental, room.price));
+            const calculatedProfits = room.rentals.map(rental => RoomsService.calculateProfit(rental, room.price).profit);
+            const minutes = room.rentals.map(rental => RoomsService.calculateProfit(rental, room.price).minutes)
 
             // складываем все числа между собой и получаем итоговый профит по комнате
             const calculateProfit = calculatedProfits.reduce((prev, current) => prev + current, 0);
+            const calculateMinutes = minutes.reduce((prev, current) => prev + current, 0);
 
             const profitEntity: RoomWithProfit = {
                 type: room.type,
                 roomId: room.roomId,
+                duration: calculateMinutes,
                 countRental: room.rentals.length,
                 price: room.price,
                 title: room.title,

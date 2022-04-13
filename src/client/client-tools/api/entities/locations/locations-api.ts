@@ -3,7 +3,7 @@ import {
     LargeRoom,
     Room,
     RoomCreateProperties,
-    RoomId,
+    RoomId, RoomWithProfit,
 } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 
@@ -28,5 +28,9 @@ export class LocationsApi extends ApiBaseClient {
 
     public async getRoomById(roomId: RoomId, signal?: AbortSignal): Promise<Room> {
         return await this.get(`${this.prefix}/${roomId}`, {}, signal);
+    }
+
+    public async getRoomsWithProfit(query: QueryType = {}, signal?: AbortSignal): Promise<RoomWithProfit[]> {
+        return await this.get(`${this.prefix}/profit`, query, signal);
     }
 }

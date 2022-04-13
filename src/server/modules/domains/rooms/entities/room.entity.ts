@@ -12,6 +12,7 @@ export interface RoomWithProfit {
     roomId: RoomId;
     title: string;
     price: number;
+    duration: number;
     countRental: number;
     type: ProfessionType;
     profit: number;

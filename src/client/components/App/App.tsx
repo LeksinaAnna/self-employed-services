@@ -11,6 +11,7 @@ import { CheckAuth } from '../Layouts/Portal/CheckAuth';
 import { PageNotFound } from '../Errors/PageNotFound/PageNotFound';
 import { LocationsPage } from '../entities/Locations/LocationsPage';
 import { SpecialistsPage } from '../entities/Specialists/SpecialistsPage';
+import { ReportPage } from '../entities/AdminReport/ReportPage';
 
 
 /**
@@ -41,7 +42,7 @@ export const App: React.FC = observer(() => {
                     <Route path="*" element={<PortalLayout />}>
                         <Route path="admin/locations" element={<LocationsPage />} />
                         <Route path="admin/tenantry" element={<SpecialistsPage />} />
-                        <Route path="admin/report" element={<div>ТЕСТ</div>} />
+                        <Route path="admin/report" element={<ReportPage />} />
                         <Route path="specialist/services" element={<div>УСЛУГИ</div>} />
                         <Route path="specialist/clients" element={<div>КЛИЕНТЫ</div>} />
                         <Route path="specialist/report" element={<div>ОТЧЕТ</div>} />
