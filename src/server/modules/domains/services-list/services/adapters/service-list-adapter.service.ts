@@ -35,7 +35,7 @@ export class ServiceListAdapterService extends PersistenceAdapter implements Ser
             })
             .take(parseInt(take, 10))
             .skip(parseInt(skip, 10))
-            .orderBy(`service.created`, 'ASC')
+            .orderBy(`service.created`, 'DESC')
             .getManyAndCount();
 
         return { items, count };

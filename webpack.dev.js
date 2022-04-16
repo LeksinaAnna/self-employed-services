@@ -80,6 +80,7 @@ module.exports = (env, argv) => ({
         https: true,
         allowedHosts: 'all',
         host: process.env.HOST,
+        port: process.env.PORT || 3000,
         proxy: {
             '/api': {
                 target: process.env.BASE_URL,
@@ -87,7 +88,6 @@ module.exports = (env, argv) => ({
                 secure: false // проверка серта при https
             }
         },
-        port: 3000
     },
     plugins: [
         new webpack.EnvironmentPlugin({

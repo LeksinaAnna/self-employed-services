@@ -14,8 +14,8 @@ export interface ServiceItemCreateProperties {
     inBasket?: boolean;
     created?: string;
     modified?: string;
-    createdBy: UserId;
-    modifiedBy: UserId;
+    createdBy?: UserId;
+    modifiedBy?: UserId;
 }
 
 export interface ServiceItem {

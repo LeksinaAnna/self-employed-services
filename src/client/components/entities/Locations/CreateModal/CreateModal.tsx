@@ -61,7 +61,7 @@ export const CreateModal: React.FC = observer(() => {
                                 <Input placeholder="Название" value={title} onValueChange={setTitle} />
                             </ValidationWrapper>
                         </FormLine>
-                        <FormLine vertical caption="Ценна аренды за час">
+                        <FormLine vertical caption="Цена аренды за час">
                             <ValidationWrapper validationInfo={isRequiredField(price)}>
                                 <CurrencyInput
                                     width={100}
