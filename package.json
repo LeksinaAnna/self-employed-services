@@ -56,10 +56,9 @@
   },
   "scripts": {
     "client": "webpack serve --config webpack.dev.js",
+    "client:build": "webpack --config webpack.prod.js",
     "server": "rimraf dist && nest start --watch",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "server:build": "rimraf dist && nest build"
   },
   "eslintConfig": {
     "extends": [

@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  client:
+    build:
+      context: ./
+      target: app-front
+    ports:
+      - "80:3009"
+  server:
+    build:
+      context: ./
+      target: app-server
+    command: "/usr/local/bin/node /app/dist/server/main.js"
+    ports:
+      - "3010:3010"
+    environment:
+      BACKEND_PORT: 3010
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
+      POSTGRES_DATABASE: self-employed
+      TYPEORM_LOGGING: false
+      AUTH_SECRET_KEY: empty_secret_KeY
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./bd_employed.sql:/docker-entrypoint-initdb.d/bd_employed.sql
