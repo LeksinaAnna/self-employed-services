@@ -78,6 +78,7 @@ module.exports = (env, argv) => ({
         hot: true,
         open: true,
         allowedHosts: 'all',
+        https: true,
         host: process.env.HOST,
         port: process.env.PORT || 3000,
     },
