@@ -77,17 +77,9 @@ module.exports = (env, argv) => ({
         historyApiFallback: true,
         hot: true,
         open: true,
-        https: true,
         allowedHosts: 'all',
         host: process.env.HOST,
         port: process.env.PORT || 3000,
-        proxy: {
-            '/api': {
-                target: process.env.BASE_URL,
-                changeOrigin: true,
-                secure: false // проверка серта при https
-            }
-        },
     },
     plugins: [
         new webpack.EnvironmentPlugin({
