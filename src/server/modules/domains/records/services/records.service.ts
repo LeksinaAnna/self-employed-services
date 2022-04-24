@@ -3,15 +3,20 @@ import { RecordsUseCase } from '../ports/records.use-case';
 import { Record, RecordCreateProperties, RecordEntity, RecordId } from '../entities/record.entity';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 import { UserId } from '../../users/entities/user.entity';
+import { ClientCreateProperties } from '../../clients/entities/client.entity';
+import { ClientsService } from '../../clients/services/clients.service';
 import { RecordsAdapterService } from './adapters/records-adapter.service';
 
 @Injectable()
 export class RecordsService implements RecordsUseCase {
-    constructor(private readonly _recordsAdapter: RecordsAdapterService) {}
+    constructor(private readonly _recordsAdapter: RecordsAdapterService, private readonly _clientService: ClientsService) {}
 
-    async createRecord(properties: RecordCreateProperties): Promise<Record> {
+    async createRecord(properties: RecordCreateProperties & ClientCreateProperties): Promise<Record> {
+        const client = await this._clientService.createClient(properties);
+
         const record = new RecordEntity({
             ...properties,
+            clientId: client.clientId,
         });
 
         return await this._recordsAdapter.saveRecord(record);
@@ -32,8 +37,8 @@ export class RecordsService implements RecordsUseCase {
         return await this._recordsAdapter.getRecords({ ...query, spec_id: specialistId });
     }
 
-    async updateRecord(properties: RecordCreateProperties): Promise<Record> {
-        const record = await this._recordsAdapter.getRecordById(properties.recordId);
+    async updateRecord(recordId: RecordId, properties: RecordCreateProperties): Promise<Record> {
+        const record = await this._recordsAdapter.getRecordById(recordId);
 
         if (!record) {
             throw new NotFoundException('Запись не найдена');

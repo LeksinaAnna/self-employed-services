@@ -55,10 +55,12 @@
     "whatwg-fetch": "^3.6.2"
   },
   "scripts": {
-    "client": "webpack serve --config webpack.dev.js",
+    "client": "concurrently \"webpack serve --config webpack.dev.js\" \"yarn docker:dev\" ",
     "client:build": "webpack --config webpack.prod.js",
     "server": "rimraf dist && nest start --watch",
-    "server:build": "rimraf dist && nest build"
+    "server:build": "rimraf dist && nest build",
+    "docker:dev": "docker-compose -f docker-compose.dev.yml up",
+    "project:start": "docker-compose -f docker-compose.yml up"
   },
   "eslintConfig": {
     "extends": [
@@ -101,6 +103,7 @@
     "@typescript-eslint/parser": "^5.16.0",
     "babel-loader": "^8.2.4",
     "babel-plugin-polyfill-corejs2": "^0.3.1",
+    "concurrently": "^7.1.0",
     "eslint": "^8.11.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.4",

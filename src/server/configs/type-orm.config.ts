@@ -8,6 +8,8 @@ import { UserRolesOrmEntity } from '../modules/domains/users/orm-entities/user-r
 import { RoomOrmEntity } from '../modules/domains/rooms/orm-entities/room.orm-entity';
 import { RentalOrmEntity } from '../modules/domains/rentals/orm-entities/rental.orm-entity';
 import { ServiceItemOrmEntity } from '../modules/domains/services-list/orm-entities/service-item.orm-entity';
+import { ClientOrmEntity } from '../modules/domains/clients/orm-entities/client.orm-entity';
+import { RecordOrmEntity } from '../modules/domains/records/orm-entities/record.orm-entity';
 
 dotenv.config();
 
@@ -32,7 +34,9 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
         UserRolesOrmEntity,
         RoomOrmEntity,
         RentalOrmEntity,
-        ServiceItemOrmEntity
+        ServiceItemOrmEntity,
+        ClientOrmEntity,
+        RecordOrmEntity
     ],
     autoLoadEntities: true,
 };

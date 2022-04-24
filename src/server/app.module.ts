@@ -8,6 +8,7 @@ import { AuthWebModule } from './modules/domains/auth/auth-web/auth-web.module';
 import { RoomsWebModule } from './modules/domains/rooms/rooms-web/rooms-web.module';
 import { RentalsWebModule } from './modules/domains/rentals/rentals-web/rentals-web.module';
 import { ServicesWebModule } from './modules/domains/services-list/sevices-web/services-web.module';
+import { RecordsModule } from './modules/domains/records/records-web/records.module';
 
 @Module({
     imports: [
@@ -16,7 +17,8 @@ import { ServicesWebModule } from './modules/domains/services-list/sevices-web/s
         UserWebModule,
         RoomsWebModule,
         RentalsWebModule,
-        ServicesWebModule
+        ServicesWebModule,
+        RecordsModule
     ],
     providers: [
         {

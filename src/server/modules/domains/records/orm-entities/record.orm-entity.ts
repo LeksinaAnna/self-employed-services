@@ -1,7 +1,9 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
-import { Record, RecordContacts, RecordId, RecordStatus } from '../entities/record.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Record, RecordId, RecordStatus } from '../entities/record.entity';
 import { UserId } from '../../users/entities/user.entity';
 import { ServiceItemId } from '../../services-list/entities/service-item.entity';
+import { ClientOrmEntity } from '../../clients/orm-entities/client.orm-entity';
+import { ClientId } from '../../clients/entities/client.entity';
 
 @Entity({ name: 'records', schema: 'services' })
 export class RecordOrmEntity implements Record {
@@ -14,18 +16,25 @@ export class RecordOrmEntity implements Record {
     @Column({ name: 'specialist_id', type: 'uuid' })
     specialistId: UserId;
 
+    @Column({ name: 'client_id', type: 'uuid' })
+    clientId: ClientId;
+
     @Column({ name: 'record_date', type: 'timestamp with time zone' })
     recordDate: string;
 
     @Column({ name: 'status' })
     status: RecordStatus;
 
-    @Column({ name: 'contacts', type: 'jsonb'})
-    contacts: RecordContacts;
-
     @Column({ name: 'created', type: 'timestamp with time zone' })
     created: string;
 
     @Column({ name: 'in_basket', type: 'boolean' })
     inBasket: boolean;
+
+    @ManyToOne(() => ClientOrmEntity, client => client.records)
+    @JoinColumn({
+        name: 'client_id',
+        referencedColumnName: 'clientId'
+    })
+    client: ClientOrmEntity;
 }
