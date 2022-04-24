@@ -13,4 +13,6 @@ export interface RecordsUseCase {
     getRecordsBySpecId: (specialistId: UserId, query?: QueryType) => Promise<ManyItem<Record>>;
 
     getRecords: (query: QueryType) => Promise<ManyItem<Record>>;
+
+    getNewRecords: (specialistId: UserId, query: QueryType) => Promise<ManyItem<Record>>;
 }

@@ -13,7 +13,7 @@ export class RecordsWebController {
     constructor(private readonly _recordsService: RecordsService) {}
 
     @Roles('SPECIALIST')
-    @Get('/')
+    @Get('/my')
     async getRecords(
         @Query() query: QueryType,
         @CurrentUser() currentUser: TokenData
@@ -21,6 +21,14 @@ export class RecordsWebController {
         return await this._recordsService.getRecords({
             ...query, spec_id: currentUser.userId
         });
+    }
+
+    @Get('/new')
+    async getNewRecords(
+        @Query() query: QueryType,
+        @CurrentUser() currentUser: TokenData
+    ): Promise<ManyItem<Record>> {
+        return await this._recordsService.getNewRecords(currentUser.userId, query);
     }
 
     @NotAuthDecorator()

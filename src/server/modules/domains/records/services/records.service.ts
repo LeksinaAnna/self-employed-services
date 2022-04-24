@@ -51,4 +51,8 @@ export class RecordsService implements RecordsUseCase {
     async getRecords(query: QueryType): Promise<ManyItem<Record>> {
         return await this._recordsAdapter.getRecords(query);
     }
+
+    async getNewRecords(specialistId: UserId, query: QueryType): Promise<ManyItem<Record>> {
+        return await this._recordsAdapter.getNewRecords(specialistId, query);
+    }
 }
