@@ -15,6 +15,7 @@ import { ReportPage } from '../entities/AdminReport/ReportPage';
 import { ServicesPage } from '../entities/ServicesPage/ServicesPage';
 import { ClientsPage } from '../entities/Clients/ClientsPage';
 import { RecordsPage } from '../entities/RecordsPage/RecordsPage';
+import { CheckRole } from '../Layouts/Portal/CheckRole';
 
 
 /**
@@ -43,14 +44,19 @@ export const App: React.FC = observer(() => {
                 <Route path="login" element={<LoginPage />} />
                 <Route path="*" element={<CheckAuth />}>
                     <Route path="*" element={<PortalLayout />}>
-                        <Route path="admin/locations" element={<LocationsPage />} />
-                        <Route path="admin/tenantry" element={<SpecialistsPage />} />
-                        <Route path="admin/report" element={<ReportPage />} />
-                        <Route path="specialist/services" element={<ServicesPage />} />
-                        <Route path="specialist/clients" element={<ClientsPage />}/>
-                        <Route path="specialist/records" element={<RecordsPage />} />
-                        <Route path="specialist/report" element={<div>ОТЧЕТ</div>} />
-                        <Route path="*" element={<PageNotFound />} />
+                        <Route path="admin" element={<CheckRole role="ADMIN" />}>
+                            <Route path="locations" element={<LocationsPage />} />
+                            <Route path="tenantry" element={<SpecialistsPage />} />
+                            <Route path="report" element={<ReportPage />} />
+                            <Route path="*" element={<PageNotFound />} />
+                        </Route>
+                        <Route path="specialist" element={<CheckRole role="SPECIALIST" />}>
+                            <Route path="services" element={<ServicesPage />} />
+                            <Route path="clients" element={<ClientsPage />}/>
+                            <Route path="records" element={<RecordsPage />} />
+                            <Route path="report" element={<div>ОТЧЕТ</div>} />
+                            <Route path="*" element={<PageNotFound />} />
+                        </Route>
                     </Route>
                 </Route>
             </Routes>
