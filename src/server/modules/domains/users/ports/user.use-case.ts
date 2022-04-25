@@ -10,17 +10,20 @@ import {
 import { ManyItem, QueryType, WithUpdater } from '../../../../../common/interfaces/common';
 
 export interface UserUseCase {
-    createUserAccount(properties: UserProfileCreateProperties & UserCreateProperties): Promise<LargeUser>;
+    createUserAccount: (properties: UserProfileCreateProperties & UserCreateProperties) => Promise<LargeUser>;
 
-    getUserByLogin(login: UserEmail): Promise<LargeUser>;
+    getUserByLogin: (login: UserEmail) => Promise<LargeUser>;
 
-    updateUser(properties: UserCreateProperties & UserProfileCreateProperties): Promise<UserProfile>;
+    updateSpecialist: (
+        properties: UserUpdateProperties & WithUpdater,
+        specialistId: UserId,
+    ) => Promise<LargeUser & UserWithDescription>;
 
-    updateSpecialist(properties: UserUpdateProperties & WithUpdater, specialistId: UserId): Promise<LargeUser & UserWithDescription>;
+    getUserById: (userId: UserId) => Promise<LargeUser>;
 
-    getUserById(userId: UserId): Promise<LargeUser>;
+    getSpecialists: (query: QueryType) => Promise<ManyItem<LargeUser>>;
 
-    getSpecialists(query: QueryType): Promise<ManyItem<LargeUser>>;
+    getSpecialistsWithDescription: (query: QueryType) => Promise<ManyItem<LargeUser & UserWithDescription>>;
 
-    getSpecialistsWithDescription(query: QueryType): Promise<ManyItem<LargeUser & UserWithDescription>>;
+    updateUserInfo: (userId: UserId, properties: UserProfileCreateProperties) => Promise<UserProfile>;
 }

@@ -11,6 +11,12 @@ export interface WithRecords {
     records: Record[];
 }
 
+export interface RecordUpdateProperties {
+    status?: RecordStatus;
+    inBasket?: boolean;
+    recordDate?: string;
+}
+
 export interface RecordCreateProperties {
     serviceId: ServiceItemId;
     specialistId: UserId;

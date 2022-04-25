@@ -1,6 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { RecordsUseCase } from '../ports/records.use-case';
-import { Record, RecordCreateProperties, RecordEntity, RecordId } from '../entities/record.entity';
+import {
+    Record,
+    RecordCreateProperties,
+    RecordEntity,
+    RecordId,
+    RecordUpdateProperties
+} from '../entities/record.entity';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 import { UserId } from '../../users/entities/user.entity';
 import { ClientCreateProperties } from '../../clients/entities/client.entity';
@@ -37,7 +43,7 @@ export class RecordsService implements RecordsUseCase {
         return await this._recordsAdapter.getRecords({ ...query, spec_id: specialistId });
     }
 
-    async updateRecord(recordId: RecordId, properties: RecordCreateProperties): Promise<Record> {
+    async updateRecord(recordId: RecordId, properties: RecordUpdateProperties): Promise<Record> {
         const record = await this._recordsAdapter.getRecordById(recordId);
 
         if (!record) {

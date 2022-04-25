@@ -1,3 +1,4 @@
+import { RoomId } from '../../rooms/entities/room.entity';
 import { UserId } from './user.entity';
 
 export type ProfileId = UserId;
@@ -19,10 +20,11 @@ export interface UserContacts {
 
 export interface UserProfileCreateProperties {
     profileId?: UserId;
-    fullName: string;
-    contacts: UserContacts;
+    fullName?: string;
+    contacts?: UserContacts;
     birthday?: string;
-    profession: ProfessionType;
+    selectedRoom?: RoomId;
+    profession?: ProfessionType;
 }
 
 export interface WithUserProfile {
@@ -35,6 +37,7 @@ export interface UserProfile {
     contacts: UserContacts;
     birthday?: string;
     profession: ProfessionType;
+    selectedRoom?: RoomId;
 }
 
 export class UserProfileEntity implements UserProfile {
@@ -43,12 +46,14 @@ export class UserProfileEntity implements UserProfile {
     readonly contacts: UserContacts;
     readonly fullName: string;
     readonly profession: ProfessionType;
+    readonly selectedRoom: RoomId;
 
-    constructor({ contacts, fullName, birthday, profileId, profession }: UserProfile) {
+    constructor({ contacts, fullName, birthday, profileId, profession, selectedRoom }: UserProfile) {
         this.profileId = profileId;
         this.birthday = birthday || null;
         this.contacts = contacts;
         this.fullName = fullName;
         this.profession = profession;
+        this.selectedRoom = selectedRoom || null;
     }
 }

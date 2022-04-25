@@ -52,7 +52,7 @@ export const App: React.FC = observer(() => {
                         </Route>
                         <Route path="specialist" element={<CheckRole role="SPECIALIST" />}>
                             <Route path="services" element={<ServicesPage />} />
-                            <Route path="clients" element={<ClientsPage />}/>
+                            <Route path="clients" element={<ClientsPage />} />
                             <Route path="records" element={<RecordsPage />} />
                             <Route path="report" element={<div>ОТЧЕТ</div>} />
                             <Route path="*" element={<PageNotFound />} />

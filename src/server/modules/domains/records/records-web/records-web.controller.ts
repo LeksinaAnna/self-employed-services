@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Patch, Post, Query } from '@nestjs/common
 import { RecordsService } from '../services/records.service';
 import { Roles } from '../../../../nest-decorators/decorators/roles.decorator';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
-import { Record, RecordCreateProperties, RecordId } from '../entities/record.entity';
+import { Record, RecordCreateProperties, RecordId, RecordUpdateProperties } from '../entities/record.entity';
 import { NotAuthDecorator } from '../../../../nest-decorators/decorators/not-auth.decorator';
 import { ClientCreateProperties } from '../../clients/entities/client.entity';
 import { CurrentUser } from '../../../../nest-decorators/decorators/current-user.decorator';
@@ -42,7 +42,7 @@ export class RecordsWebController {
     @Patch('/:recordId')
     async updateRecord(
         @Param('recordId') recordId: RecordId,
-        @Body() body: RecordCreateProperties,
+        @Body() body: RecordUpdateProperties,
     ): Promise<Record> {
         return await this._recordsService.updateRecord(recordId, body);
     }

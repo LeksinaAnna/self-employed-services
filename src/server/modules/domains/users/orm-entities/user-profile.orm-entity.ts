@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { ProfessionType, UserContacts, UserProfile } from '../entities/user-profile.entity';
 import { UserId } from '../entities/user.entity';
 import { RentalOrmEntity } from '../../rentals/orm-entities/rental.orm-entity';
+import { RoomId } from '../../rooms/entities/room.entity';
 
 @Entity({ schema: 'users', name: 'users_profile' })
 export class UserProfileOrmEntity implements UserProfile {
@@ -19,6 +20,9 @@ export class UserProfileOrmEntity implements UserProfile {
 
     @Column({ name: 'profession', type: 'character varying' })
     profession: ProfessionType;
+
+    @Column({ name: 'selected_room', type: 'uuid', nullable: true })
+    selectedRoom: RoomId;
 
     @OneToMany(() => RentalOrmEntity, rental => rental.profile)
     rentals: RentalOrmEntity[];

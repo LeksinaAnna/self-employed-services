@@ -6,6 +6,7 @@ import {
     RoomId, RoomWithProfit,
 } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
+import { WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 
 export class LocationsApi extends ApiBaseClient {
     private readonly prefix = '/api/v1/rooms';
@@ -26,7 +27,7 @@ export class LocationsApi extends ApiBaseClient {
         return await this.get(`${this.prefix}`, query, signal);
     }
 
-    public async getRoomById(roomId: RoomId, signal?: AbortSignal): Promise<Room> {
+    public async getRoomById(roomId: RoomId, signal?: AbortSignal): Promise<Room & WithRentals> {
         return await this.get(`${this.prefix}/${roomId}`, {}, signal);
     }
 

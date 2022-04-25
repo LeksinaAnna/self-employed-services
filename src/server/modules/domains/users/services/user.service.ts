@@ -63,8 +63,14 @@ export class UserService implements UserUseCase {
         return await this._userPort.getAccount(email);
     }
 
-    async updateUser(properties: UserCreateProperties & UserProfileCreateProperties): Promise<UserProfile> {
-        return Promise.resolve(undefined);
+    async updateUserInfo(userId: UserId, properties: UserProfileCreateProperties): Promise<UserProfile> {
+        const user = await this._userPort.getUserById(userId);
+
+        if (!user) {
+            throw new NotFoundException('Пользователя не существует')
+        }
+
+        return await this._userProfileService.updateUserProfile(userId, properties);
     }
 
     async getUserById(userId: UserId): Promise<LargeUser> {
