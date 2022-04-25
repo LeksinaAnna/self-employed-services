@@ -15,3 +15,5 @@ export const redText = `#ce0014`;
 
 export const orangeDie = `#FCB73E`;
 export const orangeText = `#d97e00`;
+
+export const hoveredColor = `#ddedf5`;

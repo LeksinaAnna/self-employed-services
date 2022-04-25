@@ -5,7 +5,7 @@ import { Hint } from '@skbkontur/react-ui';
 import { Delete } from '@mui/icons-material';
 import { ServiceItem } from '../../../../../server/modules/domains/services-list/entities/service-item.entity';
 import { Typography } from '../../../ui/Text/Typography';
-import { greenText, orangeText } from '../../../../client-tools/styles/color';
+import { greenText, hoveredColor, orangeText } from '../../../../client-tools/styles/color';
 
 interface Props {
     item: ServiceItem;
@@ -27,7 +27,7 @@ export const ServicesTableItem: React.FC<Props> = ({ item, openSettings, onDelet
         <TableRow
             onMouseEnter={() => setIsHover(true)}
             onMouseLeave={() => setIsHover(false)}
-            style={{ background: isHover && '#ddedf5', cursor: 'pointer' }}
+            style={{ background: isHover && hoveredColor, cursor: 'pointer' }}
         >
             <TableCell style={{ padding: '10px 5px' }} onClick={() => openSettings(item)}>
                 <Typography fontSize="16px">{item.title}</Typography>

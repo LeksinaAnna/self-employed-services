@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from '../../../../stores/root.store';
 import { LargeUser, UserWithDescription } from '../../../../../server/modules/domains/users/entities/user.entity';
+import { TableItem } from '../../../ui/Tables/TableItems/TableWithItems';
 import { SpecialistsService } from './specialists.service';
 
 export class SpecialistsStore {
@@ -41,9 +42,9 @@ export class SpecialistsStore {
         this.specialists = specialists;
     }
 
-    openInfoModal(user: LargeUser & UserWithDescription): void {
+    openInfoModal(item: TableItem): void {
         this.isInfoModal = true;
-        this.selectedUser = user;
+        this.selectedUser = this.specialists.find(specialist => specialist.accountId === item.id);
     }
 
     closeInfoModal(): void {

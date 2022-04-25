@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { DatePicker } from '@skbkontur/react-ui';
 import { useAsyncEffectWithError } from '../../../client-tools/hooks/use-async-effect';
-import { notActiveText, secondaryText } from '../../../client-tools/styles/color';
+import { greenText, notActiveText, secondaryText } from '../../../client-tools/styles/color';
 import { Typography } from '../../ui/Text/Typography';
 import { useStores } from '../../../client-tools/hooks/use-stores';
 import { Chart } from './Chart/Chart';
@@ -46,7 +46,7 @@ export const ReportPage: React.FC = observer(() => {
             {rooms.length > 0 && <RoomsTable onHoverItem={setHoveredRoom} hoveredItem={hoveredRoom} rooms={rooms} />}
             {rooms.length > 0 && (
                 <ReportFooter>
-                    <Typography fontSize="20px" color={'rgba(6,34,100,0.75)'}>
+                    <Typography fontSize="20px" color={greenText}>
                         {totalProfit} руб.
                     </Typography>
                 </ReportFooter>
