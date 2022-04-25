@@ -6,7 +6,7 @@ import { SpecialistsService } from './specialists.service';
 
 export class SpecialistsStore {
     isLoading = false
-    specialists: Array<LargeUser & UserWithDescription>;
+    specialists: Array<LargeUser & UserWithDescription> = [];
     count = 0;
     skip = 0;
     take = 10;

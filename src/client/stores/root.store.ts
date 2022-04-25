@@ -7,6 +7,7 @@ import { SpecialistsStore } from '../components/entities/Specialists/stores/spec
 import { AdminApiStore } from '../client-tools/api/stores/admin-api-store';
 import { AdminReportStore } from '../components/entities/AdminReport/stores/admin-report.store';
 import { ServicesPageStore } from '../components/entities/ServicesPage/stores/services-page.store';
+import { ClientsStore } from '../components/entities/Clients/stores/clients.store';
 
 export class RootStore {
     readonly appStore: AppStore;
@@ -15,6 +16,7 @@ export class RootStore {
     readonly specialistsStore: SpecialistsStore;
     readonly adminReportStore: AdminReportStore;
     readonly servicesPageStore: ServicesPageStore;
+    readonly clientsStore: ClientsStore;
 
     constructor(readonly commonApi: CommonApiStore, readonly adminApi: AdminApiStore) {
         this.appStore = new AppStore(this);
@@ -23,6 +25,7 @@ export class RootStore {
         this.specialistsStore = new SpecialistsStore(this);
         this.adminReportStore = new AdminReportStore(this);
         this.servicesPageStore = new ServicesPageStore(this);
+        this.clientsStore = new ClientsStore(this);
 
         makeAutoObservable(this, {}, { autoBind: true });
     }

@@ -13,6 +13,7 @@ import { LocationsPage } from '../entities/Locations/LocationsPage';
 import { SpecialistsPage } from '../entities/Specialists/SpecialistsPage';
 import { ReportPage } from '../entities/AdminReport/ReportPage';
 import { ServicesPage } from '../entities/ServicesPage/ServicesPage';
+import { ClientsPage } from '../entities/Clients/ClientsPage';
 
 
 /**
@@ -45,7 +46,7 @@ export const App: React.FC = observer(() => {
                         <Route path="admin/tenantry" element={<SpecialistsPage />} />
                         <Route path="admin/report" element={<ReportPage />} />
                         <Route path="specialist/services" element={<ServicesPage />} />
-                        <Route path="specialist/clients" element={<div>КЛИЕНТЫ</div>} />
+                        <Route path="specialist/clients" element={<ClientsPage />}/>
                         <Route path="specialist/report" element={<div>ОТЧЕТ</div>} />
                         <Route path="specialist/records" element={<div>ЗАПИСИ</div>} />
                         <Route path="*" element={<PageNotFound />} />

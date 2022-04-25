@@ -8,6 +8,10 @@ export interface WithClient {
     client: Client;
 }
 
+export interface ClientUpdateProperties {
+    description: string;
+}
+
 export interface ClientCreateProperties {
     name: string;
     phone: string;

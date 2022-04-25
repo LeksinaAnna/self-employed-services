@@ -36,8 +36,8 @@ export const SpecialistsPage: React.FC = observer(() => {
     return (
         <div>
             <SpecialistsHead searchValue={searchValue} onValueChange={service.onValueSearch} />
-            {specialists && <TableWithItems items={getTableItems()} onSettings={openInfoModal} />}
-            {!specialists && (
+            {specialists.length > 0 && <TableWithItems items={getTableItems()} onSettings={openInfoModal} />}
+            {specialists.length === 0 && (
                 <Center style={{ marginTop: 50 }}>
                     <Typography color={notActiveText} fontSize={'24px'}>
                         Арендаторы отсутствуют
