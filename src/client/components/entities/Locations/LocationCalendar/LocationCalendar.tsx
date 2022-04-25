@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
-import { LargeRoom, RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
-import { RentalId } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { Room, RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { RentalId, WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { UserId } from '../../../../../server/modules/domains/users/entities/user.entity';
 import { EmptyLine } from './Lines/EmptyLine';
 import { ActiveLine } from './Lines/ActiveLine';
@@ -12,7 +12,8 @@ import { InfoRental } from './InfoRental/InfoRental';
 import { CalendarStore } from './stores/calendar.store';
 
 interface Props {
-    room: LargeRoom;
+    room: Room & WithRentals;
+    updatePage: () => Promise<void>;
 }
 
 const LineWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
@@ -21,9 +22,8 @@ const LineWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
     position: 'relative',
 }));
 
-export const LocationCalendar: React.FC<Props> = observer(({ room }) => {
+export const LocationCalendar: React.FC<Props> = observer(({ room, updatePage }) => {
     const rootStore = useStores();
-    const { service: locationService } = rootStore.locationsStore;
     const [calendarStore] = useState<CalendarStore>(() => new CalendarStore(rootStore));
     const { lineWidth, openModal, times, selectedRental, selectedTime, positionModal, service, closeModal } =
         calendarStore;
@@ -31,13 +31,13 @@ export const LocationCalendar: React.FC<Props> = observer(({ room }) => {
     const onAccept = async (startTime: string, endTime: string, specialistId: UserId, roomId: RoomId) => {
         await service.createRental(startTime, endTime, specialistId, roomId);
         closeModal();
-        await locationService.init();
+        await updatePage();
     }
 
     const onDelete = async (rentalId: RentalId) => {
         await service.deleteRental(rentalId);
         closeModal();
-        await locationService.init();
+        await updatePage();
     }
 
     return (

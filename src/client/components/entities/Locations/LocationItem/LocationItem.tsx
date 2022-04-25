@@ -5,11 +5,12 @@ import { TitleItem } from './TitleItem';
 
 interface Props {
     room: LargeRoom;
+    updatePage: () => Promise<void>;
 }
 
-export const LocationItem: React.FC<Props> = ({ room }) => (
+export const LocationItem: React.FC<Props> = ({ room, updatePage }) => (
     <div>
         <TitleItem title={room?.title} price={room?.price} />
-        <LocationCalendar room={room} />
+        <LocationCalendar room={room} updatePage={updatePage} />
     </div>
 );

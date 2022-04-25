@@ -19,16 +19,14 @@ export class RoomsWebController {
     }
 
     @Get('/profit')
-    async getProfit(
-        @Query() query: QueryType,
-    ): Promise<RoomWithProfit[]> {
+    async getProfit(@Query() query: QueryType): Promise<RoomWithProfit[]> {
         return await this._roomsService.getProfit(query);
     }
 
     @Roles('SPECIALIST', 'ADMIN')
     @Get('/:roomId')
-    async getRoomById(@Param('roomId') roomId: RoomId): Promise<Room> {
-        return await this._roomsService.getRoomById(roomId);
+    async getRoomById(@Param('roomId') roomId: RoomId, @Query() query: QueryType): Promise<Room & WithRentals> {
+        return await this._roomsService.getRoomById(roomId, query);
     }
 
     @Post('/')

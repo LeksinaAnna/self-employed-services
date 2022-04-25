@@ -17,10 +17,6 @@ const CellWrapper = styled.div<{ leftProp: number | string }>(({ leftProp }) => 
     top: 0,
 }));
 
-const MessageWrapper = styled.div`
-    background: #c5c5c5;
-`;
-
 export const ActiveLine: React.FC<Props> = ({ rentals, openModal, openedModal }) => {
     const getPosition = (rental: LargeRental) => {
         // получаем часы:минуты и разбиваем их на отдельные сущности
@@ -47,7 +43,7 @@ export const ActiveLine: React.FC<Props> = ({ rentals, openModal, openedModal })
 
         return (
             <div>
-                <div>{rental.profile.fullName}</div>
+                <div>{rental.profile?.fullName}</div>
                 <div>
                     {startTime} - {endTime}
                 </div>

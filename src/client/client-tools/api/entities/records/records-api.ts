@@ -8,7 +8,7 @@ import {
 import { ClientCreateProperties } from '../../../../../server/modules/domains/clients/entities/client.entity';
 
 export class RecordsApi extends ApiBaseClient {
-    private readonly prefix = 'api/v1/records';
+    private readonly prefix = '/api/v1/records';
 
     constructor(baseUrl) {
         super(baseUrl);

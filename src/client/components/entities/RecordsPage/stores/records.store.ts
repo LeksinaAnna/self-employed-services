@@ -20,6 +20,8 @@ export class RecordsStore {
     rentals: Rental[] = [];
     newRecords: Record[] = [];
 
+    isChangeRoomModal = false;
+
     readonly service: RecordsService;
     
     constructor(private readonly _rootStore: RootStore) {
@@ -27,8 +29,6 @@ export class RecordsStore {
 
         makeAutoObservable(this, {}, { autoBind: true })
     }
-
-
     
     setCurrentDate(value: string): void {
         this.currentDate = value;
@@ -52,6 +52,14 @@ export class RecordsStore {
 
     setRecords(items: Record[]): void {
         this.records = items;
+    }
+
+    openChangeRoomModal(): void {
+        this.isChangeRoomModal = true;
+    }
+
+    closeChangeRoomModal(): void {
+        this.isChangeRoomModal = false;
     }
 
     destroy(): void {

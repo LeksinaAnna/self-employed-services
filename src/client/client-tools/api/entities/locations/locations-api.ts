@@ -27,8 +27,9 @@ export class LocationsApi extends ApiBaseClient {
         return await this.get(`${this.prefix}`, query, signal);
     }
 
-    public async getRoomById(roomId: RoomId, signal?: AbortSignal): Promise<Room & WithRentals> {
-        return await this.get(`${this.prefix}/${roomId}`, {}, signal);
+    public async getRoomById(roomId: RoomId, query: QueryType = {}, signal?: AbortSignal): Promise<Room & WithRentals> {
+        console.log(query);
+        return await this.get(`${this.prefix}/${roomId}`, query, signal);
     }
 
     public async getRoomsWithProfit(query: QueryType = {}, signal?: AbortSignal): Promise<RoomWithProfit[]> {
