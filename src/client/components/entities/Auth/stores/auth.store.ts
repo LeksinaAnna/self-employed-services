@@ -42,16 +42,15 @@ export class AuthStore {
     }
 
     get redirectPath(): string {
-        if (this._rootStore.appStore.isAdmin) {
-            return 'admin/locations';
-        }
-
-        if (this._rootStore.appStore.isSpecialist) {
-            return 'specialist/services';
-        }
-
-        if (this._rootStore.appStore.isUser) {
-            return 'user/records';
+        switch (this._rootStore.appStore.currentRole) {
+            case 'ADMIN':
+                return 'admin/locations';
+            case 'USER':
+                return 'user/records';
+            case 'SPECIALIST':
+                return 'specialist/services';
+            default:
+                return '/';
         }
     }
 

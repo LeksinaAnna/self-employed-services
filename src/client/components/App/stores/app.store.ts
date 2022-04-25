@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from '../../../stores/root.store';
 import { LargeUser } from '../../../../server/modules/domains/users/entities/user.entity';
+import { RoleType } from '../../../../server/modules/domains/roles/entities/role.entity';
 import { AppService } from './app.service';
 
 export class AppStore {
@@ -8,9 +9,7 @@ export class AppStore {
 
     userData: LargeUser = null;
     isAuth = false;
-    isAdmin = false;
-    isSpecialist = false;
-    isUser = false;
+    currentRole: RoleType;
     isLoading = false;
 
     constructor(private readonly _rootStore: RootStore) {
@@ -22,6 +21,10 @@ export class AppStore {
     setIsAuth(value: boolean): void {
         this.isAuth = value;
     }
+    
+    setRole(value: RoleType): void {
+        this.currentRole = value;
+    }
 
     setIsLoading(value: boolean): void {
         this.isLoading = value;
@@ -29,8 +32,5 @@ export class AppStore {
 
     setUserData(data: LargeUser): void {
         this.userData = data;
-        if (data) {
-            this.service.setRole(data.roles);
-        }
     }
 }

@@ -1,8 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from '../../../stores/root.store';
 import { AuthApi } from '../../../client-tools/api/entities/auth/auth-api';
-import { Role } from '../../../../server/modules/domains/roles/entities/role.entity';
-import { LargeUser } from '../../../../server/modules/domains/users/entities/user.entity';
 import { AppStore } from './app.store';
 
 export class AppService {
@@ -19,45 +17,19 @@ export class AppService {
             this._appStore.setIsLoading(true);
         });
 
-        const accessToken = localStorage.getItem('AccessToken');
-        let user: LargeUser;
-
-        if (accessToken) {
-            try {
-                user = await this._authApi.checkAuth(signal);
-            } catch (e) {
-                if (e.statusCode === 401) {
-                    localStorage.removeItem('AccessToken');
-                }
-            }
-        }
+        const user = await this._rootStore.authStore.service.checkAuth(signal);
 
         if (user) {
             runInAction(() => {
                 this._appStore.setIsAuth(true);
                 this._appStore.setUserData(user);
-                this.setRole(user.roles);
+                this._appStore.setRole(user.roles[0].value);
             });
         }
 
         runInAction(() => {
             this._appStore.setIsLoading(false);
         });
-    }
-
-    setRole(userRoles: Role[]): void {
-        const roles = userRoles.map(role => role.value);
-        if (roles.includes('ADMIN')) {
-            this._appStore.isAdmin = true;
-        }
-
-        if (roles.includes('SPECIALIST')) {
-            this._appStore.isSpecialist = true;
-        }
-
-        if (roles.includes('USER')) {
-            this._appStore.isUser = true;
-        }
     }
 
     destroy(): void {

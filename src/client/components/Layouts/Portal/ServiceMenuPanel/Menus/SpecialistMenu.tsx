@@ -16,14 +16,14 @@ export const SpecialistMenu: React.FC = () => (
             icon={<GroupsOutlined color={'disabled'} fontSize={'large'} />}
         />
         <ServiceMenuLink
-            title={'Отчёт'}
-            to={'report'}
-            icon={<EqualizerOutlined color={'disabled'} fontSize={'large'} />}
-        />
-        <ServiceMenuLink
             title={'Записи'}
             to={'records'}
             icon={<EventNoteOutlined color={'disabled'} fontSize={'large'} />}
+        />
+        <ServiceMenuLink
+            title={'Отчёт'}
+            to={'report'}
+            icon={<EqualizerOutlined color={'disabled'} fontSize={'large'} />}
         />
     </MenuWrapper>
 );

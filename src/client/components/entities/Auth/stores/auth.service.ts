@@ -3,6 +3,8 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from '../../../../stores/root.store';
 import { AuthApi } from '../../../../client-tools/api/entities/auth/auth-api';
 import { AppStore } from '../../../App/stores/app.store';
+import { AccessToken } from '../../../../../server/modules/domains/tokens/entities/token.entity';
+import { LargeUser } from '../../../../../server/modules/domains/users/entities/user.entity';
 import { AuthStore } from './auth.store';
 
 export class AuthService {
@@ -30,6 +32,7 @@ export class AuthService {
             localStorage.setItem('AccessToken', accessToken);
             runInAction(() => {
                 this._appStore.setUserData(user);
+                this._appStore.setRole(user.roles[0].value);
                 this._appStore.setIsAuth(true);
             });
         }
@@ -87,6 +90,20 @@ export class AuthService {
 
             this._authStore.setIsLoading(false);
         });
+    }
+
+    async checkAuth(signal?: AbortSignal): Promise<LargeUser> {
+        const accessToken = localStorage.getItem('AccessToken');
+
+        if (accessToken) {
+            try {
+                return await this._authApi.checkAuth(signal);
+            } catch (e) {
+                if (e.statusCode === 401) {
+                    localStorage.removeItem('AccessToken');
+                }
+            }
+        }
     }
 
     destroy(): void {
