@@ -1,4 +1,5 @@
 import { makeAutoObservable, runInAction } from 'mobx';
+import moment from 'moment';
 import { RootStore } from '../../../../stores/root.store';
 import { RecordsApi } from '../../../../client-tools/api/entities/records/records-api';
 import { RentalApi } from '../../../../client-tools/api/entities/rental/rental-api';
@@ -54,6 +55,8 @@ export class RecordsService {
             selectedRoom: roomId,
         });
 
+        await this.init();
+
         clearTimeout(timer);
 
         runInAction(() => {
@@ -65,7 +68,13 @@ export class RecordsService {
         if (!roomId) {
             return null;
         }
+
+        const startTime = moment(this._recordsStore.currentDate).startOf('day').format();
+        const finishTime = moment(this._recordsStore.currentDate).endOf('day').format();
         
-        return await this._locationsApi.getRoomById(roomId);
+        return await this._locationsApi.getRoomById(roomId, {
+            start_date: startTime,
+            finish_date: finishTime
+        });
     }
 }

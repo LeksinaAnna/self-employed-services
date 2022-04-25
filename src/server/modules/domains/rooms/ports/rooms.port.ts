@@ -8,7 +8,7 @@ export interface RoomsPort {
 
     getRoomsByCreatorId(id: UserId, query?: QueryType): Promise<ManyItem<Room>>;
 
-    getRoomById(id: RoomId): Promise<Room>;
+    getRoomById(id: RoomId, query?: QueryType): Promise<Room & WithRentals>;
 
     getRooms(query?: QueryType): Promise<ManyItem<Room & WithRentals>>;
 }

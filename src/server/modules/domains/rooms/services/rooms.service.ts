@@ -45,8 +45,8 @@ export class RoomsService implements RoomsUseCase {
 
     }
 
-    async getRoomById(roomId: RoomId): Promise<Room> {
-        return await this._roomsAdapter.getRoomById(roomId);
+    async getRoomById(roomId: RoomId, query?: QueryType): Promise<Room & WithRentals> {
+        return await this._roomsAdapter.getRoomById(roomId, query);
     }
 
     async createRoom(properties: RoomCreateProperties & WithCreator): Promise<Room> {

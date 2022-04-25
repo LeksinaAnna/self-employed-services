@@ -37,12 +37,24 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
         return await this._entityManager.save(RoomOrmEntity, properties);
     }
 
-    async getRoomById(id: RoomId): Promise<Room> {
-        return await createQueryBuilder(RoomOrmEntity, 'room')
+    async getRoomById(id: RoomId, query?: QueryType): Promise<Room & WithRentals> {
+        const qb = createQueryBuilder(RoomOrmEntity, 'room')
             .where(`room.roomId = :roomId`, { roomId: id })
             .andWhere(`room.inBasket != true`)
-            .leftJoinAndSelect(`room.rentals`, 'rental')
-            .getOne();
+
+        if (query?.start_date && query?.finish_date) {
+            qb.leftJoinAndSelect(
+                `room.rentals`,
+                'rental',
+                'rental.startDate >= :startDate AND rental.finishDate <= :finishDate AND rental.inBasket = false',
+                {
+                    startDate: query?.start_date,
+                    finishDate: query?.finish_date,
+                },
+            )
+        }
+
+        return await qb.getOne();
     }
 
     async getRooms({

@@ -13,6 +13,7 @@ import { CalendarStore } from './stores/calendar.store';
 
 interface Props {
     room: LargeRoom;
+    updatePage: () => Promise<void>;
 }
 
 const LineWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
@@ -21,9 +22,8 @@ const LineWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
     position: 'relative',
 }));
 
-export const LocationCalendar: React.FC<Props> = observer(({ room }) => {
+export const LocationCalendar: React.FC<Props> = observer(({ room, updatePage }) => {
     const rootStore = useStores();
-    const { service: locationService } = rootStore.locationsStore;
     const [calendarStore] = useState<CalendarStore>(() => new CalendarStore(rootStore));
     const { lineWidth, openModal, times, selectedRental, selectedTime, positionModal, service, closeModal } =
         calendarStore;
@@ -31,13 +31,13 @@ export const LocationCalendar: React.FC<Props> = observer(({ room }) => {
     const onAccept = async (startTime: string, endTime: string, specialistId: UserId, roomId: RoomId) => {
         await service.createRental(startTime, endTime, specialistId, roomId);
         closeModal();
-        await locationService.init();
+        await updatePage();
     }
 
     const onDelete = async (rentalId: RentalId) => {
         await service.deleteRental(rentalId);
         closeModal();
-        await locationService.init();
+        await updatePage();
     }
 
     return (
