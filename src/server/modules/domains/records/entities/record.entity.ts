@@ -1,8 +1,8 @@
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
-import { ServiceItemId } from '../../services-list/entities/service-item.entity';
+import { ServiceItemId, WithServiceItem } from '../../services-list/entities/service-item.entity';
 import { UserId } from '../../users/entities/user.entity';
-import { ClientId } from '../../clients/entities/client.entity';
+import { ClientId, WithClient } from '../../clients/entities/client.entity';
 
 export type RecordId = string;
 export type RecordStatus = 'accepted' | 'canceled' | 'sent';
@@ -10,6 +10,8 @@ export type RecordStatus = 'accepted' | 'canceled' | 'sent';
 export interface WithRecords {
     records: Record[];
 }
+
+export type LargeRecord = Record & WithClient & WithServiceItem;
 
 export interface RecordUpdateProperties {
     status?: RecordStatus;

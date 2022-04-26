@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
+import styled from '@emotion/styled';
 import { useStores } from '../../client-tools/hooks/use-stores';
 import { useAsyncEffectWithError } from '../../client-tools/hooks/use-async-effect';
 import { RegistrationPage } from '../entities/Auth/pages/RegistrationPage/RegistrationPage';
@@ -11,12 +12,17 @@ import { CheckAuth } from '../Layouts/Portal/CheckAuth';
 import { PageNotFound } from '../Errors/PageNotFound/PageNotFound';
 import { LocationsPage } from '../entities/Locations/LocationsPage';
 import { SpecialistsPage } from '../entities/Specialists/SpecialistsPage';
-import { ReportPage } from '../entities/AdminReport/ReportPage';
+import { AdminReportPage } from '../entities/AdminReport/AdminReportPage';
 import { ServicesPage } from '../entities/ServicesPage/ServicesPage';
 import { ClientsPage } from '../entities/Clients/ClientsPage';
 import { RecordsPage } from '../entities/RecordsPage/RecordsPage';
 import { CheckRole } from '../Layouts/Portal/CheckRole';
 
+const AppWrapper = styled.div`
+  width: 1000px;
+  padding: 65px 265px;
+  font-family: 'Lab Grotesque', 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, Tahoma, sans-serif;
+`;
 
 /**
  *
@@ -39,27 +45,29 @@ export const App: React.FC = observer(() => {
 
     return (
         <LoadingLayout isLoading={appStore.isLoading} isInit={appInit}>
-            <Routes>
-                <Route path="registration" element={<RegistrationPage />} />
-                <Route path="login" element={<LoginPage />} />
-                <Route path="*" element={<CheckAuth />}>
-                    <Route path="*" element={<PortalLayout />}>
-                        <Route path="admin" element={<CheckRole role="ADMIN" />}>
-                            <Route path="locations" element={<LocationsPage />} />
-                            <Route path="tenantry" element={<SpecialistsPage />} />
-                            <Route path="report" element={<ReportPage />} />
-                            <Route path="*" element={<PageNotFound />} />
-                        </Route>
-                        <Route path="specialist" element={<CheckRole role="SPECIALIST" />}>
-                            <Route path="services" element={<ServicesPage />} />
-                            <Route path="clients" element={<ClientsPage />} />
-                            <Route path="records" element={<RecordsPage />} />
-                            <Route path="report" element={<div>ОТЧЕТ</div>} />
-                            <Route path="*" element={<PageNotFound />} />
+            <AppWrapper>
+                <Routes>
+                    <Route path="registration" element={<RegistrationPage />} />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="*" element={<CheckAuth />}>
+                        <Route path="*" element={<PortalLayout />}>
+                            <Route path="admin" element={<CheckRole role="ADMIN" />}>
+                                <Route path="locations" element={<LocationsPage />} />
+                                <Route path="tenantry" element={<SpecialistsPage />} />
+                                <Route path="report" element={<AdminReportPage />} />
+                                <Route path="*" element={<PageNotFound />} />
+                            </Route>
+                            <Route path="specialist" element={<CheckRole role="SPECIALIST" />}>
+                                <Route path="services" element={<ServicesPage />} />
+                                <Route path="clients" element={<ClientsPage />} />
+                                <Route path="records" element={<RecordsPage />} />
+                                <Route path="report" element={<div>ОТЧЕТ</div>} />
+                                <Route path="*" element={<PageNotFound />} />
+                            </Route>
                         </Route>
                     </Route>
-                </Route>
-            </Routes>
+                </Routes>
+            </AppWrapper>
         </LoadingLayout>
     );
 });

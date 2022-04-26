@@ -2,17 +2,21 @@ import React, { useState } from 'react';
 import moment from 'moment';
 import { Alert } from '@mui/material';
 import styled from '@emotion/styled';
-import { Button } from '@skbkontur/react-ui';
-import { LargeRental, RentalId } from '../../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { Button, Center } from '@skbkontur/react-ui';
+import { LargeRental, RentalId } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { CalendarModal, CalendarModalBody, CalendarModalFooter, CalendarModalHead } from '../CalendarModal';
-import { Typography } from '../../../../ui/Text/Typography';
-import { secondaryText } from '../../../../../client-tools/styles/color';
+import { Typography } from '../../../ui/Text/Typography';
+import { secondaryText } from '../../../../client-tools/styles/color';
+import { LargeUser } from '../../../../../server/modules/domains/users/entities/user.entity';
+import { UserProfile } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
+import { SpecialistInfo } from './SpecialistInfo';
 
 interface Props {
     rental: LargeRental;
     close: () => void;
     onDelete: (id: RentalId) => void;
     position: number;
+    specialist?: LargeUser;
 }
 
 const TimesWrapper = styled.div`
@@ -26,26 +30,10 @@ const TimesWrapper = styled.div`
     }
 `;
 
-const SpecialistInfoWrapper = styled.div`
-    padding: 5px;
-    margin-top: 5px;
-    background: rgba(220, 219, 219, 0.55);
-`;
-
-const InfoItem = styled.div`
-    margin-top: 5px;
-    display: flex;
-    align-items: center;
-
-    div:last-child {
-        margin-left: 10px;
-    }
-`;
-
-export const InfoRental: React.FC<Props> = ({ rental, close, position, onDelete }) => {
-
+export const InfoRental: React.FC<Props> = ({ rental, close, position, onDelete, specialist }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>();
+    const [userInfo] = useState<UserProfile>(specialist?.profile || rental?.profile);
 
     const onSubmitDelete = async () => {
         setLoading(true);
@@ -53,10 +41,12 @@ export const InfoRental: React.FC<Props> = ({ rental, close, position, onDelete 
             await onDelete(rental.rentalId);
         } catch (e) {
             setError(e.message);
+            setLoading(false);
+            return;
         }
-
         setLoading(false);
-    }
+        close();
+    };
 
     return (
         <div style={{ position: 'absolute', left: position, zIndex: 2, bottom: 38 }}>
@@ -75,36 +65,30 @@ export const InfoRental: React.FC<Props> = ({ rental, close, position, onDelete 
                             {moment(rental.startDate).format('HH:mm')} - {moment(rental.finishDate).format('HH:mm')}
                         </Typography>
                     </TimesWrapper>
-                    <SpecialistInfoWrapper>
-                        <InfoItem>
-                            <Typography fontSize={'14px'} color={secondaryText}>
-                                Арендатор:
+
+                    {/* Если не мастер (админ) или id мастера совпадает с id мастера из аренды, то покажем полную инфу об аренде */}
+                    {(!specialist || userInfo?.profileId === rental?.specialistId) && (
+                        <SpecialistInfo userInfo={userInfo} />
+                    )}
+
+                    {/* Если мастер, но id мастера и id мастера из аренды не совпадают, то показываем что аренда не его */}
+                    {specialist && userInfo?.profileId !== rental?.specialistId && (
+                        <Center>
+                            <Typography color={secondaryText} fontSize="18px">
+                                Это не ваша аренда.
                             </Typography>
-                            <Typography color={'rgba(238,116,56,0.75)'}>{rental.profile.fullName}</Typography>
-                        </InfoItem>
-                        <InfoItem>
-                            <Typography fontSize={'14px'} color={secondaryText}>
-                                Телефон:
-                            </Typography>
-                            <Typography color={'rgba(238,116,56,0.75)'}>
-                                {rental.profile.contacts.phone || ' - '}
-                            </Typography>
-                        </InfoItem>
-                        <InfoItem>
-                            <Typography fontSize={'14px'} color={secondaryText}>
-                                Почта:
-                            </Typography>
-                            <Typography color={'rgba(238,116,56,0.75)'}>
-                                {rental.profile.contacts.email || ' - '}
-                            </Typography>
-                        </InfoItem>
-                    </SpecialistInfoWrapper>
+                        </Center>
+                    )}
                 </CalendarModalBody>
-                {error && <Alert severity='error'>{error}</Alert>}
+                {error && <Alert severity="error">{error}</Alert>}
                 <CalendarModalFooter>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <Button onClick={close}>Закрыть</Button>
-                        <Button use="danger" loading={loading} onClick={onSubmitDelete}>Удалить</Button>
+                        {(userInfo?.profileId === rental?.specialistId || !specialist) && (
+                            <Button use="danger" loading={loading} onClick={onSubmitDelete}>
+                                Удалить
+                            </Button>
+                        )}
                     </div>
                 </CalendarModalFooter>
             </CalendarModal>

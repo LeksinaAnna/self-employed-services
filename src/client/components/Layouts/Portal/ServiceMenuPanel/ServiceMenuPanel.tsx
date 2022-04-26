@@ -9,7 +9,7 @@ import { SpecialistMenu } from './Menus/SpecialistMenu';
 import { DefaultMenu } from './Menus/DefaultMenu';
 
 export const MenuWrapper = styled.div`
-    width: 100px;
+    width: 120px;
     border-right: 1px solid ${defaultPortalColor};
     display: flex;
     flex-direction: column;

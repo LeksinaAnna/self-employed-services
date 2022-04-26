@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx';
-import { LargeRental } from '../../../../../../server/modules/domains/rentals/entities/rental.entity';
-import { RootStore } from '../../../../../stores/root.store';
+import { LargeRental } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { RootStore } from '../../../../stores/root.store';
+import { LargeUser } from '../../../../../server/modules/domains/users/entities/user.entity';
 import { CalendarService } from './calendar.service';
 
 export class CalendarStore {
@@ -49,6 +50,14 @@ export class CalendarStore {
 
     get lineWidth(): number {
         return (Number(this._endTime.split(':')[0]) - Number(this._startTime.split(':')[0])) * 60;
+    }
+
+    get currentUser(): LargeUser {
+        if (this._rootStore.appStore.currentRole === 'SPECIALIST') {
+            return this._rootStore.appStore.userData;
+        }
+
+        return null;
     }
 
     setIsLoading(value: boolean): void {

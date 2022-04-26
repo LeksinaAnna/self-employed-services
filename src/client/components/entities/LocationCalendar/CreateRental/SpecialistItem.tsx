@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Typography } from '../../../../ui/Text/Typography';
-import { secondaryText } from '../../../../../client-tools/styles/color';
+import { Typography } from '../../../ui/Text/Typography';
+import { secondaryText } from '../../../../client-tools/styles/color';
 interface Props {
     fullName: string;
     email: string;

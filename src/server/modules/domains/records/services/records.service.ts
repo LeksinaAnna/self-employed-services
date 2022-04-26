@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { RecordsUseCase } from '../ports/records.use-case';
 import {
+    LargeRecord,
     Record,
     RecordCreateProperties,
     RecordEntity,
     RecordId,
-    RecordUpdateProperties
+    RecordUpdateProperties,
 } from '../entities/record.entity';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 import { UserId } from '../../users/entities/user.entity';
@@ -39,7 +40,7 @@ export class RecordsService implements RecordsUseCase {
         return await this._recordsAdapter.saveRecord(updatedRecord);
     }
 
-    async getRecordsBySpecId(specialistId: UserId, query?: QueryType): Promise<ManyItem<Record>> {
+    async getRecordsBySpecId(specialistId: UserId, query?: QueryType): Promise<ManyItem<LargeRecord>> {
         return await this._recordsAdapter.getRecords({ ...query, spec_id: specialistId });
     }
 
@@ -51,14 +52,15 @@ export class RecordsService implements RecordsUseCase {
         }
 
         const updatedRecord = new RecordEntity({ ...record, ...properties });
+
         return await this._recordsAdapter.saveRecord(updatedRecord);
     }
 
-    async getRecords(query: QueryType): Promise<ManyItem<Record>> {
+    async getRecords(query: QueryType): Promise<ManyItem<LargeRecord>> {
         return await this._recordsAdapter.getRecords(query);
     }
 
-    async getNewRecords(specialistId: UserId, query: QueryType): Promise<ManyItem<Record>> {
+    async getNewRecords(specialistId: UserId, query: QueryType): Promise<ManyItem<LargeRecord>> {
         return await this._recordsAdapter.getNewRecords(specialistId, query);
     }
 }

@@ -18,13 +18,21 @@ export interface UserContacts {
     phone: string;
 }
 
-export interface UserProfileCreateProperties {
-    profileId?: UserId;
+export interface UserProfileUpdateProperties {
     fullName?: string;
     contacts?: UserContacts;
     birthday?: string;
     selectedRoom?: RoomId;
     profession?: ProfessionType;
+}
+
+export interface UserProfileCreateProperties {
+    profileId?: UserId;
+    fullName: string;
+    contacts: UserContacts;
+    birthday?: string;
+    selectedRoom?: RoomId;
+    profession: ProfessionType;
 }
 
 export interface WithUserProfile {

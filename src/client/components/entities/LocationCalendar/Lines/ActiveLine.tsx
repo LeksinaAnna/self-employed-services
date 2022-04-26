@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Hint } from '@skbkontur/react-ui';
 import styled from '@emotion/styled';
-import { LargeRental } from '../../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { LargeRental } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { CalendarCell } from '../CalendarCell';
 
 interface Props {

@@ -5,9 +5,9 @@ import { useAsyncEffectWithError } from '../../../client-tools/hooks/use-async-e
 import { useStores } from '../../../client-tools/hooks/use-stores';
 import { secondaryText } from '../../../client-tools/styles/color';
 import { Typography } from '../../ui/Text/Typography';
+import { LocationCalendar } from '../LocationCalendar/LocationCalendar';
 import { HeadLocations } from './HeadLocations';
 import { CreateModal } from './CreateModal/CreateModal';
-import { LocationItem } from './LocationItem/LocationItem';
 
 export const LocationsPage: React.FC = observer(() => {
     const { locationsStore } = useStores();
@@ -35,7 +35,7 @@ export const LocationsPage: React.FC = observer(() => {
             </div>
             <Gapped vertical gap={40}>
                 {locations.map(room => (
-                    <LocationItem key={room.roomId} room={room} updatePage={service.init} />
+                    <LocationCalendar key={room.roomId} room={room} updatePage={service.init} />
                 ))}
             </Gapped>
             {locations.length === 0 && (

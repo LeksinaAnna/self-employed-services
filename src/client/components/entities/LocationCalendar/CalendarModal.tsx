@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
-import { voidFunction } from '../../../../../common/js-tools/void-function';
+import { voidFunction } from '../../../../common/js-tools/void-function';
 
 interface ModalProps {
     width?: number;

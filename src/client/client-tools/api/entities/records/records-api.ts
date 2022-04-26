@@ -1,6 +1,7 @@
 import { ApiBaseClient } from '../../api-client/api-client';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 import {
+    LargeRecord,
     Record,
     RecordCreateProperties,
     RecordId, RecordUpdateProperties,
@@ -14,7 +15,7 @@ export class RecordsApi extends ApiBaseClient {
         super(baseUrl);
     }
 
-    async getMyRecords(query?: QueryType, signal?: AbortSignal): Promise<ManyItem<Record>> {
+    async getMyRecords(query?: QueryType, signal?: AbortSignal): Promise<ManyItem<LargeRecord>> {
         return await this.get(`${this.prefix}/my`, query, signal);
     }
 

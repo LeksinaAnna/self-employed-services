@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { darkBackground, notActiveText, secondaryText } from '../../../../client-tools/styles/color';
+import { darkBackground, notActiveText, secondaryText } from '../../../client-tools/styles/color';
 
 interface Cell {
     widthProp: number | string;

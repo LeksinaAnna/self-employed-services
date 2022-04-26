@@ -28,7 +28,7 @@ export const ChangeRoomModal: React.FC<Props> = ({ onClose, changeRoom }) => {
     useAsyncEffectWithError(
         async signal => {
             const response = await locations.getRooms(
-                { type: appStore?.userData?.profile?.profession, search, take: '5' },
+                { type: appStore?.userData?.profile?.profession, search },
                 signal,
             );
             setRooms(response.items);
@@ -36,14 +36,14 @@ export const ChangeRoomModal: React.FC<Props> = ({ onClose, changeRoom }) => {
         [search],
     );
 
-    const onChangeRoom = async (id: RoomId) => {
+    const onChangeRoom = async (roomId: RoomId) => {
         try {
-            await changeRoom(id);
+            await changeRoom(roomId);
             onClose();
         } catch (e) {
             setError(e.message);
         }
-    };
+    }
 
     return (
         <Modal onClose={onClose} width={450}>
@@ -63,8 +63,7 @@ export const ChangeRoomModal: React.FC<Props> = ({ onClose, changeRoom }) => {
                         rightIcon={<SearchIcon color="action" style={{ marginTop: '5px' }} />}
                     />
                 </div>
-
-                {rooms.length > 0 && <ItemsList onChange={onChangeRoom} items={rooms} />}
+                {rooms.length > 0 && <ItemsList changeRoom={onChangeRoom} items={rooms} />}
                 {rooms.length === 0 && (
                     <Typography fontSize="20px" color={secondaryText}>
                         Локации отсутствуют

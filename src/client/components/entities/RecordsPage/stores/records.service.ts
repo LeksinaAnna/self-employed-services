@@ -7,6 +7,7 @@ import { Room, RoomId } from '../../../../../server/modules/domains/rooms/entiti
 import { UsersApi } from '../../../../client-tools/api/entities/user/users-api';
 import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
 import { WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { RecordId } from '../../../../../server/modules/domains/records/entities/record.entity';
 import { RecordsStore } from './records.store';
 
 export class RecordsService {
@@ -20,7 +21,7 @@ export class RecordsService {
         this._rentalsApi = this._rootStore.commonApi.rental;
         this._usersApi = this._rootStore.commonApi.users;
         this._locationsApi = this._rootStore.commonApi.locations;
-        
+
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
@@ -29,12 +30,15 @@ export class RecordsService {
             this._rootStore.appStore.setIsLoading(true);
         }, 300);
 
-        const dataRecords = await this._recordsApi.getMyRecords({
-            take: this._recordsStore.take.toString(),
-            skip: this._recordsStore.skip.toString(),
-            search: this._recordsStore.searchValue.trim()
-        }, signal);
-        
+        const dataRecords = await this._recordsApi.getMyRecords(
+            {
+                take: this._recordsStore.take.toString(),
+                skip: this._recordsStore.skip.toString(),
+                search: this._recordsStore.searchValue.trim(),
+            },
+            signal,
+        );
+
         const currentRoom = await this.getCurrentRoom(this._rootStore.appStore?.userData?.profile?.selectedRoom);
 
         clearTimeout(timer);
@@ -45,7 +49,7 @@ export class RecordsService {
             this._recordsStore.setCurrentLocation(currentRoom);
         });
     }
-    
+
     async changeRoom(roomId: RoomId): Promise<void> {
         const timer = setTimeout(() => {
             this._rootStore.appStore.setIsLoading(true);
@@ -64,7 +68,7 @@ export class RecordsService {
             this._rootStore.appStore.setIsLoading(false);
         });
     }
-    
+
     async getCurrentRoom(roomId: RoomId): Promise<Room & WithRentals> {
         if (!roomId) {
             return null;
@@ -75,7 +79,7 @@ export class RecordsService {
 
         return await this._locationsApi.getRoomById(roomId, {
             start_date: startTime,
-            finish_date: finishTime
+            finish_date: finishTime,
         });
     }
 
@@ -85,5 +89,27 @@ export class RecordsService {
         });
 
         await this.init();
+    }
+
+    async acceptRecord(recordId: RecordId): Promise<void> {
+        const timer = setTimeout(() => {
+            this._rootStore.appStore.setIsLoading(true);
+        }, 300);
+
+        await this._recordsApi.updateRecord(recordId, { status: 'accepted' });
+        await this.init();
+
+        clearTimeout(timer);
+    }
+
+    async cancelRecord(recordId: RecordId): Promise<void> {
+        const timer = setTimeout(() => {
+            this._rootStore.appStore.setIsLoading(true);
+        }, 300);
+
+        await this._recordsApi.updateRecord(recordId, { status: 'canceled' });
+        await this.init();
+
+        clearTimeout(timer);
     }
 }

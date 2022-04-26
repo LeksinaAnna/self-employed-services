@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import moment from 'moment';
 import { RootStore } from '../../../../stores/root.store';
-import { Record } from '../../../../../server/modules/domains/records/entities/record.entity';
+import { LargeRecord, Record } from '../../../../../server/modules/domains/records/entities/record.entity';
 import { Rental, WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { Room } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { RecordsService } from './records.service';
@@ -16,7 +16,7 @@ export class RecordsStore {
 
     searchValue = '';
 
-    records: Record[] = [];
+    records: LargeRecord[] = [];
     rentals: Rental[] = [];
     newRecords: Record[] = [];
 
@@ -50,7 +50,7 @@ export class RecordsStore {
         this.countRecord = value;
     }
 
-    setRecords(items: Record[]): void {
+    setRecords(items: LargeRecord[]): void {
         this.records = items;
     }
 

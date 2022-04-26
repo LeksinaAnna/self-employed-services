@@ -1,14 +1,26 @@
 import React from 'react';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { LargeRoom, RoomId } from '../../../../../../server/modules/domains/rooms/entities/room.entity';
 import { RoomItem } from './RoomItem';
 
 interface Props {
     items: LargeRoom[];
-    onChange: (roomId: RoomId) => void;
+    changeRoom: (roomId: RoomId) => void;
 }
 
-export const ItemsList: React.FC<Props> = ({ items, onChange }) => (
-    <div style={{ display: 'flex', padding: 15, flexDirection: 'column' }}>
-        {items.length > 0 && items.map(room => <RoomItem key={room.roomId} item={room} changeRoom={onChange} />)}
-    </div>
+export const ItemsList: React.FC<Props> = ({ items, changeRoom }) => (
+    <Table>
+        <TableHead>
+            <TableRow>
+                <TableCell />
+                <TableCell />
+                <TableCell />
+                <TableCell />
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            {items.length > 0 && items.map(room => <RoomItem key={room.roomId} item={room} changeRoom={changeRoom} />)}
+        </TableBody>
+    </Table>
+
 );

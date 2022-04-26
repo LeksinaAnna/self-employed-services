@@ -1,9 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn } from 'typeorm';
 import { Record, RecordId, RecordStatus } from '../entities/record.entity';
 import { UserId } from '../../users/entities/user.entity';
 import { ServiceItemId } from '../../services-list/entities/service-item.entity';
 import { ClientOrmEntity } from '../../clients/orm-entities/client.orm-entity';
 import { ClientId } from '../../clients/entities/client.entity';
+import { ServiceItemOrmEntity } from '../../services-list/orm-entities/service-item.orm-entity';
 
 @Entity({ name: 'records', schema: 'services' })
 export class RecordOrmEntity implements Record {
@@ -37,4 +38,11 @@ export class RecordOrmEntity implements Record {
         referencedColumnName: 'clientId'
     })
     client: ClientOrmEntity;
+
+    @OneToOne(() => ServiceItemOrmEntity)
+    @JoinColumn({
+        name: 'service_id',
+        referencedColumnName: 'serviceId'
+    })
+    service: ServiceItemOrmEntity;
 }

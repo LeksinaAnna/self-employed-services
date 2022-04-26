@@ -3,7 +3,7 @@ import { LargeUser } from '../../../../../server/modules/domains/users/entities/
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 import {
     UserProfile,
-    UserProfileCreateProperties
+    UserProfileUpdateProperties,
 } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 
 export class UsersApi extends ApiBaseClient {
@@ -17,7 +17,7 @@ export class UsersApi extends ApiBaseClient {
         return await this.get(`${this.prefix}/specialists`, query, signal);
     }
 
-    async updateMyProfile(properties: UserProfileCreateProperties, signal?: AbortSignal): Promise<UserProfile> {
+    async updateMyProfile(properties: UserProfileUpdateProperties, signal?: AbortSignal): Promise<UserProfile> {
         return await this.patch(`${this.prefix}/my`, properties, signal);
     }
 }
