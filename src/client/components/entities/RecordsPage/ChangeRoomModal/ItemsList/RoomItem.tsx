@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { LargeRoom } from '../../../../../../server/modules/domains/rooms/entities/room.entity';
+import { Hint } from '@skbkontur/react-ui';
+import { LargeRoom, RoomId } from '../../../../../../server/modules/domains/rooms/entities/room.entity';
 import {
     greenText,
     hoveredColor,
@@ -10,10 +11,10 @@ import {
 } from '../../../../../client-tools/styles/color';
 import { Typography } from '../../../../ui/Text/Typography';
 import { professionTypeDict } from '../../../../../../server/modules/domains/users/entities/user-profile.entity';
-import { Hint } from '@skbkontur/react-ui';
 
 interface Props {
     item: LargeRoom;
+    changeRoom: (roomId: RoomId) => void;
 }
 
 const ItemWrapper = styled.div`
@@ -29,10 +30,9 @@ const ItemWrapper = styled.div`
     }
 `;
 
-export const RoomItem: React.FC<Props> = ({ item }) => {
-    return (
+export const RoomItem: React.FC<Props> = ({ item, changeRoom }) => (
         <Hint text={'Нажмите чтобы выбрать'}>
-            <ItemWrapper>
+            <ItemWrapper onClick={() => changeRoom(item.roomId)}>
                 <Typography fontSize="18px" color={secondaryText}>
                     {item.title}
                 </Typography>
@@ -48,4 +48,3 @@ export const RoomItem: React.FC<Props> = ({ item }) => {
             </ItemWrapper>
         </Hint>
     );
-};

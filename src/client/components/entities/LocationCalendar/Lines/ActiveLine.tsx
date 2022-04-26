@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import { Hint } from '@skbkontur/react-ui';
 import styled from '@emotion/styled';
-import { LargeRental } from '../../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { LargeRental } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 import { CalendarCell } from '../CalendarCell';
 
 interface Props {
@@ -16,10 +16,6 @@ const CellWrapper = styled.div<{ leftProp: number | string }>(({ leftProp }) => 
     left: leftProp,
     top: 0,
 }));
-
-const MessageWrapper = styled.div`
-    background: #c5c5c5;
-`;
 
 export const ActiveLine: React.FC<Props> = ({ rentals, openModal, openedModal }) => {
     const getPosition = (rental: LargeRental) => {
@@ -47,7 +43,7 @@ export const ActiveLine: React.FC<Props> = ({ rentals, openModal, openedModal })
 
         return (
             <div>
-                <div>{rental.profile.fullName}</div>
+                <div>{rental.profile?.fullName}</div>
                 <div>
                     {startTime} - {endTime}
                 </div>

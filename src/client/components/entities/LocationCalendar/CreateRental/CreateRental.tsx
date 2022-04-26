@@ -3,17 +3,18 @@ import { Alert } from '@mui/material';
 import { Button, Gapped } from '@skbkontur/react-ui';
 import { ValidationContainer } from '@skbkontur/react-ui-validations';
 import styled from '@emotion/styled';
-import { TimePicker } from '../../../../ui/Date/TimePicker';
-import { Typography } from '../../../../ui/Text/Typography';
-import { RoomId } from '../../../../../../server/modules/domains/rooms/entities/room.entity';
-import { LargeUser, UserId } from '../../../../../../server/modules/domains/users/entities/user.entity';
+import { TimePicker } from '../../../ui/Date/TimePicker';
+import { Typography } from '../../../ui/Text/Typography';
+import { RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { LargeUser, UserId } from '../../../../../server/modules/domains/users/entities/user.entity';
 import { CalendarModal, CalendarModalBody, CalendarModalFooter, CalendarModalHead } from '../CalendarModal';
-import { Nullable } from '../../../../../../common/interfaces/common';
-import { isRequiredField, validateTime } from '../../../../../client-tools/validations/validators';
+import { Nullable } from '../../../../../common/interfaces/common';
+import { isRequiredField, validateTime } from '../../../../client-tools/validations/validators';
 import { SearchSpecialistBlock } from './SearchSpecialistBlock';
 
 interface Props {
     time: string;
+    specialist?: LargeUser;
     accept: (startTime: string, finishTime: string, specialistId: UserId, roomId: RoomId) => Promise<void>;
     currentRoomId: RoomId;
     close: () => void;
@@ -32,12 +33,12 @@ const InputWrapper = styled.div`
     }
 `;
 
-export const CreateRental: React.FC<Props> = ({ time, close, position, accept, currentRoomId }) => {
+export const CreateRental: React.FC<Props> = ({ time, close, position, accept, currentRoomId, specialist }) => {
     const [startTime, setStartTime] = useState<string>();
     const [finishTime, setFinishTime] = useState<string>();
     const [isError, setError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>();
-    const [selectedSpec, setSelectedSpec] = useState<LargeUser>();
+    const [selectedSpec, setSelectedSpec] = useState<LargeUser>(specialist || null);
     const [loading, setLoading] = useState<boolean>(false);
     const [container, refContainer] = useState<Nullable<ValidationContainer>>(null);
 
@@ -54,17 +55,19 @@ export const CreateRental: React.FC<Props> = ({ time, close, position, accept, c
     }, []);
 
     const onSubmit = async () => {
+        setLoading(true);
         if (await container.validate()) {
-            setLoading(true);
             try {
                 await accept(startTime, finishTime, selectedSpec.accountId, currentRoomId);
-                close();
             } catch (e) {
                 setError(true);
                 setErrorMessage(e.message);
+                setLoading(false);
+                return;
             }
-            setLoading(false);
         }
+        setLoading(false);
+        close();
     };
 
     return (
@@ -93,13 +96,15 @@ export const CreateRental: React.FC<Props> = ({ time, close, position, accept, c
                                 styles={{ backgroundColor: '#c5c5c5', height: 40 }}
                             />
                         </InputWrapper>
-                        <div style={{ marginTop: 10 }}>
-                            <SearchSpecialistBlock
-                                validation={() => isRequiredField(selectedSpec)}
-                                selectedItem={selectedSpec}
-                                setSelectedItem={setSelectedSpec}
-                            />
-                        </div>
+                        {!specialist && (
+                            <div style={{ marginTop: 10 }}>
+                                <SearchSpecialistBlock
+                                    validation={() => isRequiredField(selectedSpec)}
+                                    selectedItem={selectedSpec}
+                                    setSelectedItem={setSelectedSpec}
+                                />
+                            </div>
+                        )}
                     </ValidationContainer>
                 </CalendarModalBody>
                 {isError && <Alert severity={'error'}>{errorMessage}</Alert>}

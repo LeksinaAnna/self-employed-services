@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { secondaryText } from '../../../../../client-tools/styles/color';
+import { secondaryText } from '../../../../client-tools/styles/color';
 import { CalendarCell } from '../CalendarCell';
 
 interface Props {

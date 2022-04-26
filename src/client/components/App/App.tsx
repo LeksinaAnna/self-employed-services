@@ -11,7 +11,7 @@ import { CheckAuth } from '../Layouts/Portal/CheckAuth';
 import { PageNotFound } from '../Errors/PageNotFound/PageNotFound';
 import { LocationsPage } from '../entities/Locations/LocationsPage';
 import { SpecialistsPage } from '../entities/Specialists/SpecialistsPage';
-import { ReportPage } from '../entities/AdminReport/ReportPage';
+import { AdminReportPage } from '../entities/AdminReport/AdminReportPage';
 import { ServicesPage } from '../entities/ServicesPage/ServicesPage';
 import { ClientsPage } from '../entities/Clients/ClientsPage';
 import { RecordsPage } from '../entities/RecordsPage/RecordsPage';
@@ -47,7 +47,7 @@ export const App: React.FC = observer(() => {
                         <Route path="admin" element={<CheckRole role="ADMIN" />}>
                             <Route path="locations" element={<LocationsPage />} />
                             <Route path="tenantry" element={<SpecialistsPage />} />
-                            <Route path="report" element={<ReportPage />} />
+                            <Route path="report" element={<AdminReportPage />} />
                             <Route path="*" element={<PageNotFound />} />
                         </Route>
                         <Route path="specialist" element={<CheckRole role="SPECIALIST" />}>

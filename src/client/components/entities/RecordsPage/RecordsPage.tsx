@@ -13,7 +13,6 @@ export const RecordsPage: React.FC = observer(() => {
     const { recordsStore } = useStores();
     const {
         currentDate,
-        setCurrentDate,
         service,
         currentRoom,
         isChangeRoomModal,
@@ -31,8 +30,8 @@ export const RecordsPage: React.FC = observer(() => {
             <div style={{ margin: '18px 0' }}>
                 {currentRoom && (
                     <>
-                        <DatePicker width={100} onValueChange={setCurrentDate} value={currentDate} />
-                        <SelectedRoom />
+                        <DatePicker width={100} onValueChange={service.onChangeDate} value={currentDate} />
+                        <SelectedRoom room={currentRoom} updatePage={service.init} />
                     </>
                 )}
                 {!currentRoom && (

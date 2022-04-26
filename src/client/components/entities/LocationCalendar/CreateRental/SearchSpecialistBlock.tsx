@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { ValidationInfo, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import { Button, Input } from '@skbkontur/react-ui';
-import { LargeUser } from '../../../../../../server/modules/domains/users/entities/user.entity';
-import { useAsyncEffectWithError } from '../../../../../client-tools/hooks/use-async-effect';
-import { useStores } from '../../../../../client-tools/hooks/use-stores';
-import { Typography } from '../../../../ui/Text/Typography';
-import { secondaryText } from '../../../../../client-tools/styles/color';
-import { Nullable } from '../../../../../../common/interfaces/common';
+import { LargeUser } from '../../../../../server/modules/domains/users/entities/user.entity';
+import { useAsyncEffectWithError } from '../../../../client-tools/hooks/use-async-effect';
+import { useStores } from '../../../../client-tools/hooks/use-stores';
+import { Typography } from '../../../ui/Text/Typography';
+import { secondaryText } from '../../../../client-tools/styles/color';
+import { Nullable } from '../../../../../common/interfaces/common';
 import { SpecialistItem } from './SpecialistItem';
 
 const ContainerWrapper = styled.div`

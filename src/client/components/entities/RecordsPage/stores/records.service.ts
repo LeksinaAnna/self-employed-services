@@ -20,7 +20,7 @@ export class RecordsService {
         this._rentalsApi = this._rootStore.commonApi.rental;
         this._usersApi = this._rootStore.commonApi.users;
         this._locationsApi = this._rootStore.commonApi.locations;
-        
+
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
@@ -29,12 +29,15 @@ export class RecordsService {
             this._rootStore.appStore.setIsLoading(true);
         }, 300);
 
-        const dataRecords = await this._recordsApi.getMyRecords({
-            take: this._recordsStore.take.toString(),
-            skip: this._recordsStore.skip.toString(),
-            search: this._recordsStore.searchValue.trim()
-        }, signal);
-        
+        const dataRecords = await this._recordsApi.getMyRecords(
+            {
+                take: this._recordsStore.take.toString(),
+                skip: this._recordsStore.skip.toString(),
+                search: this._recordsStore.searchValue.trim(),
+            },
+            signal,
+        );
+
         const currentRoom = await this.getCurrentRoom(this._rootStore.appStore?.userData?.profile?.selectedRoom);
 
         clearTimeout(timer);
@@ -45,7 +48,7 @@ export class RecordsService {
             this._recordsStore.setCurrentLocation(currentRoom);
         });
     }
-    
+
     async changeRoom(roomId: RoomId): Promise<void> {
         const timer = setTimeout(() => {
             this._rootStore.appStore.setIsLoading(true);
@@ -55,6 +58,7 @@ export class RecordsService {
             selectedRoom: roomId,
         });
 
+        await this._rootStore.appStore.service.init();
         await this.init();
 
         clearTimeout(timer);
@@ -63,18 +67,26 @@ export class RecordsService {
             this._rootStore.appStore.setIsLoading(false);
         });
     }
-    
+
     async getCurrentRoom(roomId: RoomId): Promise<Room & WithRentals> {
         if (!roomId) {
             return null;
         }
 
-        const startTime = moment(this._recordsStore.currentDate).startOf('day').format();
-        const finishTime = moment(this._recordsStore.currentDate).endOf('day').format();
-        
+        const startTime = moment(this._recordsStore.currentDate, 'DD.MM.YYYY').startOf('day').format();
+        const finishTime = moment(this._recordsStore.currentDate, 'DD.MM.YYYY').endOf('day').format();
+
         return await this._locationsApi.getRoomById(roomId, {
             start_date: startTime,
-            finish_date: finishTime
+            finish_date: finishTime,
         });
+    }
+
+    async onChangeDate(value: string): Promise<void> {
+        runInAction(() => {
+            this._recordsStore.setCurrentDate(value);
+        });
+
+        await this.init();
     }
 }

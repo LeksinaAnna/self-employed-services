@@ -9,7 +9,7 @@ import { Chart } from './Chart/Chart';
 import { RoomsTable } from './RoomsTable/RoomsTable';
 import { ReportFooter } from './ReportFooter';
 
-export const ReportPage: React.FC = observer(() => {
+export const AdminReportPage: React.FC = observer(() => {
     const { adminReportStore } = useStores();
     const {
         startDate,

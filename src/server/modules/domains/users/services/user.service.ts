@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ManyItem, QueryType, WithUpdater } from '../../../../../common/interfaces/common';
 import { UserUseCase } from '../ports/user.use-case';
-import { UserProfile, UserProfileCreateProperties } from '../entities/user-profile.entity';
+import { UserProfile, UserProfileCreateProperties, UserProfileUpdateProperties } from '../entities/user-profile.entity';
 import {
     LargeUser,
     UserCreateProperties,
@@ -63,7 +63,7 @@ export class UserService implements UserUseCase {
         return await this._userPort.getAccount(email);
     }
 
-    async updateUserInfo(userId: UserId, properties: UserProfileCreateProperties): Promise<UserProfile> {
+    async updateUserInfo(userId: UserId, properties: UserProfileUpdateProperties): Promise<UserProfile> {
         const user = await this._userPort.getUserById(userId);
 
         if (!user) {

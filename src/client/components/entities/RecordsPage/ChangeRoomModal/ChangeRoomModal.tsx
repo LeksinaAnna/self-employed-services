@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Input } from '@skbkontur/react-ui';
 import SearchIcon from '@mui/icons-material/Search';
+import { Alert } from '@mui/material';
 import { Modal, ModalBody, ModalHead } from '../../../ui/Modal/Modal';
 import { useAsyncEffectWithError } from '../../../../client-tools/hooks/use-async-effect';
 import { LargeRoom, RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
+import { Typography } from '../../../ui/Text/Typography';
+import { secondaryText } from '../../../../client-tools/styles/color';
 import { ItemsList } from './ItemsList/ItemsList';
-import { notActiveText } from '../../../../client-tools/styles/color';
 
 interface Props {
     onClose: () => void;
@@ -16,6 +18,8 @@ interface Props {
 export const ChangeRoomModal: React.FC<Props> = ({ onClose, changeRoom }) => {
     const [rooms, setRooms] = useState<LargeRoom[]>([]);
     const [search, setSearch] = useState<string>('');
+    const [error, setError] = useState<string>('');
+
     const {
         commonApi: { locations },
         appStore,
@@ -31,6 +35,15 @@ export const ChangeRoomModal: React.FC<Props> = ({ onClose, changeRoom }) => {
         },
         [search],
     );
+
+    const onChangeRoom = async (roomId: RoomId) => {
+        try {
+            await changeRoom(roomId);
+            onClose();
+        } catch (e) {
+            setError(e.message);
+        }
+    }
 
     return (
         <Modal onClose={onClose} width={450}>
@@ -50,10 +63,14 @@ export const ChangeRoomModal: React.FC<Props> = ({ onClose, changeRoom }) => {
                         rightIcon={<SearchIcon color="action" style={{ marginTop: '5px' }} />}
                     />
                 </div>
-
-                {rooms.length > 0 && <ItemsList onChange={changeRoom} items={rooms} />}
-                {rooms.length === 0 && <div>Локации отсутствуют</div>}
+                {rooms.length > 0 && <ItemsList changeRoom={onChangeRoom} items={rooms} />}
+                {rooms.length === 0 && (
+                    <Typography fontSize="20px" color={secondaryText}>
+                        Локации отсутствуют
+                    </Typography>
+                )}
             </ModalBody>
+            {error && <Alert severity='error'>{error}</Alert>}
         </Modal>
     );
 };
