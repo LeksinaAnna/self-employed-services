@@ -5,6 +5,10 @@ import { ProfessionType } from '../../users/entities/user-profile.entity';
 
 export type ServiceItemId = string;
 
+export interface WithServiceItem {
+    service: ServiceItem;
+}
+
 export interface ServiceItemCreateProperties {
     title: string;
     description: string;

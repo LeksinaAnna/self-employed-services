@@ -1,14 +1,7 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import { Hint } from '@skbkontur/react-ui';
+import React, { useState } from 'react';
+import { TableCell, TableRow } from '@mui/material';
 import { LargeRoom, RoomId } from '../../../../../../server/modules/domains/rooms/entities/room.entity';
-import {
-    greenText,
-    hoveredColor,
-    notActiveText,
-    orangeText,
-    secondaryText,
-} from '../../../../../client-tools/styles/color';
+import { greenText, hoveredColor, orangeText, secondaryText } from '../../../../../client-tools/styles/color';
 import { Typography } from '../../../../ui/Text/Typography';
 import { professionTypeDict } from '../../../../../../server/modules/domains/users/entities/user-profile.entity';
 
@@ -17,34 +10,36 @@ interface Props {
     changeRoom: (roomId: RoomId) => void;
 }
 
-const ItemWrapper = styled.div`
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 5px;
-    border-bottom: 1px solid ${notActiveText};
-    border-top: 1px solid ${notActiveText};
+export const RoomItem: React.FC<Props> = ({ item, changeRoom }) => {
+    const [isHover, setIsHover] = useState<boolean>(false);
 
-    &:hover {
-        cursor: pointer;
-        background: ${hoveredColor};
-    }
-`;
-
-export const RoomItem: React.FC<Props> = ({ item, changeRoom }) => (
-        <Hint text={'Нажмите чтобы выбрать'}>
-            <ItemWrapper onClick={() => changeRoom(item.roomId)}>
+    return (
+        <TableRow
+            onMouseEnter={() => setIsHover(true)}
+            onMouseLeave={() => setIsHover(false)}
+            onClick={() => changeRoom(item.roomId)}
+            style={{ background: isHover && hoveredColor, cursor: 'pointer' }}
+        >
+            <TableCell style={{ padding: 5 }}>
                 <Typography fontSize="18px" color={secondaryText}>
                     {item.title}
                 </Typography>
+            </TableCell>
+            <TableCell style={{ padding: 5 }}>
                 <Typography fontSize="18px" color={greenText}>
                     {item.price} руб/ч
                 </Typography>
+            </TableCell>
+            <TableCell style={{ padding: 5 }}>
                 <Typography fontSize="18px" color={orangeText}>
                     {professionTypeDict[item.type]}
                 </Typography>
+            </TableCell>
+            <TableCell style={{ padding: 5 }}>
                 <Typography fontSize="14px" color={secondaryText}>
                     {item.description}
                 </Typography>
-            </ItemWrapper>
-        </Hint>
+            </TableCell>
+        </TableRow>
     );
+};

@@ -7,6 +7,7 @@ import { Room, RoomId } from '../../../../../server/modules/domains/rooms/entiti
 import { UsersApi } from '../../../../client-tools/api/entities/user/users-api';
 import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
 import { WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
+import { RecordId } from '../../../../../server/modules/domains/records/entities/record.entity';
 import { RecordsStore } from './records.store';
 
 export class RecordsService {
@@ -88,5 +89,27 @@ export class RecordsService {
         });
 
         await this.init();
+    }
+
+    async acceptRecord(recordId: RecordId): Promise<void> {
+        const timer = setTimeout(() => {
+            this._rootStore.appStore.setIsLoading(true);
+        }, 300);
+
+        await this._recordsApi.updateRecord(recordId, { status: 'accepted' });
+        await this.init();
+
+        clearTimeout(timer);
+    }
+
+    async cancelRecord(recordId: RecordId): Promise<void> {
+        const timer = setTimeout(() => {
+            this._rootStore.appStore.setIsLoading(true);
+        }, 300);
+
+        await this._recordsApi.updateRecord(recordId, { status: 'canceled' });
+        await this.init();
+
+        clearTimeout(timer);
     }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { LargeRoom, RoomId } from '../../../../../../server/modules/domains/rooms/entities/room.entity';
 import { RoomItem } from './RoomItem';
 
@@ -8,7 +9,18 @@ interface Props {
 }
 
 export const ItemsList: React.FC<Props> = ({ items, changeRoom }) => (
-    <div style={{ display: 'flex', padding: 15, flexDirection: 'column' }}>
-        {items.length > 0 && items.map(room => <RoomItem key={room.roomId} item={room} changeRoom={changeRoom} />)}
-    </div>
+    <Table>
+        <TableHead>
+            <TableRow>
+                <TableCell />
+                <TableCell />
+                <TableCell />
+                <TableCell />
+            </TableRow>
+        </TableHead>
+        <TableBody>
+            {items.length > 0 && items.map(room => <RoomItem key={room.roomId} item={room} changeRoom={changeRoom} />)}
+        </TableBody>
+    </Table>
+
 );

@@ -6,11 +6,6 @@ import { defaultPortalColor } from '../../../client-tools/styles/color';
 import { ServiceMenuPanel } from './ServiceMenuPanel/ServiceMenuPanel';
 import { PortalHeader } from './Head/PortalHeader';
 
-const LayoutContainer = styled.div`
-    width: 1000px;
-    padding: 65px 265px;
-`;
-
 const ContentBlockWrapper = styled.div`
     padding: 34px 24px;
     width: 890px;
@@ -29,7 +24,7 @@ const BodyWrapper = styled.div`
  * @constructor
  */
 export const PortalLayout: React.FC = () => (
-    <LayoutContainer>
+    <div>
         {/* Меню сверху/TopBar */}
         <PortalHeader />
 
@@ -42,5 +37,5 @@ export const PortalLayout: React.FC = () => (
                 <Outlet />
             </ContentBlockWrapper>
         </BodyWrapper>
-    </LayoutContainer>
+    </div>
 );
