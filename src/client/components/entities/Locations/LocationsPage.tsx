@@ -35,7 +35,7 @@ export const LocationsPage: React.FC = observer(() => {
             </div>
             <Gapped vertical gap={40}>
                 {locations.map(room => (
-                    <LocationCalendar key={room.roomId} room={room} updatePage={service.init} />
+                    <LocationCalendar key={room.roomId} room={room} updatePage={service.init} currentDate={currentDate} />
                 ))}
             </Gapped>
             {locations.length === 0 && (

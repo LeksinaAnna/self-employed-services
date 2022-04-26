@@ -19,13 +19,13 @@ export class CalendarService {
         makeAutoObservable(this, {}, { autoBind: true })
     }
 
-    async createRental(startTime: string, endTime: string, specialistId: UserId, roomId: RoomId): Promise<void> {
+    async createRental(startTime: string, endTime: string, specialistId: UserId, roomId: RoomId, currentDate: string): Promise<void> {
         runInAction(() => {
             this._calendarStore.setIsLoading(true);
         })
 
-        const startDate = this._locationsStore.currentDate + ' ' + startTime;
-        const endDate = this._locationsStore.currentDate + ' ' + endTime;
+        const startDate = currentDate + ' ' + startTime;
+        const endDate = currentDate + ' ' + endTime;
 
         const startFormatDate = moment(startDate, 'DD.MM.YYYY HH:mm').format();
         const endFormatDate = moment(endDate, 'DD.MM.YYYY HH:mm').format();

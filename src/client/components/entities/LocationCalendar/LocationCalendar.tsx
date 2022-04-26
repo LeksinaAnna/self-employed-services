@@ -15,6 +15,7 @@ import { CalendarTitle } from './CalendarTitle';
 interface Props {
     room: Room & WithRentals;
     updatePage: () => Promise<void>;
+    currentDate: string;
 }
 
 const LineWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
@@ -23,7 +24,7 @@ const LineWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
     position: 'relative',
 }));
 
-export const LocationCalendar: React.FC<Props> = observer(({ room, updatePage }) => {
+export const LocationCalendar: React.FC<Props> = observer(({ room, updatePage, currentDate }) => {
     const rootStore = useStores();
     const [calendarStore] = useState<CalendarStore>(() => new CalendarStore(rootStore));
     const {
@@ -39,7 +40,7 @@ export const LocationCalendar: React.FC<Props> = observer(({ room, updatePage })
     } = calendarStore;
 
     const onAccept = async (startTime: string, endTime: string, specialistId: UserId, roomId: RoomId) => {
-        await service.createRental(startTime, endTime, specialistId, roomId);
+        await service.createRental(startTime, endTime, specialistId, roomId, currentDate);
         await updatePage();
     };
 

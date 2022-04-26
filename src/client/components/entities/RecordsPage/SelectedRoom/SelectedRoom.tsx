@@ -30,7 +30,7 @@ export const SelectedRoom: React.FC<Props> = ({
                         Поменять помещение
                     </Button>
                 </div>
-                <LocationCalendar room={room} updatePage={updatePage} />
+                <LocationCalendar room={room} updatePage={updatePage} currentDate={currentDate} />
             </>
         )}
         {!room && (
