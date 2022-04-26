@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { darkBackground, notActiveText, secondaryText } from '../../../client-tools/styles/color';
+import { defaultPortalColor, hoveredColor, whiteHoveredColor } from '../../../client-tools/styles/color';
 
 interface Cell {
     widthProp: number | string;
@@ -16,10 +16,10 @@ interface Cell {
 export const CalendarCell = styled.div<Cell>(({ widthProp, isActive }) => ({
     width: widthProp,
     height: 35,
-    boxShadow: `0 0 0 1px ${secondaryText}`,
-    backgroundColor: !isActive ? '#fff' : notActiveText,
+    boxShadow: `0 0 0 1px ${defaultPortalColor}`,
+    backgroundColor: !isActive ? '#fff' : defaultPortalColor,
     cursor: 'pointer',
     ['&:hover']: {
-        backgroundColor: !isActive ? darkBackground : '#b6b3b3',
+        backgroundColor: !isActive ? whiteHoveredColor : hoveredColor,
     },
 }));

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { whiteHoveredColor } from '../../../client-tools/styles/color';
 
 export const ReportFooter = styled.div`
     position: absolute;
@@ -8,5 +9,5 @@ export const ReportFooter = styled.div`
     text-align: right;
     bottom: -34px;
     left: -23px;
-    background: aliceblue;
+    background: ${whiteHoveredColor};
 `;

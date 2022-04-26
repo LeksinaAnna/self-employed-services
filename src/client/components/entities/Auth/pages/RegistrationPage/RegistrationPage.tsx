@@ -6,11 +6,12 @@ import { Alert, Box } from '@mui/material';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useStores } from '../../../../../client-tools/hooks/use-stores';
 import { BackgroundContainer } from '../../../../ui/Containers/BackgroundContainer';
+import { secondaryText } from '../../../../../client-tools/styles/color';
 import { FooterPage } from './FooterPage';
 import { Body, BodyPage } from './Body';
 
 export const RegistrationPage = observer(() => {
-    const { authStore, appStore } = useStores()
+    const { authStore, appStore } = useStores();
     const {
         isLoading,
         setIsLoading,
@@ -21,7 +22,7 @@ export const RegistrationPage = observer(() => {
         errorMessage,
         setErrorMessage,
         isRegistration,
-        redirectPath
+        redirectPath,
     } = authStore;
 
     const navigation = useNavigate();
@@ -82,4 +83,5 @@ export const HeaderPage = styled.div`
     text-align: center;
     height: 50px;
     padding-top: 15px;
+    color: ${secondaryText};
 `;

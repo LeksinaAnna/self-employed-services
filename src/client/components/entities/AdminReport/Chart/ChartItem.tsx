@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Gapped, Hint } from '@skbkontur/react-ui';
 import { RoomWithProfit } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { hoveredColor, whiteHoveredColor } from '../../../../client-tools/styles/color';
 
 interface Props {
     room: RoomWithProfit;
@@ -13,7 +14,7 @@ const ItemWrapper = styled.div<{ heightProp: number | string; isActive?: boolean
     width: 60,
     height: heightProp,
     minHeight: 2,
-    background: isActive ? '#ddedf5' : 'aliceblue',
+    background: isActive ? hoveredColor : whiteHoveredColor,
 }));
 
 export const ChartItem: React.FC<Props> = ({ room, isActive, onHoverItem }) => (

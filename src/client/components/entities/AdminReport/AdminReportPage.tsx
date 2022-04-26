@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { DatePicker } from '@skbkontur/react-ui';
 import { useAsyncEffectWithError } from '../../../client-tools/hooks/use-async-effect';
-import { greenText, notActiveText, secondaryText } from '../../../client-tools/styles/color';
+import { notActiveText, secondaryText } from '../../../client-tools/styles/color';
 import { Typography } from '../../ui/Text/Typography';
 import { useStores } from '../../../client-tools/hooks/use-stores';
 import { Chart } from './Chart/Chart';
@@ -23,9 +23,12 @@ export const AdminReportPage: React.FC = observer(() => {
         service,
     } = adminReportStore;
 
-    useAsyncEffectWithError(async abortSignal => {
-        await service.init(abortSignal);
-    }, [startDate, finishDate]);
+    useAsyncEffectWithError(
+        async abortSignal => {
+            await service.init(abortSignal);
+        },
+        [startDate, finishDate],
+    );
 
     return (
         <div style={{ position: 'relative', height: '100%', marginBottom: 25 }}>
@@ -46,9 +49,7 @@ export const AdminReportPage: React.FC = observer(() => {
             {rooms.length > 0 && <RoomsTable onHoverItem={setHoveredRoom} hoveredItem={hoveredRoom} rooms={rooms} />}
             {rooms.length > 0 && (
                 <ReportFooter>
-                    <Typography fontSize="20px" color={greenText}>
-                        {totalProfit} руб.
-                    </Typography>
+                    <Typography fontSize="20px">{totalProfit} руб.</Typography>
                 </ReportFooter>
             )}
         </div>

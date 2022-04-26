@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { voidFunction } from '../../../../common/js-tools/void-function';
+import { defaultPortalColor } from '../../../client-tools/styles/color';
 
 interface ModalProps {
     width?: number;
@@ -10,7 +11,7 @@ interface ModalProps {
 
 const ModalWrapper = styled.div<{ widthProp: number, backgroundColor?: string }>(({ widthProp, backgroundColor }) => ({
     padding: 10,
-    background: backgroundColor || '#afacac',
+    background: backgroundColor || defaultPortalColor,
     width: widthProp,
     marginLeft: -(widthProp + 20) / 2,
     marginTop: 5,

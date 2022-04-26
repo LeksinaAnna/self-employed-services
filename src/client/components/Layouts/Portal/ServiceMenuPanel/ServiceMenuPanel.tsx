@@ -10,9 +10,10 @@ import { DefaultMenu } from './Menus/DefaultMenu';
 
 export const MenuWrapper = styled.div`
     width: 120px;
-    border-right: 1px solid ${defaultPortalColor};
+    box-shadow: 2px 0 0 0 ${defaultPortalColor};
     display: flex;
     flex-direction: column;
+  
 `;
 
 export const ServiceMenuPanel: React.FC = observer(() => {

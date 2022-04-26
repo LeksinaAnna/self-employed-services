@@ -13,7 +13,8 @@ const ContentBlockWrapper = styled.div`
 
 const BodyWrapper = styled.div`
     display: flex;
-    border: 1px solid ${defaultPortalColor};
+    box-shadow: 0 0 0 2px ${defaultPortalColor};
+    padding: 0;
     min-height: ${APP_MIN_HEIGHT};
 `;
 

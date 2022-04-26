@@ -50,7 +50,7 @@ export const InfoRental: React.FC<Props> = ({ rental, close, position, onDelete,
 
     return (
         <div style={{ position: 'absolute', left: position, zIndex: 2, bottom: 38 }}>
-            <CalendarModal close={close} background={'#c5c5c5'}>
+            <CalendarModal close={close}>
                 <CalendarModalHead>
                     <Typography color={'#fff'} fontSize={'20px'}>
                         Инфо об аренде
@@ -58,10 +58,10 @@ export const InfoRental: React.FC<Props> = ({ rental, close, position, onDelete,
                 </CalendarModalHead>
                 <CalendarModalBody>
                     <TimesWrapper>
-                        <Typography color={secondaryText} fontSize={'16px'}>
+                        <Typography color={'#fff'} fontSize={'16px'}>
                             {moment(rental.startDate).format('DD.MM.YYYY')}
                         </Typography>
-                        <Typography color={secondaryText} fontSize={'12px'}>
+                        <Typography color={'#fff'} fontSize={'12px'}>
                             {moment(rental.startDate).format('HH:mm')} - {moment(rental.finishDate).format('HH:mm')}
                         </Typography>
                     </TimesWrapper>
@@ -74,7 +74,7 @@ export const InfoRental: React.FC<Props> = ({ rental, close, position, onDelete,
                     {/* Если мастер, но id мастера и id мастера из аренды не совпадают, то показываем что аренда не его */}
                     {specialist && userInfo?.profileId !== rental?.specialistId && (
                         <Center>
-                            <Typography color={secondaryText} fontSize="18px">
+                            <Typography color={'#fff'} fontSize="18px">
                                 Это не ваша аренда.
                             </Typography>
                         </Center>

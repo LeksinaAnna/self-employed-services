@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TableCell, TableRow } from '@mui/material';
 import { Gapped } from '@skbkontur/react-ui';
 import { PersonOutline } from '@mui/icons-material';
-import { hoveredColor, notActiveText, secondaryText } from '../../../../client-tools/styles/color';
+import { hoveredColor, notActiveText } from '../../../../client-tools/styles/color';
 import { Typography } from '../../Text/Typography';
 import { professionTypeDict } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { TableItem } from './TableWithItems';
@@ -25,22 +25,14 @@ export const TableRowItem: React.FC<Props> = ({ item, onSettings }) => {
             <TableCell style={{ padding: 5 }}>
                 <Gapped gap={2} verticalAlign="middle">
                     <PersonOutline sx={{ color: notActiveText }} fontSize={'large'} />
-                    <Typography color={secondaryText} fontSize={'18px'}>
-                        {item.name}
-                    </Typography>
+                    <Typography fontSize={'18px'}>{item.name}</Typography>
                 </Gapped>
             </TableCell>
             <TableCell style={{ padding: 5 }}>
-                {item.type && (
-                    <Typography color={secondaryText} fontSize={'16px'}>
-                        {professionTypeDict[item.type]}
-                    </Typography>
-                )}
+                {item.type && <Typography fontSize={'16px'}>{professionTypeDict[item.type]}</Typography>}
             </TableCell>
             <TableCell align="right" style={{ padding: 5 }}>
-                <Typography color={secondaryText} fontSize={'14px'}>
-                    {item.comment}
-                </Typography>
+                <Typography fontSize={'14px'}>{item.comment}</Typography>
             </TableCell>
         </TableRow>
     );

@@ -10,6 +10,7 @@ import { LargeUser, UserId } from '../../../../../server/modules/domains/users/e
 import { CalendarModal, CalendarModalBody, CalendarModalFooter, CalendarModalHead } from '../CalendarModal';
 import { Nullable } from '../../../../../common/interfaces/common';
 import { isRequiredField, validateTime } from '../../../../client-tools/validations/validators';
+import { whiteHoveredColor } from '../../../../client-tools/styles/color';
 import { SearchSpecialistBlock } from './SearchSpecialistBlock';
 
 interface Props {
@@ -86,14 +87,14 @@ export const CreateRental: React.FC<Props> = ({ time, close, position, accept, c
                                 value={startTime}
                                 onValueChange={setStartTime}
                                 width={100}
-                                styles={{ backgroundColor: '#c5c5c5', height: 40 }}
+                                styles={{ backgroundColor: whiteHoveredColor, height: 40 }}
                             />
                             <span style={{ color: '#fff', margin: '0 5px' }}>&mdash;</span>
                             <TimePicker
                                 value={finishTime}
                                 onValueChange={setFinishTime}
                                 width={100}
-                                styles={{ backgroundColor: '#c5c5c5', height: 40 }}
+                                styles={{ backgroundColor: whiteHoveredColor, height: 40 }}
                             />
                         </InputWrapper>
                         {!specialist && (

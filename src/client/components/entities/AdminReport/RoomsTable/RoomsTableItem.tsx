@@ -2,7 +2,7 @@ import React from 'react';
 import { TableCell, TableRow } from '@mui/material';
 import { RoomWithProfit } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { Typography } from '../../../ui/Text/Typography';
-import { greenText, hoveredColor, orangeText, secondaryText } from '../../../../client-tools/styles/color';
+import { hoveredColor } from '../../../../client-tools/styles/color';
 
 interface Props {
     room: RoomWithProfit;
@@ -26,24 +26,16 @@ export const RoomsTableItem: React.FC<Props> = ({ room, onHoverItem, isActive })
             style={{ background: isActive && hoveredColor }}
         >
             <TableCell align="left" style={{ padding: '10px 5px' }}>
-                <Typography fontSize="16px" color={secondaryText}>
-                    {room.title}
-                </Typography>
+                <Typography fontSize="16px">{room.title}</Typography>
             </TableCell>
             <TableCell align="left" style={{ padding: '10px 5px' }}>
-                <Typography fontSize="16px" color={orangeText}>
-                    {room.price},00 руб/ч
-                </Typography>
+                <Typography fontSize="16px">{room.price},00 руб/ч</Typography>
             </TableCell>
             <TableCell align="left" style={{ padding: '10px 5px' }}>
-                <Typography fontSize="16px" color={secondaryText}>
-                    {getDuration(room.duration)}
-                </Typography>
+                <Typography fontSize="16px">{getDuration(room.duration)}</Typography>
             </TableCell>
             <TableCell align="left" style={{ padding: '10px 5px' }}>
-                <Typography fontSize="16px" color={greenText}>
-                    {room.profit} руб
-                </Typography>
+                <Typography fontSize="16px">{room.profit} руб</Typography>
             </TableCell>
         </TableRow>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import { Gapped } from '@skbkontur/react-ui';
 import { NavLink } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { darkBackground, secondaryText } from '../../../../../client-tools/styles/color';
+import { secondaryText, selectedLinkColor } from '../../../../../client-tools/styles/color';
 import { Typography } from '../../../../ui/Text/Typography';
 
 interface Props {
@@ -15,10 +15,10 @@ interface Props {
 const ItemWrapper = styled.div<{ active?: boolean }>(({ active }) => ({
     textAlign: 'center',
     padding: '5px 0',
-    backgroundColor: active && darkBackground,
+    backgroundColor: active && selectedLinkColor,
     borderBottom: `1px solid ${secondaryText}`,
     ['&:hover']: {
-        backgroundColor: darkBackground,
+        backgroundColor: selectedLinkColor,
     },
 }));
 

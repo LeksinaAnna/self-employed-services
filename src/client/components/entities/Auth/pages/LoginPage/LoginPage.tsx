@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { Button, Gapped, Input } from '@skbkontur/react-ui';
+import { Button, Gapped, Input, Link } from '@skbkontur/react-ui';
 import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import { Alert, Box } from '@mui/material';
 import { BackgroundContainer } from '../../../../ui/Containers/BackgroundContainer';
@@ -11,6 +11,8 @@ import { FormLine } from '../../../../ui/FormLine/FormLine';
 import { useStores } from '../../../../../client-tools/hooks/use-stores';
 import { isRequiredField } from '../../../../../client-tools/validations/validators';
 import { FooterPage } from '../RegistrationPage/FooterPage';
+import { Typography } from '../../../../ui/Text/Typography';
+import { secondaryText } from '../../../../../client-tools/styles/color';
 
 export const LoginPage = observer(() => {
     const { authStore, appStore } = useStores();
@@ -64,8 +66,12 @@ export const LoginPage = observer(() => {
                                     <Input type="password" value={password} onValueChange={setPassword} />
                                 </ValidationWrapper>
                             </FormLine>
+                            <Typography color={secondaryText}>
+                                Нет аккаунта? <Link href={'/registration'}>Зарегистрируйся</Link>
+                            </Typography>
                         </Gapped>
                     </ValidationContainer>
+
                 </BodyPage>
                 {isError && <Alert severity="error">{errorMessage}</Alert>}
                 <FooterPage>

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Typography } from '../../../ui/Text/Typography';
-import { secondaryText } from '../../../../client-tools/styles/color';
 import { UserProfile } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 
 interface Props {
@@ -11,7 +10,6 @@ interface Props {
 const SpecialistInfoWrapper = styled.div`
     padding: 5px;
     margin-top: 5px;
-    background: rgba(220, 219, 219, 0.55);
 `;
 
 const InfoItem = styled.div`
@@ -27,22 +25,22 @@ const InfoItem = styled.div`
 export const SpecialistInfo: React.FC<Props> = ({ userInfo }) => (
     <SpecialistInfoWrapper>
         <InfoItem>
-            <Typography fontSize={'14px'} color={secondaryText}>
+            <Typography fontSize={'14px'} color={'#fff'}>
                 Арендатор:
             </Typography>
-            <Typography color={'rgba(238,116,56,0.75)'}>{userInfo.fullName}</Typography>
+            <Typography color={'#fff'}>{userInfo.fullName}</Typography>
         </InfoItem>
         <InfoItem>
-            <Typography fontSize={'14px'} color={secondaryText}>
+            <Typography fontSize={'14px'} color={'#fff'}>
                 Телефон:
             </Typography>
-            <Typography color={'rgba(238,116,56,0.75)'}>{userInfo.contacts.phone || ' - '}</Typography>
+            <Typography color={'#fff'}>{userInfo.contacts.phone || ' - '}</Typography>
         </InfoItem>
         <InfoItem>
-            <Typography fontSize={'14px'} color={secondaryText}>
+            <Typography fontSize={'14px'} color={'#fff'}>
                 Почта:
             </Typography>
-            <Typography color={'rgba(238,116,56,0.75)'}>{userInfo.contacts.email || ' - '}</Typography>
+            <Typography color={'#fff'}>{userInfo.contacts.email || ' - '}</Typography>
         </InfoItem>
     </SpecialistInfoWrapper>
 );

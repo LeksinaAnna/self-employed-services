@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { secondaryText } from '../../../../client-tools/styles/color';
 import { CalendarCell } from '../CalendarCell';
 
 interface Props {
@@ -15,7 +14,6 @@ const LineWrapper = styled.div`
 
 const TimeWrapper = styled.div`
     font-size: 14px;
-    color: ${secondaryText};
     margin: 4px 0 0 -10px;
 `;
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '@skbkontur/react-ui-validations';
-import { Gapped, Input, Select } from '@skbkontur/react-ui';
+import { Gapped, Input, Link, Select } from '@skbkontur/react-ui';
 import styled from '@emotion/styled';
 import { FormLine } from '../../../../ui/FormLine/FormLine';
 import { Nullable } from '../../../../../../common/interfaces/common';
@@ -13,6 +13,8 @@ import {
     validateLengthText,
     validatePhone,
 } from '../../../../../client-tools/validations/validators';
+import { secondaryText } from '../../../../../client-tools/styles/color';
+import { Typography } from '../../../../ui/Text/Typography';
 
 export const BodyPage = styled.div`
     padding: 20px;
@@ -31,16 +33,16 @@ export const Body = observer(() => {
         setFullName,
         userProfessionList,
         phone,
-        setPhone
+        setPhone,
     } = useStores().authStore;
 
     const [acceptPwd, setAcceptPwd] = React.useState<string>('');
 
     const checkPwd = (): Nullable<ValidationInfo> => {
         if (acceptPwd !== password) {
-            return { message: 'Пароль не совпадает', type: 'submit' }
+            return { message: 'Пароль не совпадает', type: 'submit' };
         }
-    }
+    };
 
     return (
         <BodyPage>
@@ -73,14 +75,17 @@ export const Body = observer(() => {
                     </FormLine>
                     <FormLine caption={'Пароль'}>
                         <ValidationWrapper validationInfo={validateLengthText(6, password)}>
-                            <Input type='password' value={password} onValueChange={setPassword} />
+                            <Input type="password" value={password} onValueChange={setPassword} />
                         </ValidationWrapper>
                     </FormLine>
                     <FormLine caption={'Подтверждение пароля'}>
                         <ValidationWrapper validationInfo={checkPwd()}>
-                            <Input type='password' value={acceptPwd} onValueChange={setAcceptPwd} />
+                            <Input type="password" value={acceptPwd} onValueChange={setAcceptPwd} />
                         </ValidationWrapper>
                     </FormLine>
+                    <Typography color={secondaryText}>
+                        Уже зарегистрирован? <Link href={'/login'}>Авторизуйся</Link>
+                    </Typography>
                 </Gapped>
             </ValidationContainer>
         </BodyPage>

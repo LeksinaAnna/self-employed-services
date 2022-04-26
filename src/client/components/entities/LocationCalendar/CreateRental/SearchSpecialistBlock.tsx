@@ -6,7 +6,7 @@ import { LargeUser } from '../../../../../server/modules/domains/users/entities/
 import { useAsyncEffectWithError } from '../../../../client-tools/hooks/use-async-effect';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { Typography } from '../../../ui/Text/Typography';
-import { secondaryText } from '../../../../client-tools/styles/color';
+import { defaultPortalColor, secondaryText, whiteHoveredColor } from '../../../../client-tools/styles/color';
 import { Nullable } from '../../../../../common/interfaces/common';
 import { SpecialistItem } from './SpecialistItem';
 
@@ -27,7 +27,7 @@ const ItemsBlock = styled.div`
     top: 60px;
     display: flex;
     flex-direction: column;
-    background: #c5c5c5;
+    background: ${defaultPortalColor};
     width: 200px;
     z-index: 100;
     border: 1px solid ${secondaryText};
@@ -38,7 +38,7 @@ const SelectedItem = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #c5c5c5;
+    background: ${defaultPortalColor};
     border: 1px solid ${secondaryText};
 `;
 
@@ -79,7 +79,7 @@ export const SearchSpecialistBlock: React.FC<Props> = ({ selectedItem, setSelect
                 <ValidationWrapper validationInfo={validation()}>
                     <Input
                         width={220}
-                        style={{ backgroundColor: '#c5c5c5', height: 40 }}
+                        style={{ backgroundColor: whiteHoveredColor, height: 40 }}
                         value={value}
                         onValueChange={setValue}
                     />

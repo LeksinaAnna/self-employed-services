@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Box, IconButton } from '@mui/material';
 import { Close } from '@mui/icons-material';
 import { BackgroundContainer } from '../Containers/BackgroundContainer';
-import { notActiveText } from '../../../client-tools/styles/color';
+import { defaultPortalColor } from '../../../client-tools/styles/color';
 
 interface Props {
     width?: number | string;
@@ -23,7 +23,7 @@ export const Modal: React.FC<Props> = ({ width = 350, children, onClose }) => {
         if (event.key === 'Escape') {
             onClose();
         }
-    }
+    };
 
     React.useEffect(() => {
         document.addEventListener('keydown', onPressEsc);
@@ -57,7 +57,7 @@ const HeadWrapper = styled.div`
     display: flex;
     align-items: center;
     padding: 10px;
-    background: ${notActiveText};
+    background: ${defaultPortalColor};
     border-bottom: 1px solid #222;
     opacity: 0.5;
     height: 50px;

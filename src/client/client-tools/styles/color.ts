@@ -1,4 +1,5 @@
-export const defaultPortalColor = 'rgba(0, 0, 0, 0.26)';
+export const defaultPortalColor = '#bac890';
+export const selectedLinkColor = `rgba(219, 241, 145, 0.54)`
 
 export const defaultLineColor = `#E5E5E5`;
 export const disabledText = `#ADADAD`;
@@ -16,4 +17,5 @@ export const redText = `#ce0014`;
 export const orangeDie = `#FCB73E`;
 export const orangeText = `#d97e00`;
 
-export const hoveredColor = `#ddedf5`;
+export const hoveredColor = `rgba(219, 241, 145, 0.54)`;
+export const whiteHoveredColor = `rgba(219, 241, 145, 0.34)`;
