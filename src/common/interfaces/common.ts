@@ -1,6 +1,7 @@
 import { UserId } from '../../server/modules/domains/users/entities/user.entity';
 import { ProfessionType } from '../../server/modules/domains/users/entities/user-profile.entity';
 import { RoomId } from '../../server/modules/domains/rooms/entities/room.entity';
+import { RecordStatus } from '../../server/modules/domains/records/entities/record.entity';
 
 export type Nullable<T> = null | undefined | T;
 export type AnyType = any;
@@ -25,6 +26,7 @@ export interface QueryType {
     skip?: string;
     search?: string;
     type?: ProfessionType;
+    status?: RecordStatus;
     start_date?: string;
     finish_date?: string;
     room_id?: RoomId;

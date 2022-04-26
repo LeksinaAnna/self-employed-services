@@ -19,24 +19,35 @@ export class RecordsAdapterService extends PersistenceAdapter implements Records
         search = '',
         start_date,
         finish_date,
+        status,
         spec_id,
     }: QueryType): Promise<ManyItem<LargeRecord>> {
         const [items, count] = await createQueryBuilder(RecordOrmEntity, 'record')
             .where(qb => {
+
+                // Если придет начальная дата, то смотрим на нее
                 if (start_date) {
                     qb.andWhere(`record.recordDate >= :startDate`, { startDate: start_date });
                 }
 
+                // Если придет конечная дата, то смотрим на нее
                 if (finish_date) {
                     qb.andWhere(`record.recordDate <= :finishDate`, { finishDate: finish_date });
                 }
 
+                // Если в параметрах придет Id специалиста, то будем искать по нему
                 if (spec_id) {
                     qb.andWhere(`record.specialistId = :specId`, { specId: spec_id });
                 }
 
+                // Если придет параметр поиска, то будем искать по имени клиента
                 if (search) {
                     qb.andWhere(`client.name ILIKE :value`, { value: `%${search}%` });
+                }
+
+                // Если придет статус записи, то смотрим на него
+                if (status) {
+                    qb.andWhere(`record.status = :status`, { status });
                 }
             })
             .leftJoinAndSelect(`record.client`, 'client')

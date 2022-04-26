@@ -7,7 +7,10 @@ import { Room, RoomId } from '../../../../../server/modules/domains/rooms/entiti
 import { UsersApi } from '../../../../client-tools/api/entities/user/users-api';
 import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
 import { WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
-import { RecordId } from '../../../../../server/modules/domains/records/entities/record.entity';
+import {
+    RecordId,
+    RecordStatus,
+} from '../../../../../server/modules/domains/records/entities/record.entity';
 import { RecordsStore } from './records.store';
 
 export class RecordsService {
@@ -30,22 +33,11 @@ export class RecordsService {
             this._rootStore.appStore.setIsLoading(true);
         }, 300);
 
-        const dataRecords = await this._recordsApi.getMyRecords(
-            {
-                take: this._recordsStore.take.toString(),
-                skip: this._recordsStore.skip.toString(),
-                search: this._recordsStore.searchValue.trim(),
-            },
-            signal,
-        );
-
         const currentRoom = await this.getCurrentRoom(this._rootStore.appStore?.userData?.profile?.selectedRoom);
 
         clearTimeout(timer);
 
         runInAction(() => {
-            this._recordsStore.setRecords(dataRecords.items);
-            this._recordsStore.setCountRecords(dataRecords.count);
             this._recordsStore.setCurrentLocation(currentRoom);
         });
     }
@@ -66,6 +58,30 @@ export class RecordsService {
 
         runInAction(() => {
             this._rootStore.appStore.setIsLoading(false);
+        });
+    }
+
+    async getRecords(status?: RecordStatus, signal?: AbortSignal): Promise<void> {
+        const timer = setTimeout(() => {
+            this._rootStore.appStore.setIsLoading(true);
+        }, 300);
+
+        const records = await this._recordsApi.getMyRecords(
+            {
+                take: this._recordsStore.take.toString(),
+                skip: this._recordsStore.skip.toString(),
+                search: this._recordsStore.searchValue.trim(),
+                status,
+            },
+            signal,
+        );
+
+        clearTimeout(timer);
+
+        runInAction(() => {
+            this._rootStore.appStore.setIsLoading(false);
+            this._recordsStore.setCountRecords(records.count);
+            this._recordsStore.setRecords(records.items);
         });
     }
 

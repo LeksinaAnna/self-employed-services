@@ -68,7 +68,7 @@ export class RecordsStore {
         this.skip = 0;
         this.newRecords = [];
         this.rentals = [];
-        this.currentDate = null;
+        this.currentDate = moment().format('DD.MM.YYYY');
         this.currentRoom = null;
         this.searchValue = '';
     }
