@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from '../../../../stores/root.store';
 import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
@@ -18,8 +19,8 @@ export class AdminReportService {
         }, 300);
 
         const rooms = await this._roomsApi.getRoomsWithProfit({
-            start_date: this._adminReportStore.startDate,
-            finish_date: this._adminReportStore.finishDate,
+            start_date: moment(this._adminReportStore.startDate, 'DD.MM.YYYY').startOf('day').format(),
+            finish_date: moment(this._adminReportStore.finishDate, 'DD.MM.YYYY').endOf('day').format(),
         }, signal);
 
         clearTimeout(timer);

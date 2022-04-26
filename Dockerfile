@@ -1,7 +1,7 @@
 FROM node:16-alpine as dev-deps
 WORKDIR /app
 COPY . /app/
-RUN npm install --frozen-lockfile --ignore-scripts
+RUN yarn install --frozen-lockfile --ignore-scripts
 
 FROM dev-deps as builder-backend
 RUN yarn server:build

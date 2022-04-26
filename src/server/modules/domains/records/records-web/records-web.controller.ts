@@ -29,6 +29,7 @@ export class RecordsWebController {
         });
     }
 
+    @Roles('SPECIALIST')
     @Get('/new')
     async getNewRecords(
         @Query() query: QueryType,

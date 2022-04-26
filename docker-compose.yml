@@ -8,6 +8,8 @@ services:
       target: app-front
     ports:
       - "80:3009"
+    depends_on:
+      - server
 
   server:
     container_name: app-server
