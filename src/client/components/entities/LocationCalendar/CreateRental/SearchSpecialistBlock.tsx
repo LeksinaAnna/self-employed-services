@@ -6,7 +6,7 @@ import { LargeUser } from '../../../../../server/modules/domains/users/entities/
 import { useAsyncEffectWithError } from '../../../../client-tools/hooks/use-async-effect';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { Typography } from '../../../ui/Text/Typography';
-import { defaultPortalColor, secondaryText, whiteHoveredColor } from '../../../../client-tools/styles/color';
+import { defaultPortalColor, secondaryText } from '../../../../client-tools/styles/color';
 import { Nullable } from '../../../../../common/interfaces/common';
 import { SpecialistItem } from './SpecialistItem';
 
@@ -15,8 +15,6 @@ const ContainerWrapper = styled.div`
     margin: 5px 0;
 
     input {
-        color: #fff;
-        font-weight: 700;
         font-size: 18px;
     }
 `;
@@ -38,7 +36,7 @@ const SelectedItem = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: ${defaultPortalColor};
+    background: #fff;
     border: 1px solid ${secondaryText};
 `;
 
@@ -79,7 +77,7 @@ export const SearchSpecialistBlock: React.FC<Props> = ({ selectedItem, setSelect
                 <ValidationWrapper validationInfo={validation()}>
                     <Input
                         width={220}
-                        style={{ backgroundColor: whiteHoveredColor, height: 40 }}
+                        style={{ height: 40 }}
                         value={value}
                         onValueChange={setValue}
                     />
@@ -109,7 +107,7 @@ export const SearchSpecialistBlock: React.FC<Props> = ({ selectedItem, setSelect
             )}
             {selectedItem && (
                 <SelectedItem>
-                    <Typography fontSize={'18px'} fontWeight={700} color={'#fff'}>
+                    <Typography fontSize={'18px'} fontWeight={700} color={secondaryText}>
                         {selectedItem?.profile?.fullName}
                     </Typography>
                     <Button use="link" onClick={onClear}>

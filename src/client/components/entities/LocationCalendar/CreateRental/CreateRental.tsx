@@ -10,7 +10,6 @@ import { LargeUser, UserId } from '../../../../../server/modules/domains/users/e
 import { CalendarModal, CalendarModalBody, CalendarModalFooter, CalendarModalHead } from '../CalendarModal';
 import { Nullable } from '../../../../../common/interfaces/common';
 import { isRequiredField, validateTime } from '../../../../client-tools/validations/validators';
-import { whiteHoveredColor } from '../../../../client-tools/styles/color';
 import { SearchSpecialistBlock } from './SearchSpecialistBlock';
 
 interface Props {
@@ -28,8 +27,6 @@ const InputWrapper = styled.div`
 
     input {
         text-align: center;
-        color: #fff;
-        font-weight: 700;
         font-size: 18px;
     }
 `;
@@ -57,9 +54,11 @@ export const CreateRental: React.FC<Props> = ({ time, close, position, accept, c
 
     const onSubmit = async () => {
         setLoading(true);
-        if (await container.validate()) {
+        const isValidate = await container.validate();
+        if (isValidate) {
             try {
                 await accept(startTime, finishTime, selectedSpec.accountId, currentRoomId);
+                close();
             } catch (e) {
                 setError(true);
                 setErrorMessage(e.message);
@@ -67,8 +66,10 @@ export const CreateRental: React.FC<Props> = ({ time, close, position, accept, c
                 return;
             }
         }
-        setLoading(false);
-        close();
+
+        if (!isValidate) {
+            setLoading(false);
+        }
     };
 
     return (
@@ -87,14 +88,14 @@ export const CreateRental: React.FC<Props> = ({ time, close, position, accept, c
                                 value={startTime}
                                 onValueChange={setStartTime}
                                 width={100}
-                                styles={{ backgroundColor: whiteHoveredColor, height: 40 }}
+                                styles={{ height: 40 }}
                             />
                             <span style={{ color: '#fff', margin: '0 5px' }}>&mdash;</span>
                             <TimePicker
                                 value={finishTime}
                                 onValueChange={setFinishTime}
                                 width={100}
-                                styles={{ backgroundColor: whiteHoveredColor, height: 40 }}
+                                styles={{ height: 40 }}
                             />
                         </InputWrapper>
                         {!specialist && (

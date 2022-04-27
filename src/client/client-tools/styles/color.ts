@@ -1,5 +1,6 @@
 export const defaultPortalColor = '#bac890';
 export const selectedLinkColor = `rgba(219, 241, 145, 0.54)`
+export const blackGreenDefaultPortalColor = '#8f9b73';
 
 export const defaultLineColor = `#E5E5E5`;
 export const disabledText = `#ADADAD`;
