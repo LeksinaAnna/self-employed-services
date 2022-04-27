@@ -9,6 +9,7 @@ import { AdminReportStore } from '../components/entities/AdminReport/stores/admi
 import { ServicesPageStore } from '../components/entities/ServicesPage/stores/services-page.store';
 import { ClientsStore } from '../components/entities/Clients/stores/clients.store';
 import { RecordsStore } from '../components/entities/RecordsPage/stores/records.store';
+import { SpecialistReportStore } from '../components/entities/SpecialistReport/stores/specialist-report.store';
 
 export class RootStore {
     readonly appStore: AppStore;
@@ -16,6 +17,7 @@ export class RootStore {
     readonly locationsStore: LocationsStore;
     readonly specialistsStore: SpecialistsStore;
     readonly adminReportStore: AdminReportStore;
+    readonly specialistReportStore: SpecialistReportStore;
     readonly servicesPageStore: ServicesPageStore;
     readonly clientsStore: ClientsStore;
     readonly recordsStore: RecordsStore;
@@ -26,6 +28,7 @@ export class RootStore {
         this.locationsStore = new LocationsStore(this);
         this.specialistsStore = new SpecialistsStore(this);
         this.adminReportStore = new AdminReportStore(this);
+        this.specialistReportStore = new SpecialistReportStore(this);
         this.servicesPageStore = new ServicesPageStore(this);
         this.clientsStore = new ClientsStore(this);
         this.recordsStore = new RecordsStore(this);
