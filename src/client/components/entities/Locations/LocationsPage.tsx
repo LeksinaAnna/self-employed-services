@@ -1,5 +1,5 @@
 import React from 'react';
-import { DatePicker, Gapped } from '@skbkontur/react-ui';
+import { Button, DatePicker, Gapped } from '@skbkontur/react-ui';
 import { observer } from 'mobx-react-lite';
 import { useAsyncEffectWithError } from '../../../client-tools/hooks/use-async-effect';
 import { useStores } from '../../../client-tools/hooks/use-stores';
@@ -28,10 +28,10 @@ export const LocationsPage: React.FC = observer(() => {
                 onValueChange={service.onSearchChange}
                 value={searchValue}
                 isModal={isCreateModal}
-                openModal={service.openCreateModal}
             />
-            <div style={{ margin: '18px 0' }}>
+            <div style={{ margin: '18px 0', display: 'flex', justifyContent: 'space-between' }}>
                 <DatePicker disabled={isCreateModal} value={currentDate} width={100} onValueChange={setCurrentDate} />
+                <Button onClick={service.openCreateModal} use='success'>Добавить локацию</Button>
             </div>
             <Gapped vertical gap={40}>
                 {locations.map(room => (
