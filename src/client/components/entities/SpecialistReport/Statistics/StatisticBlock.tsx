@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const StatisticBlock: React.FC<Props> = ({ bottomValue, bottomTitle, topValue, topTitle }) => (
-    <div style={{ width: 290, border: `2px solid ${defaultPortalColor}`, padding: 10 }}>
+    <div style={{ width: 290, border: `2px solid ${defaultPortalColor}`, borderRadius: 10, padding: 10 }}>
         <Gapped gap={40}>
             <Typography color={secondaryText} fontSize="20px">
                 {topTitle}

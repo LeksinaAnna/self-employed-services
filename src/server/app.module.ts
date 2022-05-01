@@ -10,6 +10,7 @@ import { RentalsWebModule } from './modules/domains/rentals/rentals-web/rentals-
 import { ServicesWebModule } from './modules/domains/services-list/sevices-web/services-web.module';
 import { RecordsModule } from './modules/domains/records/records-web/records.module';
 import { ClientsModule } from './modules/domains/clients/clients-web/clients.module';
+import { ReportModule } from './modules/domains/report/report-web/report.module';
 
 @Module({
     imports: [
@@ -20,7 +21,8 @@ import { ClientsModule } from './modules/domains/clients/clients-web/clients.mod
         RentalsWebModule,
         ServicesWebModule,
         RecordsModule,
-        ClientsModule
+        ClientsModule,
+        ReportModule
     ],
     providers: [
         {

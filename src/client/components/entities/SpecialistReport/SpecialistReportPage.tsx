@@ -1,8 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Center, DatePicker, Gapped } from '@skbkontur/react-ui';
+import { Center, DatePicker } from '@skbkontur/react-ui';
 import { Typography } from '../../ui/Text/Typography';
-import { defaultPortalColor, notActiveText, secondaryText } from '../../../client-tools/styles/color';
+import { notActiveText, secondaryText } from '../../../client-tools/styles/color';
 import { useStores } from '../../../client-tools/hooks/use-stores';
 import { Statistics } from './Statistics/Statistics';
 import { TableInfo } from './TableInfo/TableInfo';

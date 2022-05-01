@@ -8,16 +8,6 @@ export type RoomId = string;
 
 export type LargeRoom = Room & WithRentals & WithUserProfile;
 
-export interface RoomWithProfit {
-    roomId: RoomId;
-    title: string;
-    price: number;
-    duration: number;
-    countRental: number;
-    type: ProfessionType;
-    profit: number;
-}
-
 export interface RoomCreateProperties {
     roomId?: RoomId;
     price: number;
