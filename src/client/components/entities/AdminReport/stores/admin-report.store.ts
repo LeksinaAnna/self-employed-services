@@ -1,13 +1,15 @@
 import { makeAutoObservable } from 'mobx';
 import moment from 'moment';
 import { RootStore } from '../../../../stores/root.store';
-import { RoomId, RoomWithProfit } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { LocationReport } from '../../../../../server/modules/domains/report/entities/report.entity';
+import { RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { AdminReportService } from './admin-report.service';
 
 export class AdminReportStore {
     startDate: string = moment().format('DD.MM.YYYY');
     finishDate: string = moment().add(1, 'days').format('DD.MM.YYYY');
-    rooms: RoomWithProfit[] = [];
+    rooms: LocationReport[] = [];
+    generalProfit = 0;
     hoveredRoom: RoomId = null;
 
     readonly service: AdminReportService;
@@ -16,11 +18,6 @@ export class AdminReportStore {
         this.service = new AdminReportService(this._rootStore, this);
 
         makeAutoObservable(this, {}, { autoBind: true })
-    }
-
-    get totalProfit(): number {
-        const profits = this.rooms.map(room => room.profit);
-        return profits.reduce((prev, current) => prev + current, 0);
     }
 
     setStartDate(value: string): void {
@@ -35,7 +32,11 @@ export class AdminReportStore {
         this.hoveredRoom = value;
     }
 
-    setRooms(rooms: RoomWithProfit[]): void {
+    setRooms(rooms: LocationReport[]): void {
         this.rooms = rooms;
+    }
+
+    setGeneralProfit(value: number): void {
+        this.generalProfit = value;
     }
 }

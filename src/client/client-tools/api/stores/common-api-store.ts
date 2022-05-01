@@ -5,6 +5,7 @@ import { RentalApi } from '../entities/rental/rental-api';
 import { ServiceListApi } from '../entities/service-list/service-list-api';
 import { ClientsApi } from '../entities/clients/clients-api';
 import { RecordsApi } from '../entities/records/records-api';
+import { ReportsApi } from '../entities/reports/reports-api';
 
 export class CommonApiStore {
     auth = new AuthApi(this._baseUrl);
@@ -14,6 +15,7 @@ export class CommonApiStore {
     serviceList = new ServiceListApi(this._baseUrl);
     clients = new ClientsApi(this._baseUrl);
     records = new RecordsApi(this._baseUrl);
+    reports = new ReportsApi(this._baseUrl);
 
     constructor(private readonly _baseUrl: string) {}
 }

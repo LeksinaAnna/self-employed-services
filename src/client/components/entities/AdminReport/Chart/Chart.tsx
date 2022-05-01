@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { RoomId, RoomWithProfit } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { LocationReport } from '../../../../../server/modules/domains/report/entities/report.entity';
 import { ChartItem } from './ChartItem';
 
 interface Props {
-    rooms: RoomWithProfit[];
+    rooms: LocationReport[];
     hoveredRoom: RoomId;
     onHoverItem: (value: string) => void;
 }

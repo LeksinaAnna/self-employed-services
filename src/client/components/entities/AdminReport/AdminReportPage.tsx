@@ -17,7 +17,7 @@ export const AdminReportPage: React.FC = observer(() => {
         setStartDate,
         setFinishDate,
         rooms,
-        totalProfit,
+        generalProfit,
         hoveredRoom,
         setHoveredRoom,
         service,
@@ -49,7 +49,7 @@ export const AdminReportPage: React.FC = observer(() => {
             {rooms.length > 0 && <RoomsTable onHoverItem={setHoveredRoom} hoveredItem={hoveredRoom} rooms={rooms} />}
             {rooms.length > 0 && (
                 <ReportFooter>
-                    <Typography fontSize="20px">{totalProfit} руб.</Typography>
+                    <Typography fontSize="20px">{generalProfit} руб.</Typography>
                 </ReportFooter>
             )}
         </div>

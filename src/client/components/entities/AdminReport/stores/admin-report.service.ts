@@ -1,14 +1,14 @@
 import moment from 'moment';
 import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from '../../../../stores/root.store';
-import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
+import { ReportsApi } from '../../../../client-tools/api/entities/reports/reports-api';
 import { AdminReportStore } from './admin-report.store';
 
 export class AdminReportService {
-    private readonly _roomsApi: LocationsApi;
+    private readonly _reportsApi: ReportsApi;
 
     constructor(private readonly _rootStore: RootStore, private readonly _adminReportStore: AdminReportStore) {
-        this._roomsApi = this._rootStore.commonApi.locations;
+        this._reportsApi = this._rootStore.commonApi.reports;
 
         makeAutoObservable(this, {}, { autoBind: true });
     }
@@ -18,7 +18,7 @@ export class AdminReportService {
             this._rootStore.appStore.setIsLoading(true);
         }, 300);
 
-        const rooms = await this._roomsApi.getRoomsWithProfit({
+        const report = await this._reportsApi.getAdminReport({
             start_date: moment(this._adminReportStore.startDate, 'DD.MM.YYYY').startOf('day').format(),
             finish_date: moment(this._adminReportStore.finishDate, 'DD.MM.YYYY').endOf('day').format(),
         }, signal);
@@ -26,7 +26,8 @@ export class AdminReportService {
         clearTimeout(timer);
 
         runInAction(() => {
-            this._adminReportStore.setRooms(rooms);
+            this._adminReportStore.setRooms(report.locations);
+            this._adminReportStore.setGeneralProfit(report.profit);
             this._rootStore.appStore.setIsLoading(false);
         })
     }
