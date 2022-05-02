@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ServiceItemId, WithServiceItem } from '../../services-list/entities/service-item.entity';
 import { UserId } from '../../users/entities/user.entity';
 import { ClientId, WithClient } from '../../clients/entities/client.entity';
+import { RoomId } from '../../rooms/entities/room.entity';
 
 export type RecordId = string;
 export type RecordStatus = 'accepted' | 'canceled' | 'sent';
@@ -33,6 +34,7 @@ export interface Record {
     serviceId: ServiceItemId;
     specialistId: UserId;
     clientId: ClientId;
+    roomId: RoomId;
     recordDate: string;
     status?: RecordStatus;
     created?: string;
@@ -48,8 +50,9 @@ export class RecordEntity implements Record {
     readonly serviceId: ServiceItemId;
     readonly status: RecordStatus;
     readonly clientId: ClientId;
+    readonly roomId: RoomId;
 
-    constructor({ recordId, serviceId, status, recordDate, created, inBasket, specialistId, clientId }: Record) {
+    constructor({ recordId, serviceId, status, recordDate, created, inBasket, specialistId, clientId, roomId }: Record) {
         this.recordId = recordId || uuidv4();
         this.serviceId = serviceId;
         this.status = status || 'sent';
@@ -58,5 +61,6 @@ export class RecordEntity implements Record {
         this.specialistId = specialistId;
         this.inBasket = inBasket || false;
         this.clientId = clientId;
+        this.roomId = roomId;
     }
 }

@@ -52,6 +52,7 @@ export class RecordsAdapterService extends PersistenceAdapter implements Records
             })
             .leftJoinAndSelect(`record.client`, 'client')
             .leftJoinAndSelect(`record.service`, 'service')
+            .leftJoinAndSelect(`record.room`, 'room')
             .orderBy(`record.status`, 'DESC')
             .take(parseInt(take, 10))
             .skip(parseInt(skip, 10))

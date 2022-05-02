@@ -1,11 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ReportService } from '../services/report.service';
-import { RoomsService } from '../../rooms/services/rooms.service';
-import { RoomsAdapterService } from '../../rooms/services/adapters/rooms-adapter.service';
+import { ClientsService } from '../../clients/services/clients.service';
+import { UserWebModule } from '../../users/user-web/user-web.module';
+import { ClientsAdapterService } from '../../clients/services/adapters/clients-adapter.service';
+import { RoomsWebModule } from '../../rooms/rooms-web/rooms-web.module';
+import { RecordsModule } from '../../records/records-web/records.module';
 import { ReportWebController } from './report-web.controller';
 
 @Module({
-    providers: [ReportService, RoomsService, RoomsAdapterService],
-    controllers: [ReportWebController]
+    imports: [UserWebModule, RoomsWebModule, RecordsModule],
+    providers: [ReportService, ClientsService, ClientsAdapterService],
+    controllers: [ReportWebController],
 })
 export class ReportModule {}

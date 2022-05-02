@@ -5,6 +5,8 @@ import { ServiceItemId } from '../../services-list/entities/service-item.entity'
 import { ClientOrmEntity } from '../../clients/orm-entities/client.orm-entity';
 import { ClientId } from '../../clients/entities/client.entity';
 import { ServiceItemOrmEntity } from '../../services-list/orm-entities/service-item.orm-entity';
+import { RoomId } from '../../rooms/entities/room.entity';
+import { RoomOrmEntity } from '../../rooms/orm-entities/room.orm-entity';
 
 @Entity({ name: 'records', schema: 'services' })
 export class RecordOrmEntity implements Record {
@@ -19,6 +21,9 @@ export class RecordOrmEntity implements Record {
 
     @Column({ name: 'client_id', type: 'uuid' })
     clientId: ClientId;
+
+    @Column({ name: 'room_id', type: 'uuid' })
+    roomId: RoomId;
 
     @Column({ name: 'record_date', type: 'timestamp with time zone' })
     recordDate: string;
@@ -45,4 +50,11 @@ export class RecordOrmEntity implements Record {
         referencedColumnName: 'serviceId'
     })
     service: ServiceItemOrmEntity;
+
+    @OneToOne(() => RoomOrmEntity)
+    @JoinColumn({
+        name: 'room_id',
+        referencedColumnName: 'roomId'
+    })
+    room: RoomOrmEntity;
 }

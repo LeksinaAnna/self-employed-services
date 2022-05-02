@@ -6,10 +6,11 @@ import { AdminReport, LocationReport, SpecialistReport } from '../entities/repor
 import { QueryType } from '../../../../../common/interfaces/common';
 import { LargeRental } from '../../rentals/entities/rental.entity';
 import { RoomsService } from '../../rooms/services/rooms.service';
+import { RecordsService } from '../../records/services/records.service';
 
 @Injectable()
 export class ReportService implements ReportUseCase {
-    constructor(private readonly _roomsService: RoomsService) {}
+    constructor(private readonly _roomsService: RoomsService, private readonly _recordsService: RecordsService) {}
 
     private static calculateProfitWithDuration(
         rental: LargeRental,
@@ -60,6 +61,23 @@ export class ReportService implements ReportUseCase {
     }
 
     async specialistReport(specId: UserId, query: QueryType): Promise<SpecialistReport> {
-        return Promise.resolve(undefined);
+        // получаем все принятые записи (status: accepted), считаем их успешными
+        const { items, count } = await this._recordsService.getRecordsBySpecId(specId, { ...query, status: 'accepted' });
+
+        let income = 0;
+        let profit = 0;
+
+        items.forEach(record => {
+            income += record.service.price;
+            profit += record.service.price;
+        });
+
+        return {
+            profit,
+            income,
+            expenses: 0,
+            countRecords: count,
+            records: items
+        }
     }
 }

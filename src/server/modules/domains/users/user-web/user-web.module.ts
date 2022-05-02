@@ -18,6 +18,6 @@ import { UserWebAdminController } from './user-web-admin.controller';
         RolesAdapterService,
     ],
     controllers: [UserWebController, UserWebAdminController],
-    exports: [UserService],
+    exports: [UserService, UserAdapterService, UserProfileAdapterService],
 })
 export class UserWebModule {}
