@@ -6,6 +6,7 @@ import { LargeRecord, Record, RecordId } from '../../entities/record.entity';
 import { RecordOrmEntity } from '../../orm-entities/record.orm-entity';
 import { PersistenceAdapter } from '../../../../common/persistence-adapter/persistence-adapter';
 import { UserId } from '../../../users/entities/user.entity';
+import { WithServiceItem } from '../../../services-list/entities/service-item.entity';
 
 @Injectable()
 export class RecordsAdapterService extends PersistenceAdapter implements RecordsPort {
@@ -21,10 +22,10 @@ export class RecordsAdapterService extends PersistenceAdapter implements Records
         finish_date,
         status,
         spec_id,
+        client_id,
     }: QueryType): Promise<ManyItem<LargeRecord>> {
         const [items, count] = await createQueryBuilder(RecordOrmEntity, 'record')
             .where(qb => {
-
                 // Если придет начальная дата, то смотрим на нее
                 if (start_date) {
                     qb.andWhere(`record.recordDate >= :startDate`, { startDate: start_date });
@@ -49,10 +50,13 @@ export class RecordsAdapterService extends PersistenceAdapter implements Records
                 if (status) {
                     qb.andWhere(`record.status = :status`, { status });
                 }
+
+                if (client_id) {
+                    qb.andWhere(`client.clientId = :clientId`, { clientId: client_id });
+                }
             })
             .leftJoinAndSelect(`record.client`, 'client')
             .leftJoinAndSelect(`record.service`, 'service')
-            .leftJoinAndSelect(`record.room`, 'room')
             .orderBy(`record.status`, 'DESC')
             .take(parseInt(take, 10))
             .skip(parseInt(skip, 10))
@@ -88,6 +92,20 @@ export class RecordsAdapterService extends PersistenceAdapter implements Records
             .leftJoinAndSelect(`record.client`, 'client')
             .take(parseInt(take, 10))
             .skip(parseInt(skip, 10))
+            .getManyAndCount();
+
+        return { items, count };
+    }
+
+    async getRecordsForClientReport(
+        clientId: UserId,
+        specialistId: UserId,
+    ): Promise<ManyItem<Record & WithServiceItem>> {
+        const [items, count] = await createQueryBuilder(RecordOrmEntity, 'record')
+            .where(`record.status = 'accepted'`)
+            .andWhere(`record.clientId = :clientId`, { clientId })
+            .leftJoinAndSelect(`record.service`, `service`)
+            .andWhere(`service.createdBy = :specialistId`, { specialistId })
             .getManyAndCount();
 
         return { items, count };

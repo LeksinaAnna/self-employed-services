@@ -2,6 +2,7 @@ import { UserId } from '../../server/modules/domains/users/entities/user.entity'
 import { ProfessionType } from '../../server/modules/domains/users/entities/user-profile.entity';
 import { RoomId } from '../../server/modules/domains/rooms/entities/room.entity';
 import { RecordStatus } from '../../server/modules/domains/records/entities/record.entity';
+import { ClientId } from '../../server/modules/domains/clients/entities/client.entity';
 
 export type Nullable<T> = null | undefined | T;
 export type AnyType = any;
@@ -31,6 +32,7 @@ export interface QueryType {
     finish_date?: string;
     room_id?: RoomId;
     spec_id?: UserId;
+    client_id?: ClientId;
 }
 
 export const runAsyncAction = (action: () => Promise<void>): void => {

@@ -7,25 +7,18 @@ import { Roles } from '../../../../nest-decorators/decorators/roles.decorator';
 import { ReportService } from '../services/report.service';
 
 @Controller('/report')
-export  class ReportWebController {
-    constructor(private readonly _reportService: ReportService) {
-    }
+export class ReportWebController {
+    constructor(private readonly _reportService: ReportService) {}
 
     @Roles('ADMIN')
     @Get('/admin')
-    getAdminReport(
-        @Query() query: QueryType,
-        @CurrentUser() currentUser: TokenData,
-    ): Promise<AdminReport> {
-        return this._reportService.adminReport(currentUser.userId, query);
+    getAdminReport(@Query() query: QueryType): Promise<AdminReport> {
+        return this._reportService.adminReport(query);
     }
 
     @Roles('SPECIALIST')
     @Get('/specialist')
-    getSpecialistReport(
-        @Query() query: QueryType,
-        @CurrentUser() currentUser: TokenData,
-    ): Promise<SpecialistReport> {
+    getSpecialistReport(@Query() query: QueryType, @CurrentUser() currentUser: TokenData): Promise<SpecialistReport> {
         return this._reportService.specialistReport(currentUser.userId, query);
     }
 }

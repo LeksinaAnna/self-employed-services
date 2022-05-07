@@ -6,7 +6,7 @@ export interface SpecialistReport {
     profit: number;
     income: number;
     expenses: number;
-    records: object[];
+    clients: ClientReport[];
 }
 
 export interface AdminReport {
@@ -22,4 +22,10 @@ export interface LocationReport {
     duration: number;
     profit: number;
     countRental: number;
+}
+
+export interface ClientReport {
+    name: string;
+    servicesCount: number;
+    profit: number;
 }
