@@ -84,6 +84,7 @@ export class ReportAdapterService extends PersistenceAdapter {
             .select('COUNT(record)::integer', 'servicesCount')
             .addSelect('client.name', 'name')
             .addSelect('SUM(service.price - ((room.price / 60) * (service.duration / (1000 * 60) )) )', 'profit')
+            .addSelect(`SUM (service.price)`, `amountServices`)
             .leftJoin('client.records', 'record')
             .leftJoin('record.service', 'service')
             .leftJoin('record.room', 'room')

@@ -1,35 +1,22 @@
 import React from 'react';
-import { Table, TableCell, TableHead, TableRow } from '@mui/material';
-import { Typography } from '../../../ui/Text/Typography';
-import { notActiveText, secondaryText } from '../../../../client-tools/styles/color';
+import { Table, TableBody, TableHead } from '@mui/material';
+import { ClientReport } from '../../../../../server/modules/domains/report/entities/report.entity';
+import { TableInfoHead } from './TableInfoHead';
+import { TableInfoItem } from './TableInfoItem';
 
-export const TableInfo: React.FC = () => {
-    return (
-        <Table>
-            <TableHead>
-                <TableRow>
-                    <TableCell width="55%">
-                        <Typography color={notActiveText} fontSize="14px">
-                            Клиент
-                        </Typography>
-                    </TableCell>
-                    <TableCell>
-                        <Typography color={notActiveText} fontSize="14px">
-                            Стоимость услуг
-                        </Typography>
-                    </TableCell>
-                    <TableCell>
-                        <Typography color={notActiveText} fontSize="14px">
-                            Аренда
-                        </Typography>
-                    </TableCell>
-                    <TableCell>
-                        <Typography color={notActiveText} fontSize="14px">
-                            Прибыль
-                        </Typography>
-                    </TableCell>
-                </TableRow>
-            </TableHead>
-        </Table>
-    );
-};
+interface Props {
+    reports: ClientReport[];
+}
+
+export const TableInfo: React.FC<Props> = ({ reports }) => (
+    <Table>
+        <TableHead>
+            <TableInfoHead />
+        </TableHead>
+        <TableBody>
+            {reports.map(report => (
+                <TableInfoItem item={report} key={`${report.name}-${report.amountServices}`} />
+            ))}
+        </TableBody>
+    </Table>
+);

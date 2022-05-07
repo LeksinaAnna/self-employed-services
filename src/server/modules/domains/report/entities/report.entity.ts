@@ -28,4 +28,5 @@ export interface ClientReport {
     name: string;
     servicesCount: number;
     profit: number;
+    amountServices: number;
 }

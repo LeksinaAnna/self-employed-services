@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Center, DatePicker } from '@skbkontur/react-ui';
 import { Typography } from '../../ui/Text/Typography';
 import { notActiveText, secondaryText } from '../../../client-tools/styles/color';
 import { useStores } from '../../../client-tools/hooks/use-stores';
+import { useAsyncEffectWithError } from '../../../client-tools/hooks/use-async-effect';
 import { Statistics } from './Statistics/Statistics';
 import { TableInfo } from './TableInfo/TableInfo';
 
 export const SpecialistReportPage: React.FC = observer(() => {
     const { specialistReportStore } = useStores();
-    const { startDate, finishDate, setStartDate, setFinishDate } = specialistReportStore;
+    const { startDate, finishDate, setStartDate, setFinishDate, service, clientsReport, destroy } = specialistReportStore;
+
+    useAsyncEffectWithError(
+        async abortSignal => {
+            await service.init(abortSignal);
+        },
+        [startDate, finishDate],
+    );
+
+    useEffect(() => destroy, []);
 
     return (
         <div>
@@ -23,12 +33,19 @@ export const SpecialistReportPage: React.FC = observer(() => {
             </div>
             <Statistics />
             <Center style={{ marginTop: 10 }}>
-                <Typography fontSize='18px' color={notActiveText}>
+                <Typography fontSize="18px" color={notActiveText}>
                     {`Статистика с ${startDate} по ${finishDate}`}
                 </Typography>
             </Center>
             <div style={{ marginTop: 40 }}>
-                <TableInfo />
+                {clientsReport.length > 0 && <TableInfo reports={clientsReport} />}
+                {clientsReport.length === 0 && (
+                    <Center>
+                        <Typography fontSize={'20px'} color={secondaryText}>
+                            Данные отсутствуют
+                        </Typography>
+                    </Center>
+                )}
             </div>
         </div>
     );
