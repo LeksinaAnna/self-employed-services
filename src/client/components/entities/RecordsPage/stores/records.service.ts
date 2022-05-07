@@ -34,6 +34,7 @@ export class RecordsService {
         }, 300);
 
         const currentRoom = await this.getCurrentRoom(this._rootStore.appStore?.userData?.profile?.selectedRoom);
+        await this.getRecords('sent')
 
         clearTimeout(timer);
 

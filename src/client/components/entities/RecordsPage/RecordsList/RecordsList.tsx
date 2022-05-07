@@ -5,7 +5,6 @@ import { observer } from 'mobx-react-lite';
 import { Typography } from '../../../ui/Text/Typography';
 import { notActiveText, secondaryText } from '../../../../client-tools/styles/color';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
-import { useAsyncEffectWithError } from '../../../../client-tools/hooks/use-async-effect';
 import { RecordStatus } from '../../../../../server/modules/domains/records/entities/record.entity';
 import { ListItem } from './ListItem';
 import { ListHead } from './ListHead';
@@ -17,9 +16,10 @@ export const RecordsList: React.FC = observer(() => {
     const {records, service} = recordsStore;
     const [activeTab, setActiveTab] = useState('sent');
 
-    useAsyncEffectWithError(async (abortSignal) => {
-        await service.getRecords(activeTab as RecordStatus, abortSignal);
-    }, [activeTab]);
+    const onChangeTab = async (tab: string) => {
+        setActiveTab(tab);
+        await service.getRecords(tab as RecordStatus);
+    }
 
     return (
         <div style={{ marginTop: 80 }}>
@@ -27,7 +27,7 @@ export const RecordsList: React.FC = observer(() => {
                 Записи клиентов
             </Typography>
             <div style={{ marginTop: 10 }}>
-                <TabsControl value={activeTab} onValue={setActiveTab} />
+                <TabsControl value={activeTab} onValue={onChangeTab} />
             </div>
             {records.length > 0 && (
                 <Table>

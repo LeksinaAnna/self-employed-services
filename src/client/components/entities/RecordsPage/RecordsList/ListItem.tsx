@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TableCell, TableRow } from '@mui/material';
 import { Button } from '@skbkontur/react-ui';
 import { LargeRecord, RecordId } from '../../../../../server/modules/domains/records/entities/record.entity';
@@ -10,24 +10,40 @@ interface Props {
     cancelRecord: (recordId: RecordId) => void;
 }
 
-export const ListItem: React.FC<Props> = ({ record, acceptRecord, cancelRecord }) => (
-    <TableRow>
-        <TableCell style={{ padding: 5 }}>
-            <RecordInfo record={record} />
-        </TableCell>
-        <TableCell style={{ padding: 5 }}>
-            {record.status === 'sent' && (
-                <Button use="success" onClick={() => acceptRecord(record.recordId)}>
-                    Принять
-                </Button>
-            )}
-        </TableCell>
-        <TableCell style={{ padding: 5 }}>
-            {record.status === 'sent' && (
-                <Button use="danger" onClick={() => cancelRecord(record.recordId)}>
-                    Отклонить
-                </Button>
-            )}
-        </TableCell>
-    </TableRow>
-);
+export const ListItem: React.FC<Props> = ({ record, acceptRecord, cancelRecord }) => {
+    const [loading, setLoading] = useState(false);
+
+    const onCancel = async () => {
+        setLoading(true);
+        await cancelRecord(record.recordId);
+        setLoading(false);
+    }
+
+    const onAccept = async () => {
+        setLoading(true);
+        await acceptRecord(record.recordId);
+        setLoading(false);
+    }
+
+    return (
+        <TableRow>
+            <TableCell style={{ padding: 5 }}>
+                <RecordInfo record={record} />
+            </TableCell>
+            <TableCell style={{ padding: 5 }}>
+                {record.status === 'sent' && (
+                    <Button disabled={loading} use="success" onClick={onAccept}>
+                        Принять
+                    </Button>
+                )}
+            </TableCell>
+            <TableCell style={{ padding: 5 }}>
+                {record.status === 'sent' && (
+                    <Button disabled={loading} use="danger" onClick={onCancel}>
+                        Отклонить
+                    </Button>
+                )}
+            </TableCell>
+        </TableRow>
+    );
+};
