@@ -4,7 +4,7 @@ import { CurrencyRuble } from '@mui/icons-material';
 import { observer } from 'mobx-react-lite';
 import { Alert } from '@mui/material';
 import { Button, CurrencyInput, Gapped, Input, Select } from '@skbkontur/react-ui';
-import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modal/Modal';
+import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modals/Modal';
 import { FormLine } from '../../../ui/FormLine/FormLine';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { professionTypeDict } from '../../../../../server/modules/domains/users/entities/user-profile.entity';

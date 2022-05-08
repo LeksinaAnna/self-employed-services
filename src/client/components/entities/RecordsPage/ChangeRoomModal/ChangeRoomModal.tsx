@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Input } from '@skbkontur/react-ui';
 import SearchIcon from '@mui/icons-material/Search';
 import { Alert } from '@mui/material';
-import { Modal, ModalBody, ModalHead } from '../../../ui/Modal/Modal';
+import { Modal, ModalBody, ModalHead } from '../../../ui/Modals/Modal';
 import { useAsyncEffectWithError } from '../../../../client-tools/hooks/use-async-effect';
 import { LargeRoom, RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { useStores } from '../../../../client-tools/hooks/use-stores';

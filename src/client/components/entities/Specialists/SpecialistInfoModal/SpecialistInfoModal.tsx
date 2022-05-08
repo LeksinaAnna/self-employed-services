@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Gapped, Textarea } from '@skbkontur/react-ui';
 import { Alert } from '@mui/material';
 import { LargeUser, UserWithDescription } from '../../../../../server/modules/domains/users/entities/user.entity';
-import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modal/Modal';
+import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modals/Modal';
 import { professionTypeDict } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { Typography } from '../../../ui/Text/Typography';
 import { secondaryText } from '../../../../client-tools/styles/color';

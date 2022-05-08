@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Gapped, Textarea } from '@skbkontur/react-ui';
 import { Alert } from '@mui/material';
 import { Client } from '../../../../../server/modules/domains/clients/entities/client.entity';
-import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modal/Modal';
+import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modals/Modal';
 import { secondaryText } from '../../../../client-tools/styles/color';
 import { Typography } from '../../../ui/Text/Typography';
 

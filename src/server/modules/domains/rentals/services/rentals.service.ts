@@ -108,7 +108,7 @@ export class RentalsService implements RentalsUseCase {
 
         if (items.length > 0) {
             throw new BadRequestException(
-                `Это время уже занято c ${moment(items[0].startDate).format('HH:mm')} до ${
+                `На ${moment(items[0].startDate).format('DD/MM/YYYY')} время уже занято c ${moment(items[0].startDate).format('HH:mm')} до ${
                     moment(items[0].finishDate).format('HH:mm')
                 }`,
             );

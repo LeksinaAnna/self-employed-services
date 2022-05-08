@@ -11,17 +11,15 @@ export class RecordsStore {
 
     currentDate: string = moment().format('DD.MM.YYYY');
     currentRoom: Room & WithRentals = null;
+    isError: string = null;
+    records: LargeRecord[] = [];
+    isChangeRoomModal = false;
+    activeTab: RecordStatus = 'sent';
+    searchValue = '';
 
     take = 5;
     skip = 0;
     countRecord = 0;
-
-    searchValue = '';
-
-    records: LargeRecord[] = [];
-
-    isChangeRoomModal = false;
-    activeTab: RecordStatus = 'sent';
 
     readonly service: RecordsService;
 
@@ -37,6 +35,10 @@ export class RecordsStore {
 
     setIsInit(value: boolean): void {
         this.pageIsInit = value;
+    }
+
+    setIsError(value: string): void {
+        this.isError = value;
     }
 
     setCurrentLocation(item: Room & WithRentals): void {

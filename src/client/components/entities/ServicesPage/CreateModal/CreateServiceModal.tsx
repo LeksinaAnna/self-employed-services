@@ -4,7 +4,7 @@ import { Alert } from '@mui/material';
 import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import { Button, CurrencyInput, Gapped, Input, Textarea } from '@skbkontur/react-ui';
 import { CurrencyRuble } from '@mui/icons-material';
-import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modal/Modal';
+import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modals/Modal';
 import { FormLine } from '../../../ui/FormLine/FormLine';
 import { TimePicker } from '../../../ui/Date/TimePicker';
 import { useStores } from '../../../../client-tools/hooks/use-stores';

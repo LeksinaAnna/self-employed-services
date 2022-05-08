@@ -7,10 +7,7 @@ import { Room, RoomId } from '../../../../../server/modules/domains/rooms/entiti
 import { UsersApi } from '../../../../client-tools/api/entities/user/users-api';
 import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
 import { WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
-import {
-    RecordId,
-    RecordStatus,
-} from '../../../../../server/modules/domains/records/entities/record.entity';
+import { RecordId, RecordStatus } from '../../../../../server/modules/domains/records/entities/record.entity';
 import { RecordsStore } from './records.store';
 
 export class RecordsService {
@@ -36,7 +33,7 @@ export class RecordsService {
         }, 300);
 
         const currentRoom = await this.getCurrentRoom(this._rootStore.appStore?.userData?.profile?.selectedRoom);
-        await this.getRecords('sent')
+        await this.getRecords('sent');
 
         clearTimeout(timer);
 
@@ -116,8 +113,25 @@ export class RecordsService {
             this._rootStore.appStore.setIsLoading(true);
         }, 300);
 
-        await this._recordsApi.updateRecord(recordId, { status: 'accepted' });
-        await this.init();
+        const currentRecord = this._recordsStore.records.find(record => record.recordId === recordId);
+        const startDate = moment(currentRecord.recordDate).format(); // приводим к общему формату timestamp + timeZone
+        const finishDate = moment(startDate)
+            .add(currentRecord.service.duration / (1000 * 60), 'minutes')
+            .format(); // к начальному времени прибавляем длительность услуги и приводим к общему виду timestamp + timeZone
+
+        try {
+            await this._rentalsApi.createRental({
+                roomId: this._recordsStore.currentRoom.roomId,
+                startDate,
+                finishDate,
+                specialistId: currentRecord.specialistId,
+            });
+
+            await this._recordsApi.updateRecord(recordId, {status: 'accepted'});
+            await this.init();
+        } catch (e) {
+            this._recordsStore.setIsError(e.message);
+        }
 
         clearTimeout(timer);
     }
@@ -143,7 +157,6 @@ export class RecordsService {
         this.timer = setTimeout(async () => {
             await this.getRecords(this._recordsStore.activeTab);
         }, 300);
-
     }
 
     async onChangeTab(tab: RecordStatus): Promise<void> {
