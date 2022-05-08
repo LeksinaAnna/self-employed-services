@@ -12,7 +12,7 @@ interface Props {
     changeDate: (value: string) => void;
     openChangeRoomModal: () => void;
     currentDate: string;
-    isLoading: boolean;
+    pageIsInit: boolean;
 }
 
 export const SelectedRoom: React.FC<Props> = ({
@@ -21,21 +21,21 @@ export const SelectedRoom: React.FC<Props> = ({
     changeDate,
     currentDate,
     openChangeRoomModal,
-    isLoading
+    pageIsInit,
 }) => (
     <div style={{ margin: '18px 0' }}>
         {room && (
             <>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <DatePicker width={100} onValueChange={changeDate} value={currentDate} />
-                    <Button onClick={openChangeRoomModal} use='link'>
+                    <Button onClick={openChangeRoomModal} use="link">
                         Поменять помещение
                     </Button>
                 </div>
                 <LocationCalendar room={room} updatePage={updatePage} currentDate={currentDate} />
             </>
         )}
-        {!room && !isLoading && (
+        {!room && pageIsInit && (
             <Center style={{ marginTop: 50 }}>
                 <Gapped gap={10} vertical>
                     <Typography fontSize={'24px'} color={notActiveText}>

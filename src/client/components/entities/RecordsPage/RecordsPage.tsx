@@ -8,9 +8,17 @@ import { ChangeRoomModal } from './ChangeRoomModal/ChangeRoomModal';
 import { RecordsList } from './RecordsList/RecordsList';
 
 export const RecordsPage: React.FC = observer(() => {
-    const { recordsStore, appStore } = useStores();
-    const { currentDate, service, currentRoom, isChangeRoomModal, openChangeRoomModal, closeChangeRoomModal, destroy } =
-        recordsStore;
+    const { recordsStore } = useStores();
+    const {
+        currentDate,
+        service,
+        currentRoom,
+        isChangeRoomModal,
+        openChangeRoomModal,
+        closeChangeRoomModal,
+        destroy,
+        pageIsInit,
+    } = recordsStore;
 
     useAsyncEffectWithError(async signal => {
         await service.init(signal);
@@ -22,16 +30,14 @@ export const RecordsPage: React.FC = observer(() => {
         <div>
             <RecordsPageTitle />
             <SelectedRoom
-                isLoading={appStore.isLoading}
+                pageIsInit={pageIsInit}
                 room={currentRoom}
                 updatePage={service.init}
                 changeDate={service.onChangeDate}
                 openChangeRoomModal={openChangeRoomModal}
                 currentDate={currentDate}
             />
-            {currentRoom && (
-                <RecordsList />
-            )}
+            {currentRoom && <RecordsList />}
             {isChangeRoomModal && <ChangeRoomModal changeRoom={service.changeRoom} onClose={closeChangeRoomModal} />}
         </div>
     );

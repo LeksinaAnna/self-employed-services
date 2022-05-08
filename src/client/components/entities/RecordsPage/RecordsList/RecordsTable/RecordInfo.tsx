@@ -16,9 +16,9 @@ import {
     orangeText,
     redText,
     secondaryText,
-} from '../../../../client-tools/styles/color';
-import { Typography } from '../../../ui/Text/Typography';
-import { LargeRecord } from '../../../../../server/modules/domains/records/entities/record.entity';
+} from '../../../../../client-tools/styles/color';
+import { Typography } from '../../../../ui/Text/Typography';
+import { LargeRecord } from '../../../../../../server/modules/domains/records/entities/record.entity';
 
 interface Props {
     record: LargeRecord;

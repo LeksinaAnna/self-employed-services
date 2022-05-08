@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TableCell, TableRow } from '@mui/material';
 import { Button } from '@skbkontur/react-ui';
-import { LargeRecord, RecordId } from '../../../../../server/modules/domains/records/entities/record.entity';
+import { LargeRecord, RecordId } from '../../../../../../server/modules/domains/records/entities/record.entity';
 import { RecordInfo } from './RecordInfo';
 
 interface Props {

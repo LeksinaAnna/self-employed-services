@@ -14,6 +14,8 @@ import {
 import { RecordsStore } from './records.store';
 
 export class RecordsService {
+    timer: NodeJS.Timer = null;
+
     private readonly _recordsApi: RecordsApi;
     private readonly _rentalsApi: RentalApi;
     private readonly _usersApi: UsersApi;
@@ -40,6 +42,7 @@ export class RecordsService {
 
         runInAction(() => {
             this._recordsStore.setCurrentLocation(currentRoom);
+            this._recordsStore.setIsInit(true);
         });
     }
 
@@ -128,5 +131,26 @@ export class RecordsService {
         await this.init();
 
         clearTimeout(timer);
+    }
+
+    async onValueSearch(value: string): Promise<void> {
+        runInAction(() => {
+            this._recordsStore.setSearchValue(value);
+        });
+
+        clearTimeout(this.timer);
+
+        this.timer = setTimeout(async () => {
+            await this.getRecords(this._recordsStore.activeTab);
+        }, 300);
+
+    }
+
+    async onChangeTab(tab: RecordStatus): Promise<void> {
+        runInAction(() => {
+            this._recordsStore.changeTab(tab);
+        });
+
+        await this.getRecords(tab);
     }
 }
