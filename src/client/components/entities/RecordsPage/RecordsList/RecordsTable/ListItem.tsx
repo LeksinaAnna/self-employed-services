@@ -8,9 +8,10 @@ interface Props {
     record: LargeRecord;
     acceptRecord: (recordId: RecordId) => void;
     cancelRecord: (recordId: RecordId) => void;
+    openSettings: (record: LargeRecord) => void;
 }
 
-export const ListItem: React.FC<Props> = ({ record, acceptRecord, cancelRecord }) => {
+export const ListItem: React.FC<Props> = ({ record, acceptRecord, cancelRecord, openSettings }) => {
     const [loading, setLoading] = useState(false);
 
     const onCancel = async () => {
@@ -38,12 +39,17 @@ export const ListItem: React.FC<Props> = ({ record, acceptRecord, cancelRecord }
                 )}
             </TableCell>
             <TableCell style={{ padding: 5 }}>
-                {record.status === 'sent' && (
+                {record.status !== 'canceled' && (
                     <Button disabled={loading} use="danger" onClick={onCancel}>
                         Отклонить
                     </Button>
                 )}
             </TableCell>
+            {record.status !== 'canceled' &&
+                <TableCell style={{ padding: 5 }}>
+                    <Button onClick={() => openSettings(record)}>Изменить</Button>
+                </TableCell>
+            }
         </TableRow>
     );
 };

@@ -15,6 +15,7 @@ export interface WithRecords {
 export type LargeRecord = Record & WithClient & WithServiceItem;
 
 export interface RecordUpdateProperties {
+    recordId?: RecordId;
     status?: RecordStatus;
     inBasket?: boolean;
     recordDate?: string;

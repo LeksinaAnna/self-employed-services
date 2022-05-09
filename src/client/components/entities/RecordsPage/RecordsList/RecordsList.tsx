@@ -7,10 +7,21 @@ import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { SpaceBetweenContainer } from '../../../ui/Containers/SpaceBetweenContainer';
 import { TabsControl } from './TabsControl';
 import { RecordsTable } from './RecordsTable/RecordsTable';
+import { RecordSettingsModal } from './RecordSettings/RecordSettingsModal';
 
 export const RecordsList: React.FC = observer(() => {
     const { recordsStore } = useStores();
-    const { records, searchValue, service, activeTab, countRecord } = recordsStore;
+    const {
+        records,
+        searchValue,
+        service,
+        activeTab,
+        countRecord,
+        openSettingsRecord,
+        closeSettingsRecord,
+        isSettingsRecordModal,
+        selectedRecord,
+    } = recordsStore;
 
     return (
         <div style={{ marginTop: 80 }}>
@@ -29,7 +40,12 @@ export const RecordsList: React.FC = observer(() => {
                             Показано {records.length} из {countRecord}
                         </Typography>
                     </div>
-                    <RecordsTable records={records} accept={service.acceptRecord} cancel={service.cancelRecord} />
+                    <RecordsTable
+                        records={records}
+                        accept={service.acceptRecord}
+                        cancel={service.cancelRecord}
+                        openSettingsRecord={openSettingsRecord}
+                    />
                 </div>
             )}
             {records.length === 0 && (
@@ -38,6 +54,13 @@ export const RecordsList: React.FC = observer(() => {
                         Записи отсутствуют
                     </Typography>
                 </Center>
+            )}
+            {isSettingsRecordModal && (
+                <RecordSettingsModal
+                    record={selectedRecord}
+                    onClose={closeSettingsRecord}
+                    accept={service.updateRecord}
+                />
             )}
         </div>
     );

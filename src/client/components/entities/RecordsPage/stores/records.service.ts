@@ -7,7 +7,11 @@ import { Room, RoomId } from '../../../../../server/modules/domains/rooms/entiti
 import { UsersApi } from '../../../../client-tools/api/entities/user/users-api';
 import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
 import { WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
-import { RecordId, RecordStatus } from '../../../../../server/modules/domains/records/entities/record.entity';
+import {
+    RecordId,
+    RecordStatus,
+    RecordUpdateProperties
+} from '../../../../../server/modules/domains/records/entities/record.entity';
 import { RecordsStore } from './records.store';
 
 export class RecordsService {
@@ -33,7 +37,7 @@ export class RecordsService {
         }, 300);
 
         const currentRoom = await this.getCurrentRoom(this._rootStore.appStore?.userData?.profile?.selectedRoom);
-        await this.getRecords('sent');
+        await this.getRecords(this._recordsStore.activeTab);
 
         clearTimeout(timer);
 
@@ -165,5 +169,10 @@ export class RecordsService {
         });
 
         await this.getRecords(tab);
+    }
+
+    async updateRecord(properties: RecordUpdateProperties): Promise<void> {
+        await this._recordsApi.updateRecord(properties.recordId, properties);
+        await this.getRecords(this._recordsStore.activeTab);
     }
 }

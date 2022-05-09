@@ -32,33 +32,51 @@ const TimeWrapper = styled.div`
     border: 1px solid ${darkBackground};
 `;
 
-export const RecordInfo: React.FC<Props> = ({ record }) => (
-    <div>
-        <Gapped gap={2} vertical>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-                <PersonOutline sx={{ color: notActiveText }} fontSize={'large'} />
-                <div>
-                    <Typography color={secondaryText} fontSize="18px">
-                        {record?.client?.name}
-                    </Typography>
-                    <Typography color={orangeText} fontSize="12px">
-                        {record?.service?.title}
-                    </Typography>
-                </div>
+export const RecordInfo: React.FC<Props> = ({ record }) => {
+
+    const hintService = () => (
+        <div>
+            <div>
+                <span>Длительность: </span>
+                <span>{record?.service?.duration / (1000 * 60)} мин</span>
             </div>
-            <TimeWrapper>
-                <Gapped gap={3} verticalAlign="middle">
-                    <CalendarMonthOutlined sx={{ color: secondaryText }} fontSize="small" />
-                    <Typography color={secondaryText}>{moment(record.recordDate).format('DD/MM/YY')}</Typography>
-                </Gapped>
-                <Gapped gap={3} verticalAlign="middle" style={{ marginLeft: 10 }}>
-                    <StatusIcon record={record} />
-                    <Typography color={secondaryText}>{moment(record.recordDate).format('HH:mm')}</Typography>
-                </Gapped>
-            </TimeWrapper>
-        </Gapped>
-    </div>
-);
+            <div>
+                <span>Описание: </span>
+                <span>{record?.service?.description}</span>
+            </div>
+        </div>
+    )
+
+    return (
+        <div>
+            <Gapped gap={2} vertical>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <PersonOutline sx={{ color: notActiveText }} fontSize={'large'} />
+                    <div>
+                        <Typography color={secondaryText} fontSize="18px">
+                            {record?.client?.name}
+                        </Typography>
+                        <Hint text={hintService()}>
+                            <Typography color={orangeText} fontSize="12px">
+                                {record?.service?.title}
+                            </Typography>
+                        </Hint>
+                    </div>
+                </div>
+                <TimeWrapper>
+                    <Gapped gap={3} verticalAlign="middle">
+                        <CalendarMonthOutlined sx={{ color: secondaryText }} fontSize="small" />
+                        <Typography color={secondaryText}>{moment(record.recordDate).format('DD/MM/YY')}</Typography>
+                    </Gapped>
+                    <Gapped gap={3} verticalAlign="middle" style={{ marginLeft: 10 }}>
+                        <StatusIcon record={record} />
+                        <Typography color={secondaryText}>{moment(record.recordDate).format('HH:mm')}</Typography>
+                    </Gapped>
+                </TimeWrapper>
+            </Gapped>
+        </div>
+    );
+};
 
 const StatusIcon: React.FC<Props> = ({ record }) => {
     switch (record?.status) {

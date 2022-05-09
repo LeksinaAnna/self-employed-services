@@ -6,5 +6,6 @@ export const ListHead: React.FC = () => (
         <TableCell width="75%" style={{ padding: 10}}/>
         <TableCell style={{ padding: 10}} />
         <TableCell style={{ padding: 10}} />
+        <TableCell style={{ padding: 10}} />
     </TableRow>
 );

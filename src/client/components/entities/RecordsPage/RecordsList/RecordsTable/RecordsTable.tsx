@@ -8,16 +8,23 @@ interface Props {
     records: LargeRecord[];
     accept: (recordId: RecordId) => void;
     cancel: (recordId: RecordId) => void;
+    openSettingsRecord: (record: LargeRecord) => void;
 }
 
-export const RecordsTable: React.FC<Props> = ({ records, accept, cancel }) => (
+export const RecordsTable: React.FC<Props> = ({ records, accept, cancel, openSettingsRecord }) => (
     <Table>
         <TableHead>
             <ListHead />
         </TableHead>
         <TableBody>
             {records.map(record => (
-                <ListItem key={record.recordId} record={record} acceptRecord={accept} cancelRecord={cancel} />
+                <ListItem
+                    key={record.recordId}
+                    record={record}
+                    acceptRecord={accept}
+                    cancelRecord={cancel}
+                    openSettings={openSettingsRecord}
+                />
             ))}
         </TableBody>
     </Table>

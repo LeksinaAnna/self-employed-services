@@ -11,9 +11,11 @@ export class RecordsStore {
 
     currentDate: string = moment().format('DD.MM.YYYY');
     currentRoom: Room & WithRentals = null;
+    selectedRecord: LargeRecord = null;
     isError: string = null;
     records: LargeRecord[] = [];
     isChangeRoomModal = false;
+    isSettingsRecordModal = false;
     activeTab: RecordStatus = 'sent';
     searchValue = '';
 
@@ -63,6 +65,16 @@ export class RecordsStore {
 
     openChangeRoomModal(): void {
         this.isChangeRoomModal = true;
+    }
+
+    openSettingsRecord(record: LargeRecord): void {
+        this.isSettingsRecordModal = true;
+        this.selectedRecord = record;
+    }
+
+    closeSettingsRecord(): void {
+        this.isSettingsRecordModal = false;
+        this.selectedRecord = null;
     }
 
     closeChangeRoomModal(): void {
