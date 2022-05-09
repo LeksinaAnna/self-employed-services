@@ -38,9 +38,9 @@ export const SpecialistReportPage: React.FC = observer(() => {
                 Отчёт
             </Typography>
             <div>
-                <DatePicker onValueChange={setStartDate} width={100} value={startDate} />
+                <DatePicker onValueChange={setStartDate} width={110} value={startDate} />
                 <span style={{ color: secondaryText, margin: '0 5px' }}>&mdash;</span>
-                <DatePicker onValueChange={setFinishDate} width={100} value={finishDate} />
+                <DatePicker onValueChange={setFinishDate} width={110} value={finishDate} />
             </div>
             <Statistics />
             <Center>

@@ -27,9 +27,11 @@ export const Modal: React.FC<Props> = ({ width = 350, children, onClose }) => {
 
     React.useEffect(() => {
         document.addEventListener('keydown', onPressEsc);
+        document.querySelector('body').style.overflow = 'hidden';
 
         return () => {
             document.removeEventListener('keydown', onPressEsc);
+            document.querySelector('body').style.overflow = 'auto';
         };
     }, []);
 

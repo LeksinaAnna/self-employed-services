@@ -27,7 +27,7 @@ export const SelectedRoom: React.FC<Props> = ({
         {room && (
             <>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <DatePicker width={100} onValueChange={changeDate} value={currentDate} />
+                    <DatePicker width={110} onValueChange={changeDate} value={currentDate} />
                     <Button onClick={openChangeRoomModal} use="link">
                         Поменять помещение
                     </Button>

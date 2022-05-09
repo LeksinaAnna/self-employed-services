@@ -5,8 +5,8 @@ import { ClientReport } from '../../../../../server/modules/domains/report/entit
 import { SpecialistReportService } from './specialist-report.service';
 
 export class SpecialistReportStore {
-    startDate: string = moment().format('DD.MM.YYYY');
-    finishDate: string = moment().add(1, 'days').format('DD.MM.YYYY');
+    startDate: string = moment().startOf('month').format('DD.MM.YYYY');
+    finishDate: string = moment().add(1, 'days').endOf('month').format('DD.MM.YYYY');
     countRecords = 0;
     profit = 0; // прибыль
     income = 0; // доход

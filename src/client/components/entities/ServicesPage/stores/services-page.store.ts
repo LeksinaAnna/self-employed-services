@@ -11,8 +11,7 @@ export class ServicesPageStore {
     countItems = 0;
     searchValue = '';
 
-    take = 5;
-    skip = 0;
+    take = 10;
     currentPage = 1;
     countPages = 1;
 
@@ -85,10 +84,6 @@ export class ServicesPageStore {
 
     setIsModal(value: boolean): void {
         this.isModal = value;
-    }
-
-    setSkip(value: number): void {
-        this.skip = value;
     }
 
     setCountItems(value: number): void {
