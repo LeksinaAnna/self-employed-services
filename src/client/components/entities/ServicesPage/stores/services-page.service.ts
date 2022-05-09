@@ -20,11 +20,13 @@ export class ServicesPageService {
             this._rootStore.appStore.setIsLoading(true);
         }, 300);
 
+        const skip = this._servicesPageStore.take * this._servicesPageStore.currentPage - this._servicesPageStore.take;
+
         const serviceItems = await this._servicesApi.getServices(
             {
                 spec_id: this._rootStore?.appStore?.userData?.accountId,
                 take: this._servicesPageStore.take.toString(),
-                skip: this._servicesPageStore.skip.toString(),
+                skip: skip.toString(),
                 search: this._servicesPageStore.searchValue.trim(),
             },
             signal,
@@ -35,6 +37,7 @@ export class ServicesPageService {
         runInAction(() => {
             this._servicesPageStore.setServices(serviceItems.items);
             this._servicesPageStore.setCountItems(serviceItems.count);
+            this._servicesPageStore.setCountPages(Math.ceil(serviceItems.count / this._servicesPageStore.take));
             this._rootStore.appStore.setIsLoading(false);
         });
     }
@@ -99,6 +102,14 @@ export class ServicesPageService {
         runInAction(() => {
             this._servicesPageStore.setSearchValue(value);
         });
+    }
+
+    async changePage(page: number): Promise<void> {
+        runInAction(() => {
+            this._servicesPageStore.currentPage = page;
+        });
+
+        await this.init();
     }
 
     openCreateModal(): void {

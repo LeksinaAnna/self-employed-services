@@ -10,8 +10,12 @@ export class ServicesPageStore {
 
     countItems = 0;
     searchValue = '';
-    take = 10;
+
+    take = 5;
     skip = 0;
+    currentPage = 1;
+    countPages = 1;
+
     title = '';
     duration = '00:30';
     description = '';
@@ -93,6 +97,10 @@ export class ServicesPageStore {
 
     setSearchValue(value: string): void {
         this.searchValue = value;
+    }
+
+    setCountPages(value: number): void {
+        this.countPages = value;
     }
 
     destroy(): void {

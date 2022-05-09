@@ -7,13 +7,13 @@ interface Props {
 }
 
 const BackgroundFragment = styled.div`
-    position: absolute;
-    background: #222;
-    opacity: 0.6;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.5);
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
+    z-index: -1;
 `;
 
 const ContainerWrapper = styled.div`
@@ -23,21 +23,19 @@ const ContainerWrapper = styled.div`
 `;
 
 const ContentWrapper = styled.div`
-  position: relative;
-  z-index: 10;
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
-  margin: 0 20px 40px 20px;
+    position: relative;
+    z-index: 10;
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+    margin: 0 20px 40px 20px;
 `;
 
-export const BackgroundContainer: React.FC<Props> = ({ children, marginTop= 40 }) => (
-    <div style={{ height: '100%', width: '100%', left: 0, top: 0, position: 'fixed' }}>
+export const BackgroundContainer: React.FC<Props> = ({ children, marginTop = 40 }) => (
+    <div style={{ height: '100%', width: '100%', left: 0, top: 0, position: 'fixed', zIndex: 1400 }}>
         <BackgroundFragment />
         <ContainerWrapper>
-            <ContentWrapper style={{ marginTop }}>
-                {children}
-            </ContentWrapper>
+            <ContentWrapper style={{ marginTop }}>{children}</ContentWrapper>
         </ContainerWrapper>
     </div>
 );

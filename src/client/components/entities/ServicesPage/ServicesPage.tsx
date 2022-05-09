@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Button, Center } from '@skbkontur/react-ui';
+import { Pagination } from '@mui/material';
 import { useStores } from '../../../client-tools/hooks/use-stores';
 import { Typography } from '../../ui/Text/Typography';
 import { notActiveText } from '../../../client-tools/styles/color';
@@ -11,7 +12,7 @@ import { ServicesTable } from './ServicesTable/ServicesTable';
 
 export const ServicesPage: React.FC = observer(() => {
     const { servicesPageStore } = useStores();
-    const { service, isModal, searchValue, services } = servicesPageStore;
+    const { service, isModal, searchValue, services, countPages, currentPage } = servicesPageStore;
 
     useAsyncEffectWithError(async abortSignal => {
         await service.init(abortSignal);
@@ -20,12 +21,12 @@ export const ServicesPage: React.FC = observer(() => {
     return (
         <div>
             <ServicesHead onValueChange={service.onSearchValue} searchValue={searchValue} />
-            <div style={{ display: 'flex', justifyContent: 'end', marginTop: 10}}>
+            <div style={{ display: 'flex', justifyContent: 'end', marginTop: 10 }}>
                 <Button use="success" onClick={service.openCreateModal}>
                     Добавить услугу
                 </Button>
             </div>
-            <div style={{ margin: '20px 0 ' }}>{services.length > 0 && <ServicesTable />}</div>
+            <div style={{ margin: '20px 0' }}>{services.length > 0 && <ServicesTable />}</div>
             {services.length === 0 && (
                 <Center style={{ marginTop: 50 }}>
                     <Typography color={notActiveText} fontSize={'24px'}>
@@ -34,6 +35,15 @@ export const ServicesPage: React.FC = observer(() => {
                 </Center>
             )}
             {isModal && <CreateServiceModal />}
+            {countPages > 1 && (
+                <Pagination
+                    variant="outlined"
+                    color="primary"
+                    page={currentPage}
+                    count={countPages}
+                    onChange={(event, page) => service.changePage(page)}
+                />
+            )}
         </div>
     );
 });
