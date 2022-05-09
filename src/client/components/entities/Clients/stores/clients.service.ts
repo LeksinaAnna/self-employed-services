@@ -19,10 +19,12 @@ export class ClientsService {
             this._rootStore.appStore.setIsLoading(true);
         }, 300);
 
+        const skip = this._clientsStore.take * this._clientsStore.currentPage - this._clientsStore.take;
+
         // Запрос клиентов по апи
         const data = await this._clientsApi.getMyClients({
             take: this._clientsStore.take.toString(),
-            skip: this._clientsStore.skip.toString(),
+            skip: skip.toString(),
             search: this._clientsStore.searchValue.trim(),
         }, signal);
 
@@ -31,6 +33,7 @@ export class ClientsService {
         runInAction(() => {
             this._clientsStore.setClients(data.items);
             this._clientsStore.setCount(data.count);
+            this._clientsStore.setCountPages(Math.ceil(data.count / this._clientsStore.take));
         });
     }
 
@@ -48,6 +51,14 @@ export class ClientsService {
 
     async updateClient(description: string): Promise<void> {
         await this._clientsApi.updateClient(this._clientsStore.selectedClient.clientId, { description });
+        await this.init();
+    }
+
+    async changePage(page: number): Promise<void> {
+        runInAction(() => {
+            this._clientsStore.currentPage = page;
+        });
+
         await this.init();
     }
 }

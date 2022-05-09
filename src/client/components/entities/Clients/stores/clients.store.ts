@@ -7,6 +7,8 @@ import { ClientsService } from './clients.service';
 export class ClientsStore {
     take = 10;
     skip = 0;
+    countPages = 1;
+    currentPage = 1;
 
     searchValue = '';
 
@@ -40,12 +42,12 @@ export class ClientsStore {
         this.count = value;
     }
 
-    setSkipCount(value: number): void {
-        this.count = value;
-    }
-
     setSearchValue(value: string): void {
         this.searchValue = value;
+    }
+
+    setCountPages(value: number): void {
+        this.countPages = value;
     }
 
     openSettingsModal(item: TableItem): void {
