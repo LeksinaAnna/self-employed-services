@@ -1,6 +1,7 @@
 import React from 'react';
-import { Center, Input } from '@skbkontur/react-ui';
+import { Center, DatePicker, Input } from '@skbkontur/react-ui';
 import { observer } from 'mobx-react-lite';
+import { Pagination } from '@mui/material';
 import { Typography } from '../../../ui/Text/Typography';
 import { notActiveText, secondaryText } from '../../../../client-tools/styles/color';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
@@ -16,11 +17,14 @@ export const RecordsList: React.FC = observer(() => {
         searchValue,
         service,
         activeTab,
-        countRecord,
         openSettingsRecord,
         closeSettingsRecord,
         isSettingsRecordModal,
         selectedRecord,
+        startDateRecord,
+        finishDateRecord,
+        pagesNum,
+        currentPage,
     } = recordsStore;
 
     return (
@@ -28,25 +32,25 @@ export const RecordsList: React.FC = observer(() => {
             <Typography color={secondaryText} fontSize="34px" fontWeight={700}>
                 Записи клиентов
             </Typography>
+            <TabsControl value={activeTab} onValue={service.onChangeTab} />
             <SpaceBetweenContainer align={'center'} style={{ marginTop: 10 }}>
-                <TabsControl value={activeTab} onValue={service.onChangeTab} />
+                {activeTab === 'accepted' && (
+                    <div>
+                        <DatePicker width={110} onValueChange={service.onChangeStartDate} value={startDateRecord} />
+                        <span style={{ color: secondaryText, margin: '0 5px' }}>&mdash;</span>
+                        <DatePicker width={110} onValueChange={service.onChangeFinishDate} value={finishDateRecord} />
+                    </div>
+                )}
                 <Input placeholder={'ФИО клиента'} value={searchValue} onValueChange={service.onValueSearch} />
             </SpaceBetweenContainer>
 
             {records.length > 0 && (
-                <div>
-                    <div style={{ marginTop: 10 }}>
-                        <Typography color={secondaryText} fontSize="14px">
-                            Показано {records.length} из {countRecord}
-                        </Typography>
-                    </div>
-                    <RecordsTable
-                        records={records}
-                        accept={service.acceptRecord}
-                        cancel={service.cancelRecord}
-                        openSettingsRecord={openSettingsRecord}
-                    />
-                </div>
+                <RecordsTable
+                    records={records}
+                    accept={service.acceptRecord}
+                    cancel={service.cancelRecord}
+                    openSettingsRecord={openSettingsRecord}
+                />
             )}
             {records.length === 0 && (
                 <Center style={{ marginTop: 50 }}>
@@ -61,6 +65,17 @@ export const RecordsList: React.FC = observer(() => {
                     onClose={closeSettingsRecord}
                     accept={service.updateRecord}
                 />
+            )}
+            {pagesNum > 1 && (
+                <div style={{ marginTop: 20 }}>
+                    <Pagination
+                        color="primary"
+                        variant="outlined"
+                        count={pagesNum}
+                        page={currentPage}
+                        onChange={(event, page) => service.changePage(page)}
+                    />
+                </div>
             )}
         </div>
     );

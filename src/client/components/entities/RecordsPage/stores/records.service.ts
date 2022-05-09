@@ -10,8 +10,9 @@ import { WithRentals } from '../../../../../server/modules/domains/rentals/entit
 import {
     RecordId,
     RecordStatus,
-    RecordUpdateProperties
+    RecordUpdateProperties,
 } from '../../../../../server/modules/domains/records/entities/record.entity';
+import { QueryType } from '../../../../../common/interfaces/common';
 import { RecordsStore } from './records.store';
 
 export class RecordsService {
@@ -71,15 +72,19 @@ export class RecordsService {
             this._rootStore.appStore.setIsLoading(true);
         }, 300);
 
-        const records = await this._recordsApi.getMyRecords(
-            {
-                take: this._recordsStore.take.toString(),
-                skip: this._recordsStore.skip.toString(),
-                search: this._recordsStore.searchValue.trim(),
-                status,
-            },
-            signal,
-        );
+        const query: QueryType = {
+            take: this._recordsStore.take.toString(),
+            skip: this._recordsStore.skip.toString(),
+            search: this._recordsStore.searchValue.trim(),
+            status,
+        };
+
+        if (this._recordsStore.activeTab === 'accepted') {
+            query.start_date = moment(this._recordsStore.startDateRecord, 'DD.MM.YYYY').startOf('day').format();
+            query.finish_date = moment(this._recordsStore.finishDateRecord, 'DD.MM.YYYY').startOf('day').format();
+        }
+
+        const records = await this._recordsApi.getMyRecords(query, signal);
 
         clearTimeout(timer);
 
@@ -87,6 +92,7 @@ export class RecordsService {
             this._rootStore.appStore.setIsLoading(false);
             this._recordsStore.setCountRecords(records.count);
             this._recordsStore.setRecords(records.items);
+            this._recordsStore.setCountPages(Math.ceil(records.count / this._recordsStore.take));
         });
     }
 
@@ -131,7 +137,7 @@ export class RecordsService {
                 specialistId: currentRecord.specialistId,
             });
 
-            await this._recordsApi.updateRecord(recordId, {status: 'accepted'});
+            await this._recordsApi.updateRecord(recordId, { status: 'accepted' });
             await this.init();
         } catch (e) {
             this._recordsStore.setIsError(e.message);
@@ -166,6 +172,8 @@ export class RecordsService {
     async onChangeTab(tab: RecordStatus): Promise<void> {
         runInAction(() => {
             this._recordsStore.changeTab(tab);
+            this._recordsStore.currentPage = 1;
+            this._recordsStore.skip = 0;
         });
 
         await this.getRecords(tab);
@@ -173,6 +181,31 @@ export class RecordsService {
 
     async updateRecord(properties: RecordUpdateProperties): Promise<void> {
         await this._recordsApi.updateRecord(properties.recordId, properties);
+        await this.getRecords(this._recordsStore.activeTab);
+    }
+
+    async onChangeStartDate(value: string): Promise<void> {
+        runInAction(() => {
+            this._recordsStore.setStartDateRecord(value);
+        });
+
+        await this.getRecords(this._recordsStore.activeTab);
+    }
+
+    async onChangeFinishDate(value: string): Promise<void> {
+        runInAction(() => {
+            this._recordsStore.setFinishDateRecord(value);
+        });
+
+        await this.getRecords(this._recordsStore.activeTab);
+    }
+
+    async changePage(page: number): Promise<void> {
+        runInAction(() => {
+            this._recordsStore.currentPage = page;
+            this._recordsStore.skip = this._recordsStore.take * page - this._recordsStore.take;
+        });
+
         await this.getRecords(this._recordsStore.activeTab);
     }
 }

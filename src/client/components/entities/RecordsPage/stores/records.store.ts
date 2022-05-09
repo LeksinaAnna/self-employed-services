@@ -17,11 +17,16 @@ export class RecordsStore {
     isChangeRoomModal = false;
     isSettingsRecordModal = false;
     activeTab: RecordStatus = 'sent';
+
     searchValue = '';
+    startDateRecord = moment().format('DD.MM.YYYY');
+    finishDateRecord = moment(this.startDateRecord, 'DD.MM.YYYY').add(1, 'days').format('DD.MM.YYYY');
 
     take = 5;
     skip = 0;
     countRecord = 0;
+    pagesNum = 1;
+    currentPage = 1;
 
     readonly service: RecordsService;
 
@@ -59,6 +64,10 @@ export class RecordsStore {
         this.records = items;
     }
 
+    setCountPages(value: number): void {
+        this.pagesNum = value;
+    }
+
     setSearchValue(value: string): void {
         this.searchValue = value;
     }
@@ -79,6 +88,14 @@ export class RecordsStore {
 
     closeChangeRoomModal(): void {
         this.isChangeRoomModal = false;
+    }
+
+    setStartDateRecord(value: string): void {
+        this.startDateRecord = value;
+    }
+
+    setFinishDateRecord(value: string): void {
+        this.finishDateRecord = value;
     }
 
     destroy(): void {
