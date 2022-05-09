@@ -1,20 +1,21 @@
 import { makeAutoObservable } from 'mobx';
 import moment from 'moment';
-import {
-    ProfessionType,
-    professionTypeDict,
-} from '../../../../../server/modules/domains/users/entities/user-profile.entity';
-import { LargeRoom } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { ProfessionType } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
+import { LargeRoom, RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { RootStore } from '../../../../stores/root.store';
 import { LocationsService } from './locations.service';
 
 export class LocationsStore {
-    title = '';
-    price: number;
-    profession: ProfessionType = null;
     locations: LargeRoom[] = [];
-    isCreateModal = false;
+    selectedLocation: LargeRoom = null;
+    countLocations = 0;
 
+    isLocationModal = false;
+    activeTab = 'all';
+
+    take = 10;
+    countPages = 1;
+    currentPage = 1;
     currentDate = moment().format('DD.MM.YYYY');
     searchValue = '';
 
@@ -28,21 +29,18 @@ export class LocationsStore {
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
-    get professionList(): string[] {
-        const profArr: ProfessionType[] = ['browist', 'barber', 'lashmaker', 'manicurist'];
-        return profArr.map(prof => professionTypeDict[prof]);
-    }
-
-    setTitle(value: string): void {
-        this.title = value;
-    }
-
     setCurrentDate(value: string): void {
         this.currentDate = value;
     }
 
-    setPrice(value: number): void {
-        this.price = value;
+    openLocationModal(roomId?: RoomId): void {
+        this.isLocationModal = true;
+        this.selectedLocation = this.locations.find(room => room.roomId === roomId);
+    }
+
+    closeLocationModal(): void {
+        this.isLocationModal = false;
+        this.selectedLocation = null;
     }
 
     setRooms(rooms: LargeRoom[]): void {
@@ -53,24 +51,23 @@ export class LocationsStore {
         this.searchValue = value;
     }
 
+    setCountPages(value: number): void {
+        this.countPages = value;
+    }
+
+    setCountLocations(value: number): void {
+        this.countLocations = value;
+    }
+
     setIsLoading(value: boolean): void {
         this.isLoading = value;
     }
 
-    setProfession(profession: string): void {
-        if (!profession) {
-            this.profession = null;
-        }
-
-        for (const key in professionTypeDict) {
-            if (professionTypeDict.hasOwnProperty(key) && professionTypeDict[key] === profession) {
-                this.profession = key as ProfessionType;
-            }
-        }
+    setActiveTab(tab: ProfessionType): void {
+        this.activeTab = tab;
     }
 
     destroy(): void {
         this.locations = [];
-        this.title = '';
     }
 }

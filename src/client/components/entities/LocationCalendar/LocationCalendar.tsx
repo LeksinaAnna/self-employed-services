@@ -16,6 +16,7 @@ interface Props {
     room: Room & WithRentals;
     updatePage: () => Promise<void>;
     currentDate: string;
+    openSettings?: () => void;
 }
 
 const LineWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
@@ -24,7 +25,7 @@ const LineWrapper = styled.div<{ widthProp: number }>(({ widthProp }) => ({
     position: 'relative',
 }));
 
-export const LocationCalendar: React.FC<Props> = observer(({ room, updatePage, currentDate }) => {
+export const LocationCalendar: React.FC<Props> = observer(({ room, updatePage, currentDate, openSettings }) => {
     const rootStore = useStores();
     const [calendarStore] = useState<CalendarStore>(() => new CalendarStore(rootStore));
     const {
@@ -51,7 +52,7 @@ export const LocationCalendar: React.FC<Props> = observer(({ room, updatePage, c
 
     return (
         <div style={{ margin: '10px 0' }}>
-            <CalendarTitle title={room?.title} price={room?.price} />
+            <CalendarTitle openSettings={openSettings} title={room?.title} price={room?.price} />
             <LineWrapper widthProp={lineWidth}>
                 <EmptyLine openModal={openModal} times={times} />
                 <ActiveLine openedModal={!!selectedRental} rentals={room?.rentals} openModal={openModal} />

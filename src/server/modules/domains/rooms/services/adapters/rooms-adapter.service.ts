@@ -70,7 +70,7 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
                 if (search) {
                     qb.andWhere(`room.title ILIKE :value`, { value: `%${search}%` });
                 }
-                if (type) {
+                if (!['all'].includes(type)) {
                     qb.andWhere(`room.type = :type`, { type });
                 }
             })

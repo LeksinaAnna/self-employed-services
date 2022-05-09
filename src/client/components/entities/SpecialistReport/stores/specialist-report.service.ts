@@ -21,7 +21,7 @@ export class SpecialistReportService {
         }, 300);
 
         const skip =
-            (this._specialistReportStore.take * this._specialistReportStore.countPages) -
+            (this._specialistReportStore.take * this._specialistReportStore.currentPage) -
             this._specialistReportStore.take;
 
         const report = await this._reportApi.getSpecialistReport(
