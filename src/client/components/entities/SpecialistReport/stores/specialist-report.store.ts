@@ -13,9 +13,10 @@ export class SpecialistReportStore {
     expenses = 0; // расход
     clientsReport: ClientReport[] = [];
 
-    skip = 0;
     take = 10;
     searchValue = '';
+    countPages = 1;
+    currentPage = 1;
 
     readonly service: SpecialistReportService;
 
@@ -33,8 +34,8 @@ export class SpecialistReportStore {
         this.searchValue = value;
     }
 
-    setSkipCount(value: number): void {
-        this.skip = value;
+    setCountPages(value: number): void {
+        this.countPages = value;
     }
 
     setStartDate(value: string): void {
@@ -67,6 +68,7 @@ export class SpecialistReportStore {
         this.expenses = 0;
         this.countRecords = 0;
         this.searchValue = '';
-        this.skip = 0;
+        this.currentPage = 1;
+        this.countPages = 1;
     }
 }

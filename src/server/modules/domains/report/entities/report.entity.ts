@@ -3,6 +3,7 @@ import { ProfessionType } from '../../users/entities/user-profile.entity';
 
 export interface SpecialistReport {
     countRecords: number;
+    countClients: number;
     profit: number;
     income: number;
     expenses: number;

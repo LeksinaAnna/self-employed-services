@@ -20,11 +20,15 @@ export class SpecialistReportService {
             this._rootStore.appStore.setIsLoading(true);
         }, 300);
 
+        const skip =
+            (this._specialistReportStore.take * this._specialistReportStore.countPages) -
+            this._specialistReportStore.take;
+
         const report = await this._reportApi.getSpecialistReport(
             {
                 search: this._specialistReportStore.searchValue.trim(),
                 take: this._specialistReportStore.take.toString(),
-                skip: this._specialistReportStore.skip.toString(),
+                skip: skip.toString(),
                 start_date: this._specialistReportStore.startDate,
                 finish_date: this._specialistReportStore.finishDate,
             },
@@ -39,7 +43,16 @@ export class SpecialistReportService {
             this._specialistReportStore.setIncome(report.income);
             this._specialistReportStore.setExpenses(report.expenses);
             this._specialistReportStore.setProfit(report.profit);
+            this._specialistReportStore.setCountPages(Math.ceil(report.countClients / this._specialistReportStore.take));
             this._rootStore.appStore.setIsLoading(false);
         });
+    }
+
+    async changePage(page: number): Promise<void> {
+        runInAction(() => {
+            this._specialistReportStore.currentPage = page;
+        });
+
+        await this.init();
     }
 }

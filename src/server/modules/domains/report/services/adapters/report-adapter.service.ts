@@ -56,6 +56,7 @@ export class ReportAdapterService extends PersistenceAdapter {
         const statsQb = createQueryBuilder(RecordOrmEntity, 'record')
             .where(`record.specialistId = :specialistId AND record.status = 'accepted'`, { specialistId })
             .select(`COUNT(record)::integer`, 'countRecords')
+            .addSelect(`COUNT(DISTINCT record.clientId)::integer`, 'countClients')
             .addSelect(`COALESCE( SUM(service.price), 0 )`, 'income')
             .addSelect(`COALESCE( SUM( (room.price / 60) * (service.duration / (1000 * 60) ) ), 0 )`, 'expenses')
             .addSelect(
