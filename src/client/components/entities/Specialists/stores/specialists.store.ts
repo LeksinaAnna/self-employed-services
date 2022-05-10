@@ -8,8 +8,9 @@ export class SpecialistsStore {
     isLoading = false
     specialists: Array<LargeUser & UserWithDescription> = [];
     count = 0;
-    skip = 0;
     take = 10;
+    countPages = 1;
+    currentPage = 1;
     searchValue = '';
 
     isInfoModal = false;
@@ -34,12 +35,12 @@ export class SpecialistsStore {
         this.searchValue = value;
     }
 
-    setSkipCount(value: number): void {
-        this.skip = value;
-    }
-
     setSpecialists(specialists: Array<LargeUser & UserWithDescription>): void {
         this.specialists = specialists;
+    }
+
+    setCountPages(value: number): void {
+        this.countPages = value;
     }
 
     openInfoModal(item: TableItem): void {

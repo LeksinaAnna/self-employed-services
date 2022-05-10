@@ -1,6 +1,7 @@
 import React from 'react';
 import { Center } from '@skbkontur/react-ui';
 import { observer } from 'mobx-react-lite';
+import { Pagination, Stack } from '@mui/material';
 import { useStores } from '../../../client-tools/hooks/use-stores';
 import { Typography } from '../../ui/Text/Typography';
 import { notActiveText } from '../../../client-tools/styles/color';
@@ -19,12 +20,14 @@ export const SpecialistsPage: React.FC = observer(() => {
         closeInfoModal,
         service,
         selectedUser,
+        countPages,
+        currentPage,
     } = specialistsStore;
 
     useAsyncEffectWithError(async abortSignal => {
         await service.init(abortSignal);
     }, []);
-    
+
     const getTableItems = (): TableItem[] =>
         specialists.map(specialist => ({
             id: specialist?.accountId,
@@ -34,7 +37,7 @@ export const SpecialistsPage: React.FC = observer(() => {
         }));
 
     return (
-        <div>
+        <Stack spacing={3}>
             <SpecialistsHead searchValue={searchValue} onValueChange={service.onValueSearch} />
             {specialists.length > 0 && <TableWithItems items={getTableItems()} onSettings={openInfoModal} />}
             {specialists.length === 0 && (
@@ -44,9 +47,18 @@ export const SpecialistsPage: React.FC = observer(() => {
                     </Typography>
                 </Center>
             )}
+            {countPages > 1 && (
+                <Pagination
+                    variant="outlined"
+                    color="primary"
+                    count={countPages}
+                    page={currentPage}
+                    onChange={(event, page) => service.changePage(page)}
+                />
+            )}
             {isInfoModal && selectedUser && (
                 <SpecialistInfoModal close={closeInfoModal} user={selectedUser} accept={service.updateSpecialist} />
             )}
-        </div>
+        </Stack>
     );
 });

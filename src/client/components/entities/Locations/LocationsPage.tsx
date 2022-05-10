@@ -8,8 +8,8 @@ import { secondaryText } from '../../../client-tools/styles/color';
 import { Typography } from '../../ui/Text/Typography';
 import { LocationCalendar } from '../LocationCalendar/LocationCalendar';
 import { HeadLocations } from './HeadLocations';
-import { LocationModal } from './LocationModal/CreateModal';
 import { LocationTabs } from './LocationTabs';
+import { LocationModal } from './LocationModal/LocationModal';
 
 export const LocationsPage: React.FC = observer(() => {
     const { locationsStore } = useStores();

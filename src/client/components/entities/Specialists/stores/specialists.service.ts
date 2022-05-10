@@ -11,7 +11,7 @@ export class SpecialistsService {
     constructor(private readonly _rootStore: RootStore, private readonly _specialistsStore: SpecialistsStore) {
         this._usersAdminApi = this._rootStore.adminApi.users;
 
-        makeAutoObservable(this, {}, { autoBind: true });
+        makeAutoObservable(this, {}, {autoBind: true});
     }
 
     async init(signal?: AbortSignal): Promise<void> {
@@ -21,10 +21,12 @@ export class SpecialistsService {
             this._rootStore.appStore.setIsLoading(true);
         }, 300);
 
+        const skip = this._specialistsStore.take * this._specialistsStore.currentPage - this._specialistsStore.take;
+
         const response = await this._usersAdminApi.getSpecialists(
             {
                 take: this._specialistsStore.take.toString(),
-                skip: this._specialistsStore.skip.toString(),
+                skip: skip.toString(),
                 search: this._specialistsStore.searchValue.trim(),
             },
             signal,
@@ -35,6 +37,7 @@ export class SpecialistsService {
         runInAction(() => {
             this._specialistsStore.setSpecialists(response.items);
             this._specialistsStore.setCount(response.count);
+            this._specialistsStore.setCountPages(Math.ceil(response.count / this._specialistsStore.take));
             this._rootStore.appStore.setIsLoading(false);
         });
     }
@@ -44,7 +47,7 @@ export class SpecialistsService {
             this._specialistsStore.setIsLoading(true);
         });
 
-        await this._usersAdminApi.updateSpecialist(this._specialistsStore.selectedUser.accountId, { description });
+        await this._usersAdminApi.updateSpecialist(this._specialistsStore.selectedUser.accountId, {description});
         await this.init();
 
         runInAction(() => {
@@ -52,12 +55,20 @@ export class SpecialistsService {
         });
     }
 
+    async changePage(page: number): Promise<void> {
+        runInAction(() => {
+            this._specialistsStore.currentPage = page;
+        });
+
+        await this.init();
+    }
+
     async onValueSearch(value: string): Promise<void> {
         runInAction(() => {
             this._specialistsStore.setSearchValue(value);
         });
 
-        clearTimeout(this.timer)
+        clearTimeout(this.timer);
 
         this.timer = setTimeout(async () => {
             await this.init();
