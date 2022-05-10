@@ -42,7 +42,7 @@ export const LocationsPage: React.FC = observer(() => {
         <Stack spacing={2}>
             <HeadLocations onValueChange={service.onSearchChange} value={searchValue} isModal={isLocationModal} />
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <DatePicker disabled={isLocationModal} value={currentDate} width={100} onValueChange={setCurrentDate} />
+                <DatePicker disabled={isLocationModal} value={currentDate} width={110} onValueChange={setCurrentDate} />
                 <Button onClick={() => openLocationModal(null)} use="success">
                     Добавить локацию
                 </Button>

@@ -8,6 +8,7 @@ interface Props {
     rooms: LocationReport[];
     hoveredRoom: RoomId;
     onHoverItem: (value: string) => void;
+    reportKoef: number;
 }
 
 const ChartWrapper = styled.div`
@@ -17,11 +18,12 @@ const ChartWrapper = styled.div`
     margin: 15px 0;
 `;
 
-export const Chart: React.FC<Props> = ({ rooms, hoveredRoom, onHoverItem }) => (
+export const Chart: React.FC<Props> = ({ rooms, hoveredRoom, onHoverItem, reportKoef }) => (
     <ChartWrapper>
         {rooms.map(room => (
             <ChartItem
                 key={`chart-${room.roomId}`}
+                reportKoef={reportKoef}
                 room={room}
                 isActive={hoveredRoom === room.roomId}
                 onHoverItem={onHoverItem}

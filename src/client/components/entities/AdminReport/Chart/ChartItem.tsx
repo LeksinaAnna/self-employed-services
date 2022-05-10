@@ -1,13 +1,14 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Gapped, Hint } from '@skbkontur/react-ui';
-import { RoomWithProfit } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { hoveredColor, whiteHoveredColor } from '../../../../client-tools/styles/color';
+import { LocationReport } from '../../../../../server/modules/domains/report/entities/report.entity';
 
 interface Props {
-    room: RoomWithProfit;
+    room: LocationReport;
     isActive?: boolean;
     onHoverItem: (value: string) => void;
+    reportKoef: number;
 }
 
 const ItemWrapper = styled.div<{ heightProp: number | string; isActive?: boolean }>(({ heightProp, isActive }) => ({
@@ -17,10 +18,10 @@ const ItemWrapper = styled.div<{ heightProp: number | string; isActive?: boolean
     background: isActive ? hoveredColor : whiteHoveredColor,
 }));
 
-export const ChartItem: React.FC<Props> = ({ room, isActive, onHoverItem }) => (
+export const ChartItem: React.FC<Props> = ({ room, isActive, onHoverItem, reportKoef }) => (
     <Hint text={<HintMessage room={room} />} pos="bottom">
         <ItemWrapper
-            heightProp={room.profit / 15}
+            heightProp={room.profit / (2 * reportKoef)}
             isActive={isActive}
             onMouseEnter={() => onHoverItem(room.roomId)}
             onMouseLeave={() => onHoverItem(null)}

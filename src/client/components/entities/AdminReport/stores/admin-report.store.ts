@@ -20,6 +20,13 @@ export class AdminReportStore {
         makeAutoObservable(this, {}, { autoBind: true })
     }
 
+    get duration(): number {
+        const startDate = moment(this.startDate, 'DD.MM.YYYY');
+        const finishDate = moment(this.finishDate, 'DD.MM.YYYY');
+
+        return finishDate.diff(startDate, 'days');
+    }
+
     setStartDate(value: string): void {
         this.startDate = value;
     }

@@ -21,6 +21,7 @@ export const AdminReportPage: React.FC = observer(() => {
         hoveredRoom,
         setHoveredRoom,
         service,
+        duration
     } = adminReportStore;
 
     useAsyncEffectWithError(
@@ -35,16 +36,16 @@ export const AdminReportPage: React.FC = observer(() => {
             <Typography color={secondaryText} fontSize="34px" fontWeight={700}>
                 Отчёт
             </Typography>
-            {rooms && <Chart onHoverItem={setHoveredRoom} hoveredRoom={hoveredRoom} rooms={rooms} />}
+            {rooms && <Chart reportKoef={duration} onHoverItem={setHoveredRoom} hoveredRoom={hoveredRoom} rooms={rooms} />}
             <div style={{ textAlign: 'center', margin: 10 }}>
                 <Typography color={notActiveText} fontSize="16px">
                     График выручки с {startDate} по {finishDate}
                 </Typography>
             </div>
             <div>
-                <DatePicker onValueChange={setStartDate} width={100} value={startDate} />
+                <DatePicker onValueChange={setStartDate} width={110} value={startDate} />
                 <span style={{ color: secondaryText, margin: '0 5px' }}>&mdash;</span>
-                <DatePicker onValueChange={setFinishDate} width={100} value={finishDate} />
+                <DatePicker onValueChange={setFinishDate} width={110} value={finishDate} />
             </div>
             {rooms.length > 0 && <RoomsTable onHoverItem={setHoveredRoom} hoveredItem={hoveredRoom} rooms={rooms} />}
             {rooms.length > 0 && (
