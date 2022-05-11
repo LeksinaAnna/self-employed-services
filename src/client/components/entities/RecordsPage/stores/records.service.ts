@@ -5,7 +5,7 @@ import { RecordsApi } from '../../../../client-tools/api/entities/records/record
 import { RentalApi } from '../../../../client-tools/api/entities/rental/rental-api';
 import { Room, RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { UsersApi } from '../../../../client-tools/api/entities/user/users-api';
-import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
+import { LocationsAdminApi } from '../../../../client-tools/api/entities/locations/locations-admin-api';
 import { WithRentals } from '../../../../../server/modules/domains/rentals/entities/rental.entity';
 import {
     RecordId,
@@ -21,13 +21,13 @@ export class RecordsService {
     private readonly _recordsApi: RecordsApi;
     private readonly _rentalsApi: RentalApi;
     private readonly _usersApi: UsersApi;
-    private readonly _locationsApi: LocationsApi;
+    private readonly _locationsApi: LocationsAdminApi;
 
     constructor(private readonly _recordsStore: RecordsStore, private readonly _rootStore: RootStore) {
         this._recordsApi = this._rootStore.commonApi.records;
         this._rentalsApi = this._rootStore.commonApi.rental;
         this._usersApi = this._rootStore.commonApi.users;
-        this._locationsApi = this._rootStore.commonApi.locations;
+        this._locationsApi = this._rootStore.adminApi.locations;
 
         makeAutoObservable(this, {}, { autoBind: true });
     }

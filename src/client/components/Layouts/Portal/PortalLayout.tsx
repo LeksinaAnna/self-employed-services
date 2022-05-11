@@ -8,7 +8,7 @@ import { PortalHeader } from './Head/PortalHeader';
 
 const ContentBlockWrapper = styled.div`
     padding: 34px 24px;
-    width: 890px;
+    width: 100%;
     min-height: 75vh;
 `;
 

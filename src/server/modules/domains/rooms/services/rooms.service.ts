@@ -47,6 +47,10 @@ export class RoomsService implements RoomsUseCase {
     }
 
     async getRooms(query?: QueryType): Promise<ManyItem<Room & WithRentals>> {
-        return this._roomsAdapter.getRooms(query);
+        return await this._roomsAdapter.getRooms(query);
+    }
+
+    async getRoomsForUser(query?: QueryType): Promise<ManyItem<Room>> {
+        return await this._roomsAdapter.getRoomsForUser(query);
     }
 }

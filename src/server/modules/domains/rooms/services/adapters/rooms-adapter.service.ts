@@ -40,7 +40,7 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
     async getRoomById(id: RoomId, query?: QueryType): Promise<Room & WithRentals> {
         const qb = createQueryBuilder(RoomOrmEntity, 'room')
             .where(`room.roomId = :roomId`, { roomId: id })
-            .andWhere(`room.inBasket != true`)
+            .andWhere(`room.inBasket != true`);
 
         if (query?.start_date && query?.finish_date) {
             qb.leftJoinAndSelect(
@@ -51,7 +51,7 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
                     startDate: query?.start_date,
                     finishDate: query?.finish_date,
                 },
-            )
+            );
         }
 
         return await qb.getOne();
@@ -70,7 +70,7 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
                 if (search) {
                     qb.andWhere(`room.title ILIKE :value`, { value: `%${search}%` });
                 }
-                if (!['all'].includes(type)) {
+                if (type && !['all'].includes(type)) {
                     qb.andWhere(`room.type = :type`, { type });
                 }
             })
@@ -86,6 +86,25 @@ export class RoomsAdapterService extends PersistenceAdapter implements RoomsPort
             .leftJoinAndSelect(`rental.profile`, `specialist`)
             .andWhere(`room.inBasket = false`)
             .orderBy(`rental.created`, 'ASC')
+            .take(parseInt(take, 10))
+            .skip(parseInt(skip, 10))
+            .getManyAndCount();
+
+        return { items, count };
+    }
+
+    async getRoomsForUser({ take = '10', skip = '0', search, type }: QueryType): Promise<ManyItem<Room>> {
+        const [items, count] = await createQueryBuilder(RoomOrmEntity, 'room')
+            .where(qb => {
+                if (search) {
+                    qb.andWhere(`room.title ILIKE :value`, { value: `%${search}%` });
+                }
+                if (type && !['all'].includes(type)) {
+                    qb.andWhere(`room.type = :type`, { type });
+                }
+            })
+            .andWhere(`room.inBasket = false`)
+            .orderBy(`room.title`, 'ASC')
             .take(parseInt(take, 10))
             .skip(parseInt(skip, 10))
             .getManyAndCount();

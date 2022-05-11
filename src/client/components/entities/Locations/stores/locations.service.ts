@@ -1,6 +1,6 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 import moment from 'moment';
-import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
+import { LocationsAdminApi } from '../../../../client-tools/api/entities/locations/locations-admin-api';
 import { RootStore } from '../../../../stores/root.store';
 import { RentalApi } from '../../../../client-tools/api/entities/rental/rental-api';
 import { ProfessionType } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
@@ -9,11 +9,11 @@ import { LocationsStore } from './locations.store';
 
 export class LocationsService {
     private timer: NodeJS.Timer;
-    private readonly _locationsApi: LocationsApi;
+    private readonly _locationsApi: LocationsAdminApi;
     private readonly _rentalApi: RentalApi;
 
     constructor(private readonly _locationsStore: LocationsStore, private readonly _rootStore: RootStore) {
-        this._locationsApi = this._rootStore.commonApi.locations;
+        this._locationsApi = this._rootStore.adminApi.locations;
         this._rentalApi = this._rootStore.commonApi.rental;
 
         makeAutoObservable(this, {}, { autoBind: true });

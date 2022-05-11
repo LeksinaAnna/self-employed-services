@@ -10,6 +10,7 @@ import { ServicesPageStore } from '../components/entities/ServicesPage/stores/se
 import { ClientsStore } from '../components/entities/Clients/stores/clients.store';
 import { RecordsStore } from '../components/entities/RecordsPage/stores/records.store';
 import { SpecialistReportStore } from '../components/entities/SpecialistReport/stores/specialist-report.store';
+import { GeneralPageStore } from '../components/entities/GeneralPage/stores/general-page.store';
 
 export class RootStore {
     readonly appStore: AppStore;
@@ -21,6 +22,7 @@ export class RootStore {
     readonly servicesPageStore: ServicesPageStore;
     readonly clientsStore: ClientsStore;
     readonly recordsStore: RecordsStore;
+    readonly generalPageStore: GeneralPageStore;
 
     constructor(readonly commonApi: CommonApiStore, readonly adminApi: AdminApiStore) {
         this.appStore = new AppStore(this);
@@ -32,6 +34,7 @@ export class RootStore {
         this.servicesPageStore = new ServicesPageStore(this);
         this.clientsStore = new ClientsStore(this);
         this.recordsStore = new RecordsStore(this);
+        this.generalPageStore = new GeneralPageStore(this);
 
         makeAutoObservable(this, {}, { autoBind: true });
     }

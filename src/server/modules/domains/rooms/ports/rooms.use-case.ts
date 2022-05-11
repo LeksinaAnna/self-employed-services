@@ -4,15 +4,17 @@ import { ManyItem, QueryType, WithUpdater } from '../../../../../common/interfac
 import { WithRentals } from '../../rentals/entities/rental.entity';
 
 export interface RoomsUseCase {
-    createRoom(properties: RoomCreateProperties): Promise<Room>;
+    createRoom: (properties: RoomCreateProperties) => Promise<Room>;
 
-    updateRoom(roomId: RoomId, properties: RoomCreateProperties & WithUpdater): Promise<Room>;
+    updateRoom: (roomId: RoomId, properties: RoomCreateProperties & WithUpdater) => Promise<Room>;
 
-    getRoomsByCreatorId(id: UserId, query?: QueryType): Promise<ManyItem<Room>>;
+    getRoomsByCreatorId: (id: UserId, query?: QueryType) => Promise<ManyItem<Room>>;
 
-    getRoomById(roomId: RoomId, query?: QueryType): Promise<Room>;
+    getRoomById: (roomId: RoomId, query?: QueryType) => Promise<Room>;
 
-    getRooms(query?: QueryType): Promise<ManyItem<Room & WithRentals>>;
+    getRooms: (query?: QueryType) => Promise<ManyItem<Room & WithRentals>>;
 
-    deleteRoom(id: RoomId, updater: UserId): Promise<Room>;
+    deleteRoom: (id: RoomId, updater: UserId) => Promise<Room>;
+
+    getRoomsForUser: (query?: QueryType) => Promise<ManyItem<Room>>;
 }

@@ -21,6 +21,7 @@ export const TopBarIsAuth: React.FC = observer(() => {
                 <DropdownMenu
                     menuWidth={90}
                     caption={<PersonOutline sx={{ color: notActiveText, cursor: 'pointer' }} fontSize={'large'} />}
+                    disableAnimations
                 >
                     <MenuItem onClick={() => navigate('/')}>Главная</MenuItem>
                     <MenuItem onClick={() => navigate(redirectPath)}>Личный кабинет</MenuItem>
