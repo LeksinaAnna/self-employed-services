@@ -29,6 +29,7 @@ export class LocationsTabStore {
 
     selectRoom(room: Room): void {
         this.selectedLocation = room;
+        this._rootStore.generalPageStore._servicesStore.destroy();
     }
 
     setCountLocations(value: number): void {
@@ -45,5 +46,15 @@ export class LocationsTabStore {
 
     setTab(tab: ProfessionType): void {
         this.activeTab = tab;
+    }
+
+    destroy(): void {
+        this.countPages = 1;
+        this.currentPage = 1;
+        this.activeTab = 'barber';
+        this.searchValue = '';
+        this.locations = [];
+        this.countLocations = 0;
+        this.selectedLocation = null;
     }
 }

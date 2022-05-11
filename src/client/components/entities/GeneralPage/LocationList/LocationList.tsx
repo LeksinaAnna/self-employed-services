@@ -1,10 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { Stack, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Stack, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
 import styled from '@emotion/styled';
+import { Center } from '@skbkontur/react-ui';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { LocationTabs } from '../../Locations/LocationTabs';
 import { useAsyncEffectWithError } from '../../../../client-tools/hooks/use-async-effect';
+import { secondaryText } from '../../../../client-tools/styles/color';
 import { LocationItem } from './LocationItem';
 
 const StyledCell = styled(TableCell)`
@@ -28,7 +30,7 @@ export const LocationList: React.FC = observer(() => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <StyledCell width='60%'>Адрес</StyledCell>
+                            <StyledCell width="60%">Адрес</StyledCell>
                             <StyledCell>Тип помещения</StyledCell>
                             <StyledCell />
                         </TableRow>
@@ -44,6 +46,13 @@ export const LocationList: React.FC = observer(() => {
                         ))}
                     </TableBody>
                 </Table>
+            )}
+            {locations.length === 0 && (
+                <Center>
+                    <Typography fontSize={24} color={secondaryText}>
+                        Локации отсутствуют
+                    </Typography>
+                </Center>
             )}
         </Stack>
     );

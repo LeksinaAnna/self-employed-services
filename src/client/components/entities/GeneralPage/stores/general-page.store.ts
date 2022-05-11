@@ -40,5 +40,9 @@ export class GeneralPageStore {
         this.currentStep -= 1;
     }
 
-
+    destroy(): void {
+        this.currentStep = 0;
+        this._locationsStore.destroy();
+        this._servicesStore.destroy();
+    }
 }

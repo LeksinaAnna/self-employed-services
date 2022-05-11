@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Stack } from '@mui/material';
 import { useStores } from '../../../client-tools/hooks/use-stores';
@@ -9,7 +9,9 @@ import { ServicesList } from './ServicesList/ServicesList';
 
 export const GeneralPage: React.FC = observer(() => {
     const { generalPageStore } = useStores();
-    const { steps, currentStep, nextStep, prevStep, nextStepDisabled } = generalPageStore;
+    const { steps, currentStep, nextStep, prevStep, nextStepDisabled, destroy } = generalPageStore;
+
+    useEffect(() => destroy, []);
 
     return (
         <div style={{ position: 'relative', height: '100%' }}>

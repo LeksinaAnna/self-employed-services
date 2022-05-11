@@ -21,7 +21,9 @@ export const ThemeMui = createTheme({
             styleOverrides: {
                 root: {
                     borderBottom: `1px solid ${defaultPortalColor}`,
-                    background: hoveredColor,
+                    [`:hover`]: {
+                        background: hoveredColor,
+                    }
                 }
             }
         }
