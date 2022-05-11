@@ -1,12 +1,12 @@
 import { makeAutoObservable } from 'mobx';
-import { RootStore } from '../../../../../stores/root.store';
-import { Room, RoomId } from '../../../../../../server/modules/domains/rooms/entities/room.entity';
-import { ProfessionType } from '../../../../../../server/modules/domains/users/entities/user-profile.entity';
+import { RootStore } from '../../../../stores/root.store';
+import { Room } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { ProfessionType } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { LocationsTabService } from './locations-tab.service';
 
 export class LocationsTabStore {
     locations: Room[] = [];
-    selectedLocation: RoomId = null;
+    selectedLocation: Room = null;
     countLocations = 0;
     take = 10;
     countPages = 1;
@@ -27,8 +27,8 @@ export class LocationsTabStore {
         this.locations = rooms;
     }
 
-    selectRoom(roomId: RoomId): void {
-        this.selectedLocation = roomId;
+    selectRoom(room: Room): void {
+        this.selectedLocation = room;
     }
 
     setCountLocations(value: number): void {

@@ -17,7 +17,7 @@ export class UserWebAdminController {
     async getSpecialists(
         @Query() query: QueryType,
     ): Promise<ManyItem<LargeUser & UserWithDescription>> {
-        return await this._userService.getSpecialistsWithDescription(query);
+        return await this._userService.getSpecialistsForAdmin(query);
     }
 
     @Patch('/:userId')

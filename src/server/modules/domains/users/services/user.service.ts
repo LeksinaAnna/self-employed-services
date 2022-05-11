@@ -1,7 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ManyItem, QueryType, WithUpdater } from '../../../../../common/interfaces/common';
 import { UserUseCase } from '../ports/user.use-case';
-import { UserProfile, UserProfileCreateProperties, UserProfileUpdateProperties } from '../entities/user-profile.entity';
+import {
+    Specialist,
+    UserProfile,
+    UserProfileCreateProperties,
+    UserProfileUpdateProperties
+} from '../entities/user-profile.entity';
 import {
     LargeUser,
     UserCreateProperties,
@@ -77,12 +82,12 @@ export class UserService implements UserUseCase {
         return await this._userPort.getUserById(userId);
     }
 
-    async getSpecialists(query: QueryType): Promise<ManyItem<LargeUser>> {
-        return await this._userPort.getSpecialists(query);
+    async getSpecialistsForUser(query: QueryType): Promise<ManyItem<Specialist>> {
+        return await this._userPort.getSpecialistsForUser(query);
     }
 
-    async getSpecialistsWithDescription(query: QueryType): Promise<ManyItem<LargeUser & UserWithDescription>> {
-        return await this._userPort.getSpecialists(query, true);
+    async getSpecialistsForAdmin(query: QueryType): Promise<ManyItem<LargeUser & UserWithDescription>> {
+        return await this._userPort.getSpecialistsForAdmin(query, true);
     }
 
     async updateSpecialist(properties: UserUpdateProperties & WithUpdater, specialistId: UserId): Promise<LargeUser & UserWithDescription> {

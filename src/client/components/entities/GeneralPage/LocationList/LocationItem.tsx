@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { TableCell, TableRow, Typography } from '@mui/material';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
-import { Room, RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
+import { Room } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { hoveredColor, secondaryText } from '../../../../client-tools/styles/color';
 import { professionTypeDict } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 
@@ -19,16 +19,16 @@ const StyledRow = styled(TableRow)`
 
 interface Props {
     item: Room;
-    selectedRoom: RoomId;
-    onSelect: (roomId: RoomId) => void;
+    selectedRoom: Room;
+    onSelect: (room: Room) => void;
 }
 
 export const LocationItem: React.FC<Props> = ({ item, selectedRoom, onSelect }) => (
-    <StyledRow onClick={() => onSelect(item.roomId)}>
+    <StyledRow onClick={() => onSelect(item)}>
         <StyledCell>{item.title}</StyledCell>
         <StyledCell>
             <Typography color={secondaryText}>{professionTypeDict[item.type]}</Typography>
         </StyledCell>
-        <StyledCell>{selectedRoom === item.roomId && <DoneOutlineIcon color={'success'} />}</StyledCell>
+        <StyledCell>{selectedRoom?.roomId === item.roomId && <DoneOutlineIcon color={'success'} />}</StyledCell>
     </StyledRow>
 );

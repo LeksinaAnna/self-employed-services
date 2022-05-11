@@ -1,4 +1,9 @@
-import { UserProfile, UserProfileCreateProperties, UserProfileUpdateProperties } from '../entities/user-profile.entity';
+import {
+    Specialist,
+    UserProfile,
+    UserProfileCreateProperties,
+    UserProfileUpdateProperties
+} from '../entities/user-profile.entity';
 import {
     LargeUser,
     UserCreateProperties,
@@ -21,9 +26,9 @@ export interface UserUseCase {
 
     getUserById: (userId: UserId) => Promise<LargeUser>;
 
-    getSpecialists: (query: QueryType) => Promise<ManyItem<LargeUser>>;
+    getSpecialistsForUser: (query: QueryType) => Promise<ManyItem<Specialist>>;
 
-    getSpecialistsWithDescription: (query: QueryType) => Promise<ManyItem<LargeUser & UserWithDescription>>;
+    getSpecialistsForAdmin: (query: QueryType) => Promise<ManyItem<LargeUser & UserWithDescription>>;
 
     updateUserInfo: (userId: UserId, properties: UserProfileUpdateProperties) => Promise<UserProfile>;
 }

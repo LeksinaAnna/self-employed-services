@@ -1,7 +1,7 @@
 import { ApiBaseClient } from '../../api-client/api-client';
-import { LargeUser } from '../../../../../server/modules/domains/users/entities/user.entity';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 import {
+    Specialist,
     UserProfile,
     UserProfileUpdateProperties,
 } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
@@ -13,7 +13,7 @@ export class UsersApi extends ApiBaseClient {
         super(baseUrl);
     }
 
-    async getSpecialists(query: QueryType = {}, signal?: AbortSignal): Promise<ManyItem<LargeUser>> {
+    async getSpecialists(query: QueryType = {}, signal?: AbortSignal): Promise<ManyItem<Specialist>> {
         return await this.get(`${this.prefix}/specialists`, query, signal);
     }
 

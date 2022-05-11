@@ -1,7 +1,8 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { ServiceItem, ServiceItemId } from '../entities/service-item.entity';
 import { UserId } from '../../users/entities/user.entity';
 import { ProfessionType } from '../../users/entities/user-profile.entity';
+import { UserProfileOrmEntity } from '../../users/orm-entities/user-profile.orm-entity';
 
 @Entity({ schema: 'services', name: 'services'})
 export class ServiceItemOrmEntity implements ServiceItem {
@@ -37,4 +38,11 @@ export class ServiceItemOrmEntity implements ServiceItem {
 
     @Column({ name: 'modified_by', type: 'uuid' })
     modifiedBy: UserId;
+
+    @ManyToOne(() => UserProfileOrmEntity, profile => profile.services)
+    @JoinColumn({
+        name: 'created_by',
+        referencedColumnName: 'profileId'
+    })
+    specialist: UserProfileOrmEntity;
 }

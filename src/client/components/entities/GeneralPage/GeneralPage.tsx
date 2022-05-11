@@ -5,6 +5,7 @@ import { useStores } from '../../../client-tools/hooks/use-stores';
 import { GeneralStepper } from './GeneralStepper/GeneralStepper';
 import { StepperNavigate } from './GeneralStepper/StepperNavigate';
 import { LocationList } from './LocationList/LocationList';
+import { ServicesList } from './ServicesList/ServicesList';
 
 export const GeneralPage: React.FC = observer(() => {
     const { generalPageStore } = useStores();
@@ -22,7 +23,7 @@ export const GeneralPage: React.FC = observer(() => {
                     disabled={nextStepDisabled}
                 />
                 {currentStep === 0 && <LocationList />}
-                {currentStep === 1 && <LocationList />}
+                {currentStep === 1 && <ServicesList />}
                 {currentStep === 2 && <LocationList />}
                 {currentStep === 3 && <LocationList />}
             </Stack>

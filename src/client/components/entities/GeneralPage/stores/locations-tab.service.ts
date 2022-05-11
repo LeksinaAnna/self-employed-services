@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from 'mobx';
-import { RootStore } from '../../../../../stores/root.store';
-import { LocationsApi } from '../../../../../client-tools/api/entities/locations/locations-api';
-import { ProfessionType } from '../../../../../../server/modules/domains/users/entities/user-profile.entity';
+import { RootStore } from '../../../../stores/root.store';
+import { LocationsApi } from '../../../../client-tools/api/entities/locations/locations-api';
+import { ProfessionType } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { LocationsTabStore } from './locations-tab.store';
 
 export class LocationsTabService {

@@ -1,4 +1,5 @@
 import { RoomId } from '../../rooms/entities/room.entity';
+import { ServiceItem } from '../../services-list/entities/service-item.entity';
 import { UserId } from './user.entity';
 
 export type ProfileId = UserId;
@@ -9,6 +10,10 @@ export const professionTypeDict = {
     browist: 'Бровист',
     lashmaker: 'Лешмейкер',
     manicurist: 'Мастер маникюра'
+}
+
+export interface Specialist extends UserProfile {
+    services: ServiceItem[];
 }
 
 export interface UserContacts {

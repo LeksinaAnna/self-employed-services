@@ -1,12 +1,15 @@
 import { LargeUser, User, UserEmail, UserId } from '../entities/user.entity';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
+import { Specialist } from '../entities/user-profile.entity';
 
 export interface UserPort {
-    createAccount(properties: User): Promise<User>;
+    createAccount: (properties: User) => Promise<User>;
 
-    getUserByLogin(login: UserEmail): Promise<LargeUser>;
+    getUserByLogin: (login: UserEmail) => Promise<LargeUser>;
 
-    getUserById(userId: UserId): Promise<LargeUser>;
+    getUserById: (userId: UserId) => Promise<LargeUser>;
 
-    getSpecialists(query: QueryType, withDescription?: boolean): Promise<ManyItem<LargeUser>>;
+    getSpecialistsForAdmin: (query: QueryType, withDescription?: boolean) => Promise<ManyItem<LargeUser>>;
+
+    getSpecialistsForUser: (query: QueryType) => Promise<ManyItem<Specialist>>;
 }

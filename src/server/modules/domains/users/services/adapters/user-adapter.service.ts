@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { createQueryBuilder } from 'typeorm';
+import { Brackets, createQueryBuilder } from 'typeorm';
 import { ManyItem, QueryType } from '../../../../../../common/interfaces/common';
 import { PersistenceAdapter } from '../../../../common/persistence-adapter/persistence-adapter';
-import { User, UserEntity, UserEmail, UserWithPassword, LargeUser, UserId } from '../../entities/user.entity';
+import { LargeUser, User, UserEmail, UserEntity, UserId, UserWithPassword } from '../../entities/user.entity';
 import { UserOrmEntity } from '../../orm-entities/user.orm-entity';
 import { UserMapper } from '../../mappers/user.mapper';
 import { UserPort } from '../../ports/user.port';
+import { Specialist } from '../../entities/user-profile.entity';
+import { UserProfileOrmEntity } from '../../orm-entities/user-profile.orm-entity';
 
 @Injectable()
 export class UserAdapterService extends PersistenceAdapter implements UserPort {
@@ -13,11 +15,14 @@ export class UserAdapterService extends PersistenceAdapter implements UserPort {
         super();
     }
 
-    async getSpecialists({ search = '', take = '10', skip = '0' }: QueryType, withDescription = false): Promise<ManyItem<LargeUser>> {
+    async getSpecialistsForAdmin(
+        { search = '', take = '10', skip = '0' }: QueryType,
+        withDescription = false,
+    ): Promise<ManyItem<LargeUser>> {
         const [items, count] = await createQueryBuilder(UserOrmEntity, 'user')
             .where(qb => {
                 if (search) {
-                    qb.where(`profile.fullName ILIKE :value OR user.email ILIKE :value`, {value: `%${search}%`})
+                    qb.where(`profile.fullName ILIKE :value OR user.email ILIKE :value`, { value: `%${search}%` });
                 }
 
                 if (withDescription) {
@@ -29,7 +34,35 @@ export class UserAdapterService extends PersistenceAdapter implements UserPort {
             .take(parseInt(take, 10))
             .getManyAndCount();
 
-        return { items, count }
+        return { items, count };
+    }
+
+    async getSpecialistsForUser({
+        search = '',
+        take = '10',
+        skip = '0',
+        type,
+    }: QueryType): Promise<ManyItem<Specialist>> {
+        const [items, count] = await createQueryBuilder(UserProfileOrmEntity, 'profile')
+            .where(`profile.profession IS NOT NULL`)
+            .andWhere(
+                new Brackets(qb => {
+                    if (search) {
+                        qb.where(`profile.fullName ILIKE :value OR user.email ILIKE :value`, { value: `%${search}%` });
+                    }
+
+                    if (type) {
+                        qb.andWhere(`profile.profession = :type`, { type });
+                    }
+                }),
+            )
+            .andWhere('services IS NOT NULL')
+            .leftJoinAndSelect('profile.services', 'services', 'services.inBasket = false')
+            .skip(parseInt(skip, 10))
+            .take(parseInt(take, 10))
+            .getManyAndCount();
+
+        return { items, count };
     }
 
     public async createAccount(properties: User & UserWithPassword): Promise<User> {

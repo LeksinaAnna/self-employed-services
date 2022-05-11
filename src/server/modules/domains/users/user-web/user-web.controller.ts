@@ -1,10 +1,9 @@
 import { Body, Controller, Get, Patch, Query } from '@nestjs/common';
-import { LargeUser } from '../entities/user.entity';
 import { UserService } from '../services/user.service';
 import { Roles } from '../../../../nest-decorators/decorators/roles.decorator';
 import { ManyItem, QueryType } from '../../../../../common/interfaces/common';
 import { NotAuthDecorator } from '../../../../nest-decorators/decorators/not-auth.decorator';
-import { UserProfile, UserProfileUpdateProperties } from '../entities/user-profile.entity';
+import { Specialist, UserProfile, UserProfileUpdateProperties } from '../entities/user-profile.entity';
 import { CurrentUser } from '../../../../nest-decorators/decorators/current-user.decorator';
 import { TokenData } from '../../tokens/entities/token.entity';
 
@@ -19,8 +18,8 @@ export class UserWebController {
     @Get('/specialists')
     async getSpecialists(
         @Query() query: QueryType,
-    ): Promise<ManyItem<LargeUser>> {
-        return await this._userService.getSpecialists(query);
+    ): Promise<ManyItem<Specialist>> {
+        return await this._userService.getSpecialistsForUser(query);
     }
 
     @Patch('/my')
