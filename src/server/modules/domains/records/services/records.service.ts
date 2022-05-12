@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { RecordsUseCase } from '../ports/records.use-case';
 import {
     LargeRecord,
@@ -32,6 +32,10 @@ export class RecordsService implements RecordsUseCase {
 
         if (!specialist) {
             throw new NotFoundException('Специалист не найден')
+        }
+
+        if (!specialist.selectedRoom) {
+            throw new BadRequestException(`У специалиста не выбрано помещение`);
         }
 
         const record = new RecordEntity({

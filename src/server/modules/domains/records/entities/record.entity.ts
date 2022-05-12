@@ -26,6 +26,7 @@ export interface RecordCreateProperties {
     specialistId: UserId;
     clientId: ClientId;
     recordDate: string;
+    roomId?: RoomId;
     status?: RecordStatus;
     inBasket?: boolean;
 }

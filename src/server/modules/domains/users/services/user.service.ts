@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import moment from 'moment';
 import { ManyItem, QueryType, WithUpdater } from '../../../../../common/interfaces/common';
 import { UserUseCase } from '../ports/user.use-case';
@@ -39,6 +39,11 @@ export class UserService implements UserUseCase {
     ) {}
 
     async getEmploymentOfSpecialist(userId: string, { start_date }: QueryType): Promise<EmploymentSpecialist> {
+        // Проверяем передали ли дату в запросе
+        if (!start_date) {
+            throw new BadRequestException(`Не передано обязательное поле "start_date"`);
+        }
+
         const specialist = await this._userPort.getUserById(userId);
 
         // Проверяем существует ли специалист
@@ -46,9 +51,14 @@ export class UserService implements UserUseCase {
             throw new NotFoundException('Специалист не найден');
         }
 
-        // Получаем все записи специалиста на дату из query
-        const records = await this._recordsPort.getRecordsBySpecialistId(userId, start_date);
+        // Преобразовываем дату на начало дня и на конец дня
+        const startDate = moment(start_date).startOf('day').format();
+        const finishDate = moment(start_date).endOf('day').format();
 
+        // Получаем все записи
+        const records = await this._recordsPort.getRecordsBySpecialistId(userId, startDate, finishDate);
+
+        // Возвращаем массив записей в преобразованном формате
         return records.map(record => {
             const recordDate = moment(record.recordDate);
             const startTime = recordDate.unix();

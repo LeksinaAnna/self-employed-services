@@ -111,11 +111,11 @@ export class RecordsAdapterService extends PersistenceAdapter implements Records
         return { items, count };
     }
 
-    async getRecordsBySpecialistId(specialistId: UserId, date: string): Promise<Array<Record & WithServiceItem>> {
+    async getRecordsBySpecialistId(specialistId: UserId, startDate: string, finishDate: string): Promise<Array<Record & WithServiceItem>> {
         return await createQueryBuilder(RecordOrmEntity, 'record')
             .where(`record.specialistId = :specialistId`, { specialistId })
             .andWhere(`record.status = 'accepted' AND record.inBasket = false`)
-            .andWhere(`record.recordDate >= :date`, { date })
+            .andWhere(`record.recordDate >= :startDate AND record.recordDate <= :finishDate`, { startDate, finishDate })
             .leftJoinAndSelect(`record.service`, 'service')
             .getMany();
     }
