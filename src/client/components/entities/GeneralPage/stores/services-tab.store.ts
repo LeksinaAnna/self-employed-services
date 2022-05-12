@@ -36,10 +36,7 @@ export class ServicesTabStore {
     setSelectedService(service: ServiceItem, specialist: Specialist): void {
         this.selectedService = service;
         this.selectedSpecialist = specialist;
-    }
-
-    setCountServices(value: number): void {
-        this.countServices = value;
+        this._rootStore.generalPageStore._timesStore.destroy();
     }
 
     setSearchValue(value: string): void {

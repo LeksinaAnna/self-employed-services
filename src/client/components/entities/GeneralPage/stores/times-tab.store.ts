@@ -2,15 +2,26 @@ import { makeAutoObservable } from 'mobx';
 import moment from 'moment';
 import { RootStore } from '../../../../stores/root.store';
 import { Record } from '../../../../../server/modules/domains/records/entities/record.entity';
+import { TimesTabService } from './times-tab.service';
 
 export class TimesTabStore {
     
     currentDate = moment().format('DD.MM.YYYY');
     times: string[] = [];
+    employmentTimes: string[] = [];
     records: Record[] = [];
+    selectedTime: string = null;
+
+    readonly service: TimesTabService;
     
     constructor(private readonly _rootStore: RootStore) {
+        this.service = new TimesTabService(this._rootStore, this);
+
         makeAutoObservable(this, {}, { autoBind: true });
+    }
+
+    getDisabledTime(time: string): boolean {
+        return this.employmentTimes.includes(time) || this.selectedTime === time;
     }
     
     setCurrentDate(value: string): void {
@@ -21,27 +32,17 @@ export class TimesTabStore {
         this.times = times;
     }
 
-    generateTimes(): void {
-        const times = []; // Сюда сложим сгенерированные часы записи с шагом в 30 минут
+    setSelectedTime(time: string): void {
+        this.selectedTime = time;
+    }
+    
+    setEmploymentTimes(times: string[]): void {
+        this.employmentTimes = times;
+    }
 
-        const startTime = '11:00'; // Начало рабочего дня специалиста. Идеально тянуть из профиля выбранного специалиста
-        const endTime = '21:00'; // Окончание рабочего дня специалиста. Идеально тянуть из профиля выбранного специалиста
-        const timeStep = 30 // Шаг времени в минутах
-
-        const diff = moment(endTime, 'HH:mm').diff(moment(startTime, 'HH:mm'), 'hours') * 60;
-        // diff - кол-во минут рабочего дня
-
-        // diff / timeStep - Вычисляем сколько будет отрезков. Бежим по отрезкам и присваиваем время записи
-        for (let i = 0; i < diff / timeStep; i++) {
-            const time = moment(startTime, 'HH:mm').add(timeStep * i, 'minutes').format('HH:mm');
-            times.push(time);
-        }
-
-        const time1 = moment(startTime, 'HH:mm');
-        const time2 = moment(time1).add(1, 'hours');
-
-        console.log(time1.unix() === time2.unix());
-
-        this.setTimes(times);
+    destroy(): void {
+        this.selectedTime = null;
+        this.records = [];
+        this.employmentTimes = [];
     }
 }

@@ -27,7 +27,7 @@ export class GeneralPageStore {
             case 1:
                 return this._servicesStore.selectedSpecialist === null || this._servicesStore.selectedService === null;
             case 2:
-                return false;
+                return this._timesStore.selectedTime === null;
             case 3:
                 return false;
             default:
@@ -47,5 +47,6 @@ export class GeneralPageStore {
         this.currentStep = 0;
         this._locationsStore.destroy();
         this._servicesStore.destroy();
+        this._timesStore.destroy();
     }
 }

@@ -19,8 +19,8 @@ export interface Specialist extends UserProfile {
 export type EmploymentSpecialist = EmploymentItem[];
 
 export interface EmploymentItem {
-    startTime: number;
-    endTime: number;
+    startTime: number; // unix - секунды с 1 января 1970
+    endTime: number; // unix - секунды с 1 января 1970
 }
 
 export interface UserContacts {

@@ -13,10 +13,17 @@ interface Props {
 export const StepperNavigate: React.FC<Props> = ({ activeStep, onNextStep, onPrevStep, countSteps, disabled }) => (
     <div style={{ position: 'absolute', bottom: 0, width: '100%' }}>
         <SpaceBetweenContainer align="center">
-            <div>{activeStep > 0 && <Button size='medium' onClick={onPrevStep}>Предыдущий шаг</Button>}</div>
             <div>
-                {activeStep !== countSteps - 1 && <Button size='medium' use='success' onClick={onNextStep} disabled={disabled}>Следующий шаг</Button>}
-                {activeStep === countSteps - 1 && <Button size='medium' use='success' onClick={onNextStep}>Отправить заявку</Button>}
+                {activeStep > 0 && (
+                    <Button size="medium" onClick={onPrevStep}>
+                        Предыдущий шаг
+                    </Button>
+                )}
+            </div>
+            <div>
+                <Button size="medium" use="success" onClick={onNextStep} disabled={disabled}>
+                    {activeStep !== countSteps - 1 ? 'Следующий шаг' : 'Отправить заявку'}
+                </Button>
             </div>
         </SpaceBetweenContainer>
     </div>
