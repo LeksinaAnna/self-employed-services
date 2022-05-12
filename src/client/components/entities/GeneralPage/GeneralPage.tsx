@@ -6,6 +6,7 @@ import { GeneralStepper } from './GeneralStepper/GeneralStepper';
 import { StepperNavigate } from './GeneralStepper/StepperNavigate';
 import { LocationList } from './LocationList/LocationList';
 import { ServicesList } from './ServicesList/ServicesList';
+import { TimeList } from './TimeList/TimeList';
 
 export const GeneralPage: React.FC = observer(() => {
     const { generalPageStore } = useStores();
@@ -26,8 +27,7 @@ export const GeneralPage: React.FC = observer(() => {
                 />
                 {currentStep === 0 && <LocationList />}
                 {currentStep === 1 && <ServicesList />}
-                {currentStep === 2 && <LocationList />}
-                {currentStep === 3 && <LocationList />}
+                {currentStep === 2 && <TimeList />}
             </Stack>
         </div>
     );

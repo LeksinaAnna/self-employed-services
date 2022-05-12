@@ -2,10 +2,12 @@ import { makeAutoObservable } from 'mobx';
 import { RootStore } from '../../../../stores/root.store';
 import { LocationsTabStore } from './locations-tab.store';
 import { ServicesTabStore } from './services-tab.store';
+import { TimesTabStore } from './times-tab.store';
 
 export class GeneralPageStore {
     readonly _locationsStore: LocationsTabStore;
     readonly _servicesStore: ServicesTabStore;
+    readonly _timesStore: TimesTabStore;
 
     steps = ['Выбор локации', 'Выбор мастера и услуги', 'Выбор даты'];
     currentStep = 0;
@@ -13,6 +15,7 @@ export class GeneralPageStore {
     constructor(private readonly _rootStore: RootStore) {
         this._locationsStore = new LocationsTabStore(this._rootStore);
         this._servicesStore = new ServicesTabStore(this._rootStore);
+        this._timesStore = new TimesTabStore(this._rootStore);
         
         makeAutoObservable(this, {}, { autoBind: true });
     }
