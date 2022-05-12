@@ -1,14 +1,13 @@
 import { makeAutoObservable } from 'mobx';
 import { RootStore } from '../../../../stores/root.store';
 import { Specialist } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
-import { UserId } from '../../../../../server/modules/domains/users/entities/user.entity';
-import { ServiceItemId } from '../../../../../server/modules/domains/services-list/entities/service-item.entity';
+import { ServiceItem } from '../../../../../server/modules/domains/services-list/entities/service-item.entity';
 import { ServicesTabService } from './services-tab.service';
 
 export class ServicesTabStore {
     specialists: Specialist[] = [];
-    selectedSpecialist: UserId = null;
-    selectedService: ServiceItemId = null;
+    selectedSpecialist: Specialist = null;
+    selectedService: ServiceItem = null;
 
     countSpecialists = 0;
     countServices = 0;
@@ -34,9 +33,9 @@ export class ServicesTabStore {
         this.countSpecialists = value;
     }
 
-    setSelectedService(id: ServiceItemId, specialistId: UserId): void {
-        this.selectedService = id;
-        this.selectedSpecialist = specialistId;
+    setSelectedService(service: ServiceItem, specialist: Specialist): void {
+        this.selectedService = service;
+        this.selectedSpecialist = specialist;
     }
 
     setCountServices(value: number): void {

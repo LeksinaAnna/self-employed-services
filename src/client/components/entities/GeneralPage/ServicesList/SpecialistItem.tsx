@@ -3,15 +3,14 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import { Specialist } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
-import { UserId } from '../../../../../server/modules/domains/users/entities/user.entity';
-import { ServiceItemId } from '../../../../../server/modules/domains/services-list/entities/service-item.entity';
+import { ServiceItem } from '../../../../../server/modules/domains/services-list/entities/service-item.entity';
 import { ServiceListItem } from './ServiceListItem';
 
 interface Props {
     specialist: Specialist;
-    selectedSpecialist: UserId;
-    selectedService: ServiceItemId;
-    onSelectService: (serviceId: ServiceItemId, specialistId: UserId) => void;
+    selectedSpecialist: Specialist;
+    selectedService: ServiceItem;
+    onSelectService: (service: ServiceItem, specialist: Specialist) => void;
 }
 
 export const SpecialistItem: React.FC<Props> = ({
@@ -22,16 +21,16 @@ export const SpecialistItem: React.FC<Props> = ({
 }) => (
     <Accordion>
         <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography sx={{ width: '33%' }}>{specialist.fullName}</Typography>
-            <Typography sx={{ color: 'text.secondary', width: '54%' }}>{specialist.contacts.phone}</Typography>
-            {specialist.profileId === selectedSpecialist && <DoneOutlineIcon color={'success'} />}
+            <Typography sx={{ width: '33%' }}>{specialist?.fullName}</Typography>
+            <Typography sx={{ color: 'text.secondary', width: '54%' }}>{specialist?.contacts?.phone}</Typography>
+            {specialist?.profileId === selectedSpecialist?.profileId && <DoneOutlineIcon color={'success'} />}
         </AccordionSummary>
         <AccordionDetails>
             {specialist.services.map(service => (
                 <ServiceListItem
-                    key={service.serviceId}
+                    key={service?.serviceId}
                     service={service}
-                    onSelectService={onSelectService}
+                    onSelectService={() => onSelectService(service, specialist)}
                     selectedService={selectedService}
                 />
             ))}
