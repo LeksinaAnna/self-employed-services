@@ -1,4 +1,5 @@
 import {
+    EmploymentSpecialist,
     Specialist,
     UserProfile,
     UserProfileCreateProperties,
@@ -31,4 +32,6 @@ export interface UserUseCase {
     getSpecialistsForAdmin: (query: QueryType) => Promise<ManyItem<LargeUser & UserWithDescription>>;
 
     updateUserInfo: (userId: UserId, properties: UserProfileUpdateProperties) => Promise<UserProfile>;
+
+    getEmploymentOfSpecialist: (userId: UserId, query?: QueryType) => Promise<EmploymentSpecialist>;
 }

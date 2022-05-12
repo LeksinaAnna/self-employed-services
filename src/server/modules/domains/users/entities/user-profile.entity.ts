@@ -16,6 +16,13 @@ export interface Specialist extends UserProfile {
     services: ServiceItem[];
 }
 
+export type EmploymentSpecialist = EmploymentItem[];
+
+export interface EmploymentItem {
+    startTime: number;
+    endTime: number;
+}
+
 export interface UserContacts {
     email: string;
     vk?: string;

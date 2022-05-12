@@ -13,4 +13,6 @@ export interface RecordsPort {
     getNewRecords: (specialistId: UserId, query: QueryType) => Promise<ManyItem<LargeRecord>>;
 
     getRecordsForClientReport: (clientId: UserId, specialistId: UserId) => Promise<ManyItem<Record & WithServiceItem>>;
+
+    getRecordsBySpecialistId: (specialistId: UserId, date: string) => Promise<Array<Record & WithServiceItem>>;
 }

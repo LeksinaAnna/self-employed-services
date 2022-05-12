@@ -1,11 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import moment from 'moment';
 import { ManyItem, QueryType, WithUpdater } from '../../../../../common/interfaces/common';
 import { UserUseCase } from '../ports/user.use-case';
 import {
+    EmploymentSpecialist,
     Specialist,
     UserProfile,
     UserProfileCreateProperties,
-    UserProfileUpdateProperties
+    UserProfileUpdateProperties,
 } from '../entities/user-profile.entity';
 import {
     LargeUser,
@@ -13,9 +15,13 @@ import {
     UserEntity,
     UserEmail,
     User,
-    UserWithPassword, UserId, UserWithDescription, UserUpdateProperties,
+    UserWithPassword,
+    UserId,
+    UserWithDescription,
+    UserUpdateProperties,
 } from '../entities/user.entity';
 import { RolesService } from '../../roles/services/roles.service';
+import { RecordsAdapterService } from '../../records/services/adapters/records-adapter.service';
 import { UserProfileService } from './user-profile.service';
 import { UserAdapterService } from './adapters/user-adapter.service';
 
@@ -29,14 +35,33 @@ export class UserService implements UserUseCase {
         private readonly _userPort: UserAdapterService,
         private readonly _userProfileService: UserProfileService,
         private readonly _rolesService: RolesService,
+        private readonly _recordsPort: RecordsAdapterService,
     ) {}
+
+    async getEmploymentOfSpecialist(userId: string, { start_date }: QueryType): Promise<EmploymentSpecialist> {
+        const specialist = await this._userPort.getUserById(userId);
+
+        // Проверяем существует ли специалист
+        if (!specialist) {
+            throw new NotFoundException('Специалист не найден');
+        }
+
+        // Получаем все записи специалиста на дату из query
+        const records = await this._recordsPort.getRecordsBySpecialistId(userId, start_date);
+
+        return records.map(record => {
+            const recordDate = moment(record.recordDate);
+            const startTime = recordDate.unix();
+            const endTime = moment(recordDate).add(record.service.duration, 'milliseconds').unix();
+
+            return { startTime, endTime }
+        });
+    }
 
     /**
      * Метод регистрации нового пользователя
      */
-    public async createUserAccount(
-        properties: UserProfileCreateProperties & UserCreateProperties,
-    ): Promise<LargeUser> {
+    public async createUserAccount(properties: UserProfileCreateProperties & UserCreateProperties): Promise<LargeUser> {
         // Регаем аккаунт
         const accountEntity = new UserEntity({
             password: properties.password,
@@ -48,7 +73,7 @@ export class UserService implements UserUseCase {
         // Создаем профиль\инфу о пользователе
         const profile = await this._userProfileService.createUserProfile({
             ...properties,
-            profileId: accountEntity.accountId
+            profileId: accountEntity.accountId,
         });
 
         return {
@@ -72,7 +97,7 @@ export class UserService implements UserUseCase {
         const user = await this._userPort.getUserById(userId);
 
         if (!user) {
-            throw new NotFoundException('Пользователя не существует')
+            throw new NotFoundException('Пользователя не существует');
         }
 
         return await this._userProfileService.updateUserProfile(userId, properties);
@@ -90,10 +115,13 @@ export class UserService implements UserUseCase {
         return await this._userPort.getSpecialistsForAdmin(query, true);
     }
 
-    async updateSpecialist(properties: UserUpdateProperties & WithUpdater, specialistId: UserId): Promise<LargeUser & UserWithDescription> {
+    async updateSpecialist(
+        properties: UserUpdateProperties & WithUpdater,
+        specialistId: UserId,
+    ): Promise<LargeUser & UserWithDescription> {
         const specialist = await this._userPort.getUserById(specialistId);
 
-        if(!specialist) {
+        if (!specialist) {
             throw new NotFoundException('обновляемый пользователь не найден');
         }
 
@@ -102,7 +130,7 @@ export class UserService implements UserUseCase {
         const updatedEntity = new UserEntity({
             ...account,
             ...properties,
-            modifiedBy: properties.updater
+            modifiedBy: properties.updater,
         });
 
         await this._userPort.saveUser(updatedEntity);
