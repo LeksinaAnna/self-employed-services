@@ -18,7 +18,7 @@ const CloseButtonWrapper = styled.div`
     right: 0;
 `;
 
-export const Modal: React.FC<Props> = ({ width = 350, children, onClose }) => {
+export const Modal: React.FC<Props> = ({ children, onClose, width = 'fit-content' }) => {
     const onPressEsc = (event: KeyboardEvent) => {
         if (event.key === 'Escape') {
             onClose();

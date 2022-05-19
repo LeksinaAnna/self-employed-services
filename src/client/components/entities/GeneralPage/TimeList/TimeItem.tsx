@@ -43,7 +43,7 @@ const SelectedIcon = styled.div`
 `;
 
 export const TimeItem: React.FC<Props> = observer(({ selectedTime, time, onSelect, disabled }) => (
-    <Grid item xs={2} key={time}>
+    <Grid item xs={2.4} key={time}>
         <ItemWrapper isDisabled={disabled} onClick={!disabled ? onSelect : null}>
             <Typography fontSize="18px" color={secondaryText}>
                 {time}

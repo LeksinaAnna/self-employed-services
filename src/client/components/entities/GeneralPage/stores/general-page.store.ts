@@ -1,5 +1,7 @@
-import { makeAutoObservable } from 'mobx';
+import { makeAutoObservable, runInAction } from 'mobx';
 import { RootStore } from '../../../../stores/root.store';
+import { RecordCreateProperties } from '../../../../../server/modules/domains/records/entities/record.entity';
+import { ClientCreateProperties } from '../../../../../server/modules/domains/clients/entities/client.entity';
 import { LocationsTabStore } from './locations-tab.store';
 import { ServicesTabStore } from './services-tab.store';
 import { TimesTabStore } from './times-tab.store';
@@ -11,13 +13,14 @@ export class GeneralPageStore {
 
     steps = ['Выбор локации', 'Выбор мастера и услуги', 'Выбор даты'];
     currentStep = 0;
-    
+    isCompletedModal = false;
+
     constructor(private readonly _rootStore: RootStore) {
         this._locationsStore = new LocationsTabStore(this._rootStore);
         this._servicesStore = new ServicesTabStore(this._rootStore);
         this._timesStore = new TimesTabStore(this._rootStore);
-        
-        makeAutoObservable(this, {}, { autoBind: true });
+
+        makeAutoObservable(this, {}, {autoBind: true});
     }
 
     get nextStepDisabled(): boolean {
@@ -35,6 +38,10 @@ export class GeneralPageStore {
         }
     }
 
+    setIsCompletedModal(value: boolean): void {
+        this.isCompletedModal = value;
+    }
+
     nextStep(): void {
         this.currentStep += 1;
     }
@@ -48,5 +55,14 @@ export class GeneralPageStore {
         this._locationsStore.destroy();
         this._servicesStore.destroy();
         this._timesStore.destroy();
+    }
+
+    async sendRecord(properties: RecordCreateProperties & ClientCreateProperties): Promise<void> {
+        await this._rootStore.commonApi.records.createRecord(properties);
+
+
+        runInAction(() => {
+            this.destroy();
+        });
     }
 }

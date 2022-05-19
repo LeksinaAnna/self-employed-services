@@ -24,7 +24,7 @@ export interface RecordUpdateProperties {
 export interface RecordCreateProperties {
     serviceId: ServiceItemId;
     specialistId: UserId;
-    clientId: ClientId;
+    clientId?: ClientId;
     recordDate: string;
     roomId?: RoomId;
     status?: RecordStatus;
