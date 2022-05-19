@@ -1,3 +1,12 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.10
+-- Dumped by pg_dump version 12.10
+
+-- Started on 2022-05-19 17:45:59
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -10,15 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 2934 (class 1262 OID 16662)
--- Name: self-employed; Type: DATABASE; Schema: -; Owner: postgres
---
-
-\connect -reuse-previous=on "dbname='self-employed'"
-
-
---
--- TOC entry 13 (class 2615 OID 16673)
+-- TOC entry 8 (class 2615 OID 24835)
 -- Name: core; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -28,7 +29,7 @@ CREATE SCHEMA core;
 ALTER SCHEMA core OWNER TO postgres;
 
 --
--- TOC entry 9 (class 2615 OID 16674)
+-- TOC entry 13 (class 2615 OID 24836)
 -- Name: roles; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -38,7 +39,7 @@ CREATE SCHEMA roles;
 ALTER SCHEMA roles OWNER TO postgres;
 
 --
--- TOC entry 10 (class 2615 OID 16677)
+-- TOC entry 9 (class 2615 OID 24839)
 -- Name: rooms; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -48,7 +49,7 @@ CREATE SCHEMA rooms;
 ALTER SCHEMA rooms OWNER TO postgres;
 
 --
--- TOC entry 5 (class 2615 OID 16676)
+-- TOC entry 7 (class 2615 OID 24838)
 -- Name: services; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -58,7 +59,7 @@ CREATE SCHEMA services;
 ALTER SCHEMA services OWNER TO postgres;
 
 --
--- TOC entry 8 (class 2615 OID 16675)
+-- TOC entry 12 (class 2615 OID 24837)
 -- Name: users; Type: SCHEMA; Schema: -; Owner: postgres
 --
 
@@ -68,7 +69,7 @@ CREATE SCHEMA users;
 ALTER SCHEMA users OWNER TO postgres;
 
 --
--- TOC entry 2 (class 3079 OID 16678)
+-- TOC entry 2 (class 3079 OID 24840)
 -- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -76,7 +77,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
 
 
 --
--- TOC entry 2935 (class 0 OID 0)
+-- TOC entry 2934 (class 0 OID 0)
 -- Dependencies: 2
 -- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: 
 --
@@ -89,7 +90,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- TOC entry 215 (class 1259 OID 16760)
+-- TOC entry 212 (class 1259 OID 24922)
 -- Name: tokens; Type: TABLE; Schema: core; Owner: postgres
 --
 
@@ -104,7 +105,7 @@ CREATE TABLE core.tokens (
 ALTER TABLE core.tokens OWNER TO postgres;
 
 --
--- TOC entry 208 (class 1259 OID 16689)
+-- TOC entry 208 (class 1259 OID 24851)
 -- Name: roles; Type: TABLE; Schema: roles; Owner: postgres
 --
 
@@ -118,7 +119,7 @@ CREATE TABLE roles.roles (
 ALTER TABLE roles.roles OWNER TO postgres;
 
 --
--- TOC entry 209 (class 1259 OID 16698)
+-- TOC entry 209 (class 1259 OID 24860)
 -- Name: user_roles; Type: TABLE; Schema: roles; Owner: postgres
 --
 
@@ -132,7 +133,7 @@ CREATE TABLE roles.user_roles (
 ALTER TABLE roles.user_roles OWNER TO postgres;
 
 --
--- TOC entry 217 (class 1259 OID 16782)
+-- TOC entry 214 (class 1259 OID 24944)
 -- Name: rentals; Type: TABLE; Schema: rooms; Owner: postgres
 --
 
@@ -153,7 +154,7 @@ CREATE TABLE rooms.rentals (
 ALTER TABLE rooms.rentals OWNER TO postgres;
 
 --
--- TOC entry 216 (class 1259 OID 16770)
+-- TOC entry 213 (class 1259 OID 24932)
 -- Name: rooms; Type: TABLE; Schema: rooms; Owner: postgres
 --
 
@@ -174,7 +175,7 @@ CREATE TABLE rooms.rooms (
 ALTER TABLE rooms.rooms OWNER TO postgres;
 
 --
--- TOC entry 214 (class 1259 OID 16748)
+-- TOC entry 211 (class 1259 OID 24910)
 -- Name: records; Type: TABLE; Schema: services; Owner: postgres
 --
 
@@ -183,6 +184,7 @@ CREATE TABLE services.records (
     service_id uuid NOT NULL,
     specialist_id uuid NOT NULL,
     client_id uuid NOT NULL,
+    room_id uuid NOT NULL,
     record_date timestamp with time zone NOT NULL,
     status character varying DEFAULT 'sent'::character varying NOT NULL,
     created timestamp with time zone DEFAULT now() NOT NULL,
@@ -193,7 +195,7 @@ CREATE TABLE services.records (
 ALTER TABLE services.records OWNER TO postgres;
 
 --
--- TOC entry 213 (class 1259 OID 16736)
+-- TOC entry 210 (class 1259 OID 24898)
 -- Name: services; Type: TABLE; Schema: services; Owner: postgres
 --
 
@@ -215,7 +217,7 @@ CREATE TABLE services.services (
 ALTER TABLE services.services OWNER TO postgres;
 
 --
--- TOC entry 211 (class 1259 OID 16713)
+-- TOC entry 216 (class 1259 OID 24972)
 -- Name: accounts; Type: TABLE; Schema: users; Owner: postgres
 --
 
@@ -233,7 +235,7 @@ CREATE TABLE users.accounts (
 ALTER TABLE users.accounts OWNER TO postgres;
 
 --
--- TOC entry 212 (class 1259 OID 16724)
+-- TOC entry 217 (class 1259 OID 24983)
 -- Name: clients; Type: TABLE; Schema: users; Owner: postgres
 --
 
@@ -253,7 +255,7 @@ CREATE TABLE users.clients (
 ALTER TABLE users.clients OWNER TO postgres;
 
 --
--- TOC entry 210 (class 1259 OID 16704)
+-- TOC entry 215 (class 1259 OID 24962)
 -- Name: users_profile; Type: TABLE; Schema: users; Owner: postgres
 --
 
@@ -263,6 +265,7 @@ CREATE TABLE users.users_profile (
     birthday date,
     contacts jsonb DEFAULT '{"email": "", "phone": "", "vk.com": "", "instagram": ""}'::jsonb,
     profession character varying,
+    description character varying,
     selected_room character varying
 );
 
@@ -270,135 +273,119 @@ CREATE TABLE users.users_profile (
 ALTER TABLE users.users_profile OWNER TO postgres;
 
 --
--- TOC entry 2926 (class 0 OID 16760)
--- Dependencies: 215
+-- TOC entry 2923 (class 0 OID 24922)
+-- Dependencies: 212
 -- Data for Name: tokens; Type: TABLE DATA; Schema: core; Owner: postgres
 --
 
 COPY core.tokens (token_id, user_id, refresh_token, created) FROM stdin;
-ae44220c-f3e5-4574-86a2-a87680925c0f	aee41b24-7f10-4fbb-a70d-abc689d9fe19	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhZWU0MWIyNC03ZjEwLTRmYmItYTcwZC1hYmM2ODlkOWZlMTkiLCJlbWFpbCI6ImFkbWluIiwicm9sZXMiOlsiQURNSU4iXSwiaWF0IjoxNjUxMDAyODc5LCJleHAiOjE2NTM1OTQ4Nzl9.Osrz4Lh3YGVT0UnmS4CZKxSlBR-hY2BlJ5907E_RJPI	2022-04-26 22:53:06+03
-256ae7ed-686b-4d84-bcd4-40de2a49c043	92d4e921-8709-44aa-85a6-9e068bde87a2	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MmQ0ZTkyMS04NzA5LTQ0YWEtODVhNi05ZTA2OGJkZTg3YTIiLCJlbWFpbCI6InRlc3RAdGVzdC5ydSIsInJvbGVzIjpbIlNQRUNJQUxJU1QiXSwiaWF0IjoxNjUxMDAzMDgyLCJleHAiOjE2NTM1OTUwODJ9.WP5XRqBdpbunMqkPZKvPOo07t8sRrH70p7LwtsISeSY	2022-04-26 22:57:50+03
+12865292-9e5b-409a-beaa-dbaaa0c3a2cf	f1dbb051-4075-4c7c-970d-713f19faf6b9	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJmMWRiYjA1MS00MDc1LTRjN2MtOTcwZC03MTNmMTlmYWY2YjkiLCJlbWFpbCI6InNwZWNpYWxpc3QiLCJyb2xlcyI6WyJTUEVDSUFMSVNUIl0sImlhdCI6MTY1Mjk2MTc0OSwiZXhwIjoxNjU1NTUzNzQ5fQ.4ZSjcr4nszIqQ_TLEQWV4VSIstVT2PjIWoHHaE3c7A8	2022-05-19 14:58:28+03
+30005d4a-f162-4d0b-972e-ec133bc0257c	1722ea47-2304-477e-a021-b13c10aac5bd	eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIxNzIyZWE0Ny0yMzA0LTQ3N2UtYTAyMS1iMTNjMTBhYWM1YmQiLCJlbWFpbCI6ImFkbWluIiwicm9sZXMiOlsiQURNSU4iXSwiaWF0IjoxNjUyOTYxNzcxLCJleHAiOjE2NTU1NTM3NzF9.dm0eil8zR588V0yUE99wUKkPpGO7cI00wu7WOYf4o7Q	2022-05-19 14:57:44+03
 \.
 
 
 --
--- TOC entry 2919 (class 0 OID 16689)
+-- TOC entry 2919 (class 0 OID 24851)
 -- Dependencies: 208
 -- Data for Name: roles; Type: TABLE DATA; Schema: roles; Owner: postgres
 --
 
 COPY roles.roles (role_id, description, value) FROM stdin;
-1b334d09-c728-48f6-8a8f-ade18dd5708d	Администратор помещений.	ADMIN
-841b55ca-1c22-49ac-936e-e9b92f21971b	Специалист, мастер, снимает помещения и предоставляет услуги.	SPECIALIST
-226e9f78-9090-4c60-9ad1-62658203e82f	Пользователь, клиент специалистов. Записываетя на услуги.	USER
+f8c0634f-c28c-40d5-aa66-2a8390954239	Администратор помещений.	ADMIN
+50875d2a-ef92-43be-8a44-691a9a13c02c	Специалист, мастер, снимает помещения и предоставляет услуги.	SPECIALIST
+64151249-8e56-4b0c-a73b-5aa81ff5b885	Пользователь, клиент специалистов. Записываетя на услуги.	USER
 \.
 
 
 --
--- TOC entry 2920 (class 0 OID 16698)
+-- TOC entry 2920 (class 0 OID 24860)
 -- Dependencies: 209
 -- Data for Name: user_roles; Type: TABLE DATA; Schema: roles; Owner: postgres
 --
 
 COPY roles.user_roles (id, role_id, user_id) FROM stdin;
-b64cee1a-0728-4916-ac49-a3a419ac077c	1b334d09-c728-48f6-8a8f-ade18dd5708d	aee41b24-7f10-4fbb-a70d-abc689d9fe19
-522eb984-6bad-4485-9d36-b715109126e2	841b55ca-1c22-49ac-936e-e9b92f21971b	92d4e921-8709-44aa-85a6-9e068bde87a2
+58da62d0-8c0c-4472-8822-c27c9119dc6a	50875d2a-ef92-43be-8a44-691a9a13c02c	1db89d25-0197-4078-a190-f34068ce2386
+3a47ed7d-06dd-4154-9505-cc140def4c9c	50875d2a-ef92-43be-8a44-691a9a13c02c	f1dbb051-4075-4c7c-970d-713f19faf6b9
+69067078-fee9-49b2-9683-c665deb39acf	f8c0634f-c28c-40d5-aa66-2a8390954239	1722ea47-2304-477e-a021-b13c10aac5bd
 \.
 
 
 --
--- TOC entry 2928 (class 0 OID 16782)
--- Dependencies: 217
+-- TOC entry 2925 (class 0 OID 24944)
+-- Dependencies: 214
 -- Data for Name: rentals; Type: TABLE DATA; Schema: rooms; Owner: postgres
 --
 
 COPY rooms.rentals (rental_id, specialist_id, room_id, start_date, finish_date, created, created_by, modified, modified_by, in_basket) FROM stdin;
-4fd17d28-4abf-44e0-8c32-847f96266b9b	92d4e921-8709-44aa-85a6-9e068bde87a2	7cc4376c-fc99-4cf3-812f-2d716e66a6af	2022-04-27 11:00:00+03	2022-04-27 16:00:00+03	2022-04-26 23:07:19+03	92d4e921-8709-44aa-85a6-9e068bde87a2	2022-04-26 23:07:19+03	92d4e921-8709-44aa-85a6-9e068bde87a2	f
 \.
 
 
 --
--- TOC entry 2927 (class 0 OID 16770)
--- Dependencies: 216
+-- TOC entry 2924 (class 0 OID 24932)
+-- Dependencies: 213
 -- Data for Name: rooms; Type: TABLE DATA; Schema: rooms; Owner: postgres
 --
 
 COPY rooms.rooms (room_id, price, title, description, type, in_basket, created, created_by, modified, modified_by) FROM stdin;
-a3efdf12-e6dd-4a5d-a8e4-d663356672a2	550	Тестовая локация (бровист)	\N	browist	f	2022-04-26 22:56:03+03	aee41b24-7f10-4fbb-a70d-abc689d9fe19	2022-04-26 22:56:03+03	aee41b24-7f10-4fbb-a70d-abc689d9fe19
-7cc4376c-fc99-4cf3-812f-2d716e66a6af	600	Тестовая локация (парикмахер)	\N	barber	f	2022-04-26 22:56:21+03	aee41b24-7f10-4fbb-a70d-abc689d9fe19	2022-04-26 22:56:21+03	aee41b24-7f10-4fbb-a70d-abc689d9fe19
-8b7b2342-6db2-4672-b4ce-03d232a3eaa3	500	Тестовая локация (лешмейкер)	\N	lashmaker	f	2022-04-26 22:56:39+03	aee41b24-7f10-4fbb-a70d-abc689d9fe19	2022-04-26 22:56:39+03	aee41b24-7f10-4fbb-a70d-abc689d9fe19
-bfa15ff4-e28f-4fc1-8e6a-3693f3f76c14	350	Тестовая локация (маникюр)	\N	manicurist	f	2022-04-26 22:56:56+03	aee41b24-7f10-4fbb-a70d-abc689d9fe19	2022-04-26 22:56:56+03	aee41b24-7f10-4fbb-a70d-abc689d9fe19
 \.
 
 
 --
--- TOC entry 2925 (class 0 OID 16748)
--- Dependencies: 214
+-- TOC entry 2922 (class 0 OID 24910)
+-- Dependencies: 211
 -- Data for Name: records; Type: TABLE DATA; Schema: services; Owner: postgres
 --
 
-COPY services.records (record_id, service_id, specialist_id, client_id, record_date, status, created, in_basket) FROM stdin;
-a3735378-392c-43aa-81df-5ccd6d4c37e1	901d81c1-0c40-48e0-b096-3f2a0b9c1630	23ee1ad4-29ec-421d-b0aa-cef97d5318b8	a96169e4-a269-4a7a-90e0-5b344dadf815	2022-04-28 08:00:00+03	sent	2022-04-26 23:02:53+03	f
-354ec15f-eba8-4e0b-b3a5-5d2b54db7b45	a6a6841c-d6ca-45ab-9f19-7dd5b85039a5	92d4e921-8709-44aa-85a6-9e068bde87a2	c86c8d80-e615-4681-9254-1ff1e9a1e968	2022-04-28 11:00:00+03	sent	2022-04-26 23:04:09+03	f
-55dc0d31-fd2b-4b9a-a2ae-ef8f575228ae	a6a6841c-d6ca-45ab-9f19-7dd5b85039a5	92d4e921-8709-44aa-85a6-9e068bde87a2	c86c8d80-e615-4681-9254-1ff1e9a1e968	2022-04-28 07:00:00+03	sent	2022-04-26 23:04:24+03	f
-00608af2-67b6-4be4-bcf0-15a172aa446e	23ee1ad4-29ec-421d-b0aa-cef97d5318b8	92d4e921-8709-44aa-85a6-9e068bde87a2	c86c8d80-e615-4681-9254-1ff1e9a1e968	2022-04-28 11:00:00+03	accepted	2022-04-26 23:03:49+03	f
-dc166787-1a9d-402b-a308-bbf8d0c7f8e2	901d81c1-0c40-48e0-b096-3f2a0b9c1630	92d4e921-8709-44aa-85a6-9e068bde87a2	a96169e4-a269-4a7a-90e0-5b344dadf815	2022-04-28 11:00:00+03	accepted	2022-04-26 23:02:11+03	f
-a3144bb5-6954-4307-9511-648842dadc43	901d81c1-0c40-48e0-b096-3f2a0b9c1630	92d4e921-8709-44aa-85a6-9e068bde87a2	6d2a51d8-d67c-435a-97cc-a632ac67363f	2022-04-28 13:00:00+03	canceled	2022-04-26 23:05:20+03	f
+COPY services.records (record_id, service_id, specialist_id, client_id, room_id, record_date, status, created, in_basket) FROM stdin;
 \.
 
 
 --
--- TOC entry 2924 (class 0 OID 16736)
--- Dependencies: 213
+-- TOC entry 2921 (class 0 OID 24898)
+-- Dependencies: 210
 -- Data for Name: services; Type: TABLE DATA; Schema: services; Owner: postgres
 --
 
 COPY services.services (service_id, title, description, price, duration, type, created, modified, created_by, modified_by, in_basket) FROM stdin;
-901d81c1-0c40-48e0-b096-3f2a0b9c1630	Тестовая услуга 1	Тестовая услуга под номером 1	440	1800000	barber	2022-04-26 22:58:26+03	2022-04-26 22:58:26+03	92d4e921-8709-44aa-85a6-9e068bde87a2	92d4e921-8709-44aa-85a6-9e068bde87a2	f
-23ee1ad4-29ec-421d-b0aa-cef97d5318b8	Тестовая услуга 2	Тестовая услуга под номером два	1000	5400000	barber	2022-04-26 22:58:51+03	2022-04-26 22:58:51+03	92d4e921-8709-44aa-85a6-9e068bde87a2	92d4e921-8709-44aa-85a6-9e068bde87a2	f
-a6a6841c-d6ca-45ab-9f19-7dd5b85039a5	Тестовая услуга 3	Тестовая услуга под номером три	870	1800000	barber	2022-04-26 22:59:12+03	2022-04-26 22:59:12+03	92d4e921-8709-44aa-85a6-9e068bde87a2	92d4e921-8709-44aa-85a6-9e068bde87a2	f
 \.
 
 
 --
--- TOC entry 2922 (class 0 OID 16713)
--- Dependencies: 211
+-- TOC entry 2927 (class 0 OID 24972)
+-- Dependencies: 216
 -- Data for Name: accounts; Type: TABLE DATA; Schema: users; Owner: postgres
 --
 
 COPY users.accounts (account_id, email, password, description, created, modified, modified_by) FROM stdin;
-aee41b24-7f10-4fbb-a70d-abc689d9fe19	admin	$2a$04$A080juajEKhfIUJeqx0N3.5e5d5P7ccptRHY7iVcCW9d9nWC6xYHy	\N	2022-04-26 22:53:06+03	2022-04-26 22:53:06+03	aee41b24-7f10-4fbb-a70d-abc689d9fe19
-92d4e921-8709-44aa-85a6-9e068bde87a2	test@test.ru	$2a$04$dsEPPbobclnZGq77FfIwNO0aQXIHrLmor9nv0kex3hQzOa30.cMy6	\N	2022-04-26 22:57:50+03	2022-04-26 22:57:50+03	92d4e921-8709-44aa-85a6-9e068bde87a2
+1722ea47-2304-477e-a021-b13c10aac5bd	admin	$2a$04$RUPdnbEgdJcKrOeYu2JEFOSFZROHvf.miON6ceyvp6.JegkH8IM3C	\N	2022-05-19 14:57:44+03	2022-05-19 14:57:44+03	1722ea47-2304-477e-a021-b13c10aac5bd
+f1dbb051-4075-4c7c-970d-713f19faf6b9	specialist	$2a$04$9x7Ewe6BFVBvG/ikb4kDX.Sa/3rAz3VDm74OKxJCgM4/m39K9TH4O	\N	2022-05-19 14:58:28+03	2022-05-19 14:58:28+03	f1dbb051-4075-4c7c-970d-713f19faf6b9
 \.
 
 
 --
--- TOC entry 2923 (class 0 OID 16724)
--- Dependencies: 212
+-- TOC entry 2928 (class 0 OID 24983)
+-- Dependencies: 217
 -- Data for Name: clients; Type: TABLE DATA; Schema: users; Owner: postgres
 --
 
 COPY users.clients (client_id, description, email, name, phone, in_basket, created, modified, modified_by) FROM stdin;
-c86c8d80-e615-4681-9254-1ff1e9a1e968	\N	b311@bbnm.ru	Андрей Михайлович	+79995552212	f	2022-04-26 23:03:49+03	2022-04-26 23:04:24+03	\N
-6d2a51d8-d67c-435a-97cc-a632ac67363f	\N	b3113@bbnm.ru	Блинов Петр	+79995552232	f	2022-04-26 23:04:59+03	2022-04-26 23:05:20+03	\N
-a96169e4-a269-4a7a-90e0-5b344dadf815	Тестовый комментарий	b31@bbnm.ru	Иван Павлович	+79995552222	f	2022-04-26 23:02:11+03	2022-04-26 23:07:35+03	92d4e921-8709-44aa-85a6-9e068bde87a2
 \.
 
 
 --
--- TOC entry 2921 (class 0 OID 16704)
--- Dependencies: 210
+-- TOC entry 2926 (class 0 OID 24962)
+-- Dependencies: 215
 -- Data for Name: users_profile; Type: TABLE DATA; Schema: users; Owner: postgres
 --
 
-COPY users.users_profile (profile_id, full_name, birthday, contacts, profession, selected_room) FROM stdin;
-aee41b24-7f10-4fbb-a70d-abc689d9fe19	Администратор	\N	{"vk": "", "email": "admin@admin.ru", "phone": "+7 999 999-99-99", "instagram": ""}	null	\N
-92d4e921-8709-44aa-85a6-9e068bde87a2	Тестовый пользователь	\N	{"vk": "", "email": "test@test.ru", "phone": "+7 998 998-99-88", "instagram": ""}	barber	7cc4376c-fc99-4cf3-812f-2d716e66a6af
+COPY users.users_profile (profile_id, full_name, birthday, contacts, profession, description, selected_room) FROM stdin;
+f1dbb051-4075-4c7c-970d-713f19faf6b9	Тестовый Мастер	\N	{"vk": "", "email": "specialist@asd.ru", "phone": "+7 999 555-44-22", "instagram": ""}	barber	\N	\N
+1722ea47-2304-477e-a021-b13c10aac5bd	Администратор	\N	{"vk": "", "email": "admin", "phone": "+7 123 123-12-32", "instagram": ""}	\N	\N	\N
 \.
 
 
 --
--- TOC entry 2788 (class 2606 OID 16769)
+-- TOC entry 2782 (class 2606 OID 24931)
 -- Name: tokens token_id_pk; Type: CONSTRAINT; Schema: core; Owner: postgres
 --
 
@@ -407,7 +394,7 @@ ALTER TABLE ONLY core.tokens
 
 
 --
--- TOC entry 2774 (class 2606 OID 16697)
+-- TOC entry 2774 (class 2606 OID 24859)
 -- Name: roles roles_pk; Type: CONSTRAINT; Schema: roles; Owner: postgres
 --
 
@@ -416,7 +403,7 @@ ALTER TABLE ONLY roles.roles
 
 
 --
--- TOC entry 2776 (class 2606 OID 16703)
+-- TOC entry 2776 (class 2606 OID 24865)
 -- Name: user_roles user_role_pk; Type: CONSTRAINT; Schema: roles; Owner: postgres
 --
 
@@ -425,7 +412,7 @@ ALTER TABLE ONLY roles.user_roles
 
 
 --
--- TOC entry 2792 (class 2606 OID 16790)
+-- TOC entry 2786 (class 2606 OID 24952)
 -- Name: rentals rental_id_pk; Type: CONSTRAINT; Schema: rooms; Owner: postgres
 --
 
@@ -434,7 +421,7 @@ ALTER TABLE ONLY rooms.rentals
 
 
 --
--- TOC entry 2790 (class 2606 OID 16781)
+-- TOC entry 2784 (class 2606 OID 24943)
 -- Name: rooms room_id_pk; Type: CONSTRAINT; Schema: rooms; Owner: postgres
 --
 
@@ -443,7 +430,7 @@ ALTER TABLE ONLY rooms.rooms
 
 
 --
--- TOC entry 2786 (class 2606 OID 16759)
+-- TOC entry 2780 (class 2606 OID 24921)
 -- Name: records record_pk; Type: CONSTRAINT; Schema: services; Owner: postgres
 --
 
@@ -452,7 +439,7 @@ ALTER TABLE ONLY services.records
 
 
 --
--- TOC entry 2784 (class 2606 OID 16747)
+-- TOC entry 2778 (class 2606 OID 24909)
 -- Name: services service_pk; Type: CONSTRAINT; Schema: services; Owner: postgres
 --
 
@@ -461,7 +448,7 @@ ALTER TABLE ONLY services.services
 
 
 --
--- TOC entry 2782 (class 2606 OID 16735)
+-- TOC entry 2792 (class 2606 OID 24994)
 -- Name: clients client_pk; Type: CONSTRAINT; Schema: users; Owner: postgres
 --
 
@@ -470,7 +457,7 @@ ALTER TABLE ONLY users.clients
 
 
 --
--- TOC entry 2780 (class 2606 OID 16723)
+-- TOC entry 2790 (class 2606 OID 24982)
 -- Name: accounts user_pk; Type: CONSTRAINT; Schema: users; Owner: postgres
 --
 
@@ -479,7 +466,7 @@ ALTER TABLE ONLY users.accounts
 
 
 --
--- TOC entry 2778 (class 2606 OID 16712)
+-- TOC entry 2788 (class 2606 OID 24970)
 -- Name: users_profile users_profile_pk; Type: CONSTRAINT; Schema: users; Owner: postgres
 --
 
@@ -487,7 +474,7 @@ ALTER TABLE ONLY users.users_profile
     ADD CONSTRAINT users_profile_pk PRIMARY KEY (profile_id);
 
 
--- Completed on 2022-04-27 01:16:54
+-- Completed on 2022-05-19 17:45:59
 
 --
 -- PostgreSQL database dump complete

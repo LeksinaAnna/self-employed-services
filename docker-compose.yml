@@ -7,9 +7,12 @@ services:
       context: ./
       target: app-front
     ports:
+      - "443:3009"
       - "80:3009"
     depends_on:
       - server
+    volumes:
+      - ./certs:/etc/nginx/certs
 
   server:
     container_name: app-server
@@ -26,7 +29,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: root
       POSTGRES_DATABASE: self-employed
-      TYPEORM_LOGGING: false
       AUTH_SECRET_KEY: empty_secret_KeY
     depends_on:
       - postgres

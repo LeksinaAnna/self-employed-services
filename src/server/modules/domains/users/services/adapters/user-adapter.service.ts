@@ -29,7 +29,8 @@ export class UserAdapterService extends PersistenceAdapter implements UserPort {
                     qb.addSelect(`user.description`);
                 }
             })
-            .leftJoinAndSelect('user.profile', 'profile', 'profile.profession IS NOT NULL')
+            .andWhere(`profile.profession IS NOT NULL`)
+            .leftJoinAndSelect('user.profile', 'profile')
             .skip(parseInt(skip, 10))
             .take(parseInt(take, 10))
             .getManyAndCount();
