@@ -1,4 +1,5 @@
 import { makeAutoObservable, runInAction } from 'mobx';
+import moment from 'moment';
 import { RootStore } from '../../../../stores/root.store';
 import { ReportsApi } from '../../../../client-tools/api/entities/reports/reports-api';
 import { SpecialistReportStore } from './specialist-report.store';
@@ -21,16 +22,19 @@ export class SpecialistReportService {
         }, 300);
 
         const skip =
-            (this._specialistReportStore.take * this._specialistReportStore.currentPage) -
+            this._specialistReportStore.take * this._specialistReportStore.currentPage -
             this._specialistReportStore.take;
+
+        const startDate = moment(this._specialistReportStore.startDate, 'DD.MM.YYYY').format();
+        const finishDate = moment(this._specialistReportStore.finishDate, 'DD.MM.YYYY').format();
 
         const report = await this._reportApi.getSpecialistReport(
             {
                 search: this._specialistReportStore.searchValue.trim(),
                 take: this._specialistReportStore.take.toString(),
                 skip: skip.toString(),
-                start_date: this._specialistReportStore.startDate,
-                finish_date: this._specialistReportStore.finishDate,
+                start_date: startDate,
+                finish_date: finishDate,
             },
             signal,
         );
@@ -43,7 +47,9 @@ export class SpecialistReportService {
             this._specialistReportStore.setIncome(report.income);
             this._specialistReportStore.setExpenses(report.expenses);
             this._specialistReportStore.setProfit(report.profit);
-            this._specialistReportStore.setCountPages(Math.ceil(report.countClients / this._specialistReportStore.take));
+            this._specialistReportStore.setCountPages(
+                Math.ceil(report.countClients / this._specialistReportStore.take),
+            );
             this._rootStore.appStore.setIsLoading(false);
         });
     }
