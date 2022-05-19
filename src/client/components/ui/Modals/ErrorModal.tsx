@@ -6,16 +6,17 @@ import { Modal, ModalFooter, ModalHead } from './Modal';
 interface Props {
     onClose: () => void;
     errorMessage: string;
+    buttonTitle: string;
 }
 
-export const ErrorModal: React.FC<Props> = ({ onClose, errorMessage }) => (
+export const ErrorModal: React.FC<Props> = ({ onClose, errorMessage, buttonTitle }) => (
     <Modal onClose={onClose}>
         <ModalHead>Произошла ошибка</ModalHead>
 
         <Alert severity="error">{errorMessage}</Alert>
 
         <ModalFooter>
-            <Button onClick={onClose}>Закрыть</Button>
+            <Button onClick={onClose}>{buttonTitle}</Button>
         </ModalFooter>
     </Modal>
 );

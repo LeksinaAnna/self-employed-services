@@ -1,6 +1,6 @@
 import React from 'react';
-import { Toast } from '@skbkontur/react-ui';
 import { ApiError } from '../../../client-tools/api/api-client/api-error';
+import { ErrorModal } from '../../ui/Modals/ErrorModal';
 
 interface State {
     error?: ApiError | Error;
@@ -13,12 +13,12 @@ interface Props {
 }
 
 export class ErrorBoundary extends React.Component<Props, State> {
-
     public state = {
         error: undefined,
         errorInfo: undefined,
         location: undefined,
-    }
+    };
+
     public static getDerivedStateFromError(error: Error): State {
         return { error };
     }
@@ -47,32 +47,60 @@ export class ErrorBoundary extends React.Component<Props, State> {
             case 400:
                 // Непревидька
                 return (
-                    <h1>ОШИБКА 400</h1>
+                    <ErrorModal
+                        errorMessage={`Непредвиденная ошибка ${error.message}`}
+                        onClose={() => location.reload()}
+                        buttonTitle={'Перезагрузить'}
+                    />
                 );
 
             case 401:
-                break;
+                return (
+                    <ErrorModal
+                        errorMessage={`Вы не авторизованы: ${error.message}`}
+                        onClose={() => location.replace('/login')}
+                        buttonTitle={'Войти'}
+                    />
+                );
 
             case 403:
                 // Нет доступа к ресурсу
                 return (
-                    <></>
+                    <ErrorModal
+                        errorMessage={`Нет доступа ${error.message}`}
+                        onClose={() => location.replace('/')}
+                        buttonTitle={'На главную'}
+                    />
                 );
 
             case 404:
                 // Страница не найдена
-                return <></>;
+                return (
+                    <ErrorModal
+                        errorMessage={`Not found ${error.message}`}
+                        onClose={() => location.replace('/')}
+                        buttonTitle={'На главную'}
+                    />
+                );
 
             case 500:
                 // Непредвидька
                 return (
-                    <></>
+                    <ErrorModal
+                        errorMessage={`Серверная ошибка: ${error.message}`}
+                        onClose={() => location.reload()}
+                        buttonTitle={'Перезагрузить'}
+                    />
                 );
 
             default:
                 // Тоже непредвидька
                 return (
-                    <></>
+                    <ErrorModal
+                        errorMessage={`Серверная ошибка: ${error.message}`}
+                        onClose={() => location.reload()}
+                        buttonTitle={'Перезагрузить'}
+                    />
                 );
         }
     }
@@ -83,6 +111,4 @@ export class ErrorBoundary extends React.Component<Props, State> {
         }
         return this.props.children;
     }
-
-
 }
