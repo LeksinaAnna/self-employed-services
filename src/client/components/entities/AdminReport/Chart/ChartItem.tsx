@@ -21,7 +21,7 @@ const ItemWrapper = styled.div<{ heightProp: number | string; isActive?: boolean
 export const ChartItem: React.FC<Props> = ({ room, isActive, onHoverItem, reportKoef }) => (
     <Hint text={<HintMessage room={room} />} pos="bottom">
         <ItemWrapper
-            heightProp={room.profit / (2 * reportKoef)}
+            heightProp={room.profit / 10 / reportKoef}
             isActive={isActive}
             onMouseEnter={() => onHoverItem(room.roomId)}
             onMouseLeave={() => onHoverItem(null)}

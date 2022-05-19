@@ -6,15 +6,16 @@ import styled from '@emotion/styled';
 import { TimePicker } from '../../../ui/Date/TimePicker';
 import { Typography } from '../../../ui/Text/Typography';
 import { RoomId } from '../../../../../server/modules/domains/rooms/entities/room.entity';
-import { LargeUser, UserId } from '../../../../../server/modules/domains/users/entities/user.entity';
+import { UserId } from '../../../../../server/modules/domains/users/entities/user.entity';
 import { CalendarModal, CalendarModalBody, CalendarModalFooter, CalendarModalHead } from '../CalendarModal';
 import { Nullable } from '../../../../../common/interfaces/common';
 import { isRequiredField, validateTime } from '../../../../client-tools/validations/validators';
+import { Specialist } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { SearchSpecialistBlock } from './SearchSpecialistBlock';
 
 interface Props {
     time: string;
-    specialist?: LargeUser;
+    currentUserId?: UserId;
     accept: (startTime: string, finishTime: string, specialistId: UserId, roomId: RoomId) => Promise<void>;
     currentRoomId: RoomId;
     close: () => void;
@@ -31,12 +32,12 @@ const InputWrapper = styled.div`
     }
 `;
 
-export const CreateRental: React.FC<Props> = ({ time, close, position, accept, currentRoomId, specialist }) => {
+export const CreateRental: React.FC<Props> = ({ time, close, position, accept, currentRoomId, currentUserId }) => {
     const [startTime, setStartTime] = useState<string>();
     const [finishTime, setFinishTime] = useState<string>();
     const [isError, setError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>();
-    const [selectedSpec, setSelectedSpec] = useState<LargeUser>(specialist || null);
+    const [selectedSpec, setSelectedSpec] = useState<Specialist>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [container, refContainer] = useState<Nullable<ValidationContainer>>(null);
 
@@ -57,7 +58,7 @@ export const CreateRental: React.FC<Props> = ({ time, close, position, accept, c
         const isValidate = await container.validate();
         if (isValidate) {
             try {
-                await accept(startTime, finishTime, selectedSpec.accountId, currentRoomId);
+                await accept(startTime, finishTime, currentUserId || selectedSpec.profileId, currentRoomId)
                 close();
             } catch (e) {
                 setError(true);
@@ -98,7 +99,7 @@ export const CreateRental: React.FC<Props> = ({ time, close, position, accept, c
                                 styles={{ height: 40 }}
                             />
                         </InputWrapper>
-                        {!specialist && (
+                        {!currentUserId && (
                             <div style={{ marginTop: 10 }}>
                                 <SearchSpecialistBlock
                                     validation={() => isRequiredField(selectedSpec)}

@@ -59,9 +59,9 @@ export const LocationCalendar: React.FC<Props> = observer(({ room, updatePage, c
                 {selectedTime && (
                     <CreateRental
                         time={selectedTime}
+                        currentUserId={currentUser?.accountId}
                         position={positionModal}
                         currentRoomId={room.roomId}
-                        specialist={currentUser}
                         accept={onAccept}
                         close={closeModal}
                     />

@@ -1,11 +1,11 @@
 import React from 'react';
 import { TableCell, TableRow } from '@mui/material';
-import { RoomWithProfit } from '../../../../../server/modules/domains/rooms/entities/room.entity';
 import { Typography } from '../../../ui/Text/Typography';
 import { hoveredColor } from '../../../../client-tools/styles/color';
+import { LocationReport } from '../../../../../server/modules/domains/report/entities/report.entity';
 
 interface Props {
-    room: RoomWithProfit;
+    room: LocationReport;
     onHoverItem: (value: string) => void;
     isActive?: boolean;
 }

@@ -20,7 +20,7 @@ const ChartWrapper = styled.div`
 
 export const Chart: React.FC<Props> = ({ rooms, hoveredRoom, onHoverItem, reportKoef }) => (
     <ChartWrapper>
-        {rooms.map(room => (
+        {rooms.map(room => room.profit > 0 && (
             <ChartItem
                 key={`chart-${room.roomId}`}
                 reportKoef={reportKoef}

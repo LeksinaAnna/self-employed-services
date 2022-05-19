@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, DatePicker, Gapped, Toast } from '@skbkontur/react-ui';
 import moment from 'moment';
-import { Alert } from '@mui/material';
+import { Alert, Typography } from '@mui/material';
 import {
     LargeRecord,
     RecordUpdateProperties,
@@ -9,6 +9,7 @@ import {
 import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../../ui/Modals/Modal';
 import { FormLine } from '../../../../ui/FormLine/FormLine';
 import { TimePicker } from '../../../../ui/Date/TimePicker';
+import { secondaryText } from '../../../../../client-tools/styles/color';
 
 interface Props {
     record: LargeRecord;
@@ -46,15 +47,21 @@ export const RecordSettingsModal: React.FC<Props> = ({ record, accept, onClose }
             <ModalHead>Настройки записи</ModalHead>
             <ModalBody>
                 <Gapped vertical gap={10}>
-                    <FormLine caption="Клиент">{record?.client?.name}</FormLine>
-                    <FormLine caption="Телефон">{record?.client?.phone}</FormLine>
-                    <FormLine caption="Почта">{record?.client?.email}</FormLine>
+                    <FormLine caption="Клиент:">
+                        <Typography color={secondaryText}>{record?.client?.name}</Typography>
+                    </FormLine>
+                    <FormLine caption="Телефон:">
+                        <Typography color={secondaryText}>{record?.client?.phone}</Typography>
+                    </FormLine>
+                    <FormLine caption="Почта:">
+                        <Typography color={secondaryText}>{record?.client?.email}</Typography>
+                    </FormLine>
 
-                    <FormLine caption="Дата">
+                    <FormLine caption="Дата:">
                         <DatePicker width={110} value={startDate} onValueChange={setStartDate} />
                     </FormLine>
 
-                    <FormLine caption="Время">
+                    <FormLine caption="Время:">
                         <TimePicker width={50} value={startTime} onValueChange={setStartTime} />
                     </FormLine>
                 </Gapped>

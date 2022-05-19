@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { ValidationInfo, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import { Button, Input } from '@skbkontur/react-ui';
-import { LargeUser } from '../../../../../server/modules/domains/users/entities/user.entity';
 import { useAsyncEffectWithError } from '../../../../client-tools/hooks/use-async-effect';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { Typography } from '../../../ui/Text/Typography';
 import { defaultPortalColor, secondaryText } from '../../../../client-tools/styles/color';
 import { Nullable } from '../../../../../common/interfaces/common';
+import { Specialist } from '../../../../../server/modules/domains/users/entities/user-profile.entity';
 import { SpecialistItem } from './SpecialistItem';
 
 const ContainerWrapper = styled.div`
@@ -41,23 +41,23 @@ const SelectedItem = styled.div`
 `;
 
 interface Props {
-    selectedItem: LargeUser;
-    setSelectedItem: (value: LargeUser) => void;
+    selectedItem: Specialist;
+    setSelectedItem: (value: Specialist) => void;
     validation?: () => Nullable<ValidationInfo>;
 }
 
 export const SearchSpecialistBlock: React.FC<Props> = ({ selectedItem, setSelectedItem, validation }) => {
     const { commonApi } = useStores();
     const [value, setValue] = useState<string>('');
-    const [items, setItems] = useState<LargeUser[]>([]);
+    const [items, setItems] = useState<Specialist[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
 
     useAsyncEffectWithError(
         async abortSignal => {
             if (value) {
                 setLoading(true);
-                const response = await commonApi.users.getSpecialists({ search: value, take: '5' }, abortSignal);
-                setItems(response.items);
+                const data = await commonApi.users.getSpecialists({ search: value, take: '5' }, abortSignal);
+                setItems(data.items);
                 setLoading(false);
             }
         },
@@ -94,8 +94,8 @@ export const SearchSpecialistBlock: React.FC<Props> = ({ selectedItem, setSelect
             {!selectedItem && value && (
                 <ItemsBlock>
                     {items.map(user => (
-                        <div key={user.accountId} onClick={() => setSelectedItem(user)}>
-                            <SpecialistItem fullName={user?.profile?.fullName} email={user?.email} />
+                        <div key={user.profileId} onClick={() => setSelectedItem(user)}>
+                            <SpecialistItem fullName={user?.fullName} email={user?.contacts.email} />
                         </div>
                     ))}
                     {items.length === 0 && (
@@ -108,7 +108,7 @@ export const SearchSpecialistBlock: React.FC<Props> = ({ selectedItem, setSelect
             {selectedItem && (
                 <SelectedItem>
                     <Typography fontSize={'18px'} fontWeight={700} color={secondaryText}>
-                        {selectedItem?.profile?.fullName}
+                        {selectedItem?.fullName}
                     </Typography>
                     <Button use="link" onClick={onClear}>
                         Изменить

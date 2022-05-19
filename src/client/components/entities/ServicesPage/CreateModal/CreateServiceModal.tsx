@@ -55,7 +55,7 @@ export const CreateServiceModal: React.FC = observer(() => {
                     <Gapped vertical gap={10}>
                         <FormLine caption="Название услуги" vertical>
                             <ValidationWrapper validationInfo={isRequiredField(title)}>
-                                <Input width={300} value={title} onValueChange={setTitle} />
+                                <Input value={title} onValueChange={setTitle} />
                             </ValidationWrapper>
                         </FormLine>
                         <FormLine caption="Продолжительность" vertical>
@@ -85,7 +85,7 @@ export const CreateServiceModal: React.FC = observer(() => {
                             </ValidationWrapper>
                         </FormLine>
                         <FormLine caption="Описание" vertical>
-                            <Textarea width={300} value={description} onValueChange={setDescription} />
+                            <Textarea value={description} onValueChange={setDescription} />
                         </FormLine>
                     </Gapped>
                 </ValidationContainer>

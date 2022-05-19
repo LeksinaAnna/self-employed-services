@@ -48,7 +48,7 @@ export class UserAdapterService extends PersistenceAdapter implements UserPort {
             .andWhere(
                 new Brackets(qb => {
                     if (search) {
-                        qb.where(`profile.fullName ILIKE :value OR user.email ILIKE :value`, { value: `%${search}%` });
+                        qb.where(`profile.fullName ILIKE :value OR profile.contacts->>'email' ILIKE :value`, { value: `%${search}%` });
                     }
 
                     if (type) {

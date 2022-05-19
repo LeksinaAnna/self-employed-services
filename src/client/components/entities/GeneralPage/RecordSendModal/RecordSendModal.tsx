@@ -3,10 +3,13 @@ import { observer } from 'mobx-react-lite';
 import { Alert, Stack, Typography } from '@mui/material';
 import { Button, Input, Toast } from '@skbkontur/react-ui';
 import moment from 'moment';
+import { ValidationContainer, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { Modal, ModalBody, ModalFooter, ModalHead } from '../../../ui/Modals/Modal';
 import { FormLine } from '../../../ui/FormLine/FormLine';
 import { notActiveText, secondaryText } from '../../../../client-tools/styles/color';
+import { Nullable } from '../../../../../common/interfaces/common';
+import { isRequiredField } from '../../../../client-tools/validations/validators';
 
 interface Props {
     onClose: () => void;
@@ -20,6 +23,7 @@ export const RecordSendModal: React.FC<Props> = observer(({ onClose }) => {
     const [email, setEmail] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [container, refContainer] = useState<Nullable<ValidationContainer>>(null);
 
     const submitForm = async () => {
         setLoading(true);
@@ -30,16 +34,20 @@ export const RecordSendModal: React.FC<Props> = observer(({ onClose }) => {
                 'DD.MM.YYYY HH:mm',
             ).format();
 
-            await sendRecord({
-                email,
-                phone,
-                name,
-                recordDate,
-                serviceId: _servicesStore.selectedService.serviceId,
-                specialistId: _servicesStore.selectedSpecialist.profileId,
-            });
-            Toast.push('Заявка отправлена');
-            onClose();
+            if (await container.validate()) {
+                await sendRecord({
+                    email,
+                    phone,
+                    name,
+                    recordDate,
+                    serviceId: _servicesStore.selectedService.serviceId,
+                    specialistId: _servicesStore.selectedSpecialist.profileId,
+                });
+                Toast.push('Заявка отправлена');
+                onClose();
+            } else {
+                setLoading(false);
+            }
         } catch (e) {
             setError(e.message);
             setLoading(false);
@@ -69,25 +77,31 @@ export const RecordSendModal: React.FC<Props> = observer(({ onClose }) => {
                         <Typography color={secondaryText}>{_servicesStore.selectedService?.price} руб.</Typography>
                     </FormLine>
                 </Stack>
-                <Stack
-                    spacing={1}
-                    sx={{ marginTop: '10px', paddingTop: '10px', borderTop: `1px solid ${notActiveText}` }}
-                >
-                    <FormLine caption="Ваше имя:">
-                        <Input placeholder="ФИО" value={name} onValueChange={setName} />
-                    </FormLine>
-                    <FormLine caption="Контактный телефон:">
-                        <Input
-                            mask={'+7 999 999-99-99'}
-                            placeholder={'+7 999 999-99-99'}
-                            value={phone}
-                            onValueChange={setPhone}
-                        />
-                    </FormLine>
-                    <FormLine caption="Почта:">
-                        <Input placeholder="example@gmail.com" value={email} onValueChange={setEmail} />
-                    </FormLine>
-                </Stack>
+                <ValidationContainer ref={refContainer}>
+                    <Stack
+                        spacing={1}
+                        sx={{ marginTop: '10px', paddingTop: '10px', borderTop: `1px solid ${notActiveText}` }}
+                    >
+                        <FormLine caption="Ваше имя:">
+                            <ValidationWrapper validationInfo={isRequiredField(name)}>
+                                <Input placeholder="ФИО" value={name} onValueChange={setName} />
+                            </ValidationWrapper>
+                        </FormLine>
+                        <FormLine caption="Контактный телефон:">
+                            <ValidationWrapper validationInfo={isRequiredField(phone)}>
+                                <Input
+                                    mask={'+7 999 999-99-99'}
+                                    placeholder={'+7 999 999-99-99'}
+                                    value={phone}
+                                    onValueChange={setPhone}
+                                />
+                            </ValidationWrapper>
+                        </FormLine>
+                        <FormLine caption="Почта:">
+                            <Input placeholder="example@gmail.com" value={email} onValueChange={setEmail} />
+                        </FormLine>
+                    </Stack>
+                </ValidationContainer>
             </ModalBody>
             {error && <Alert severity="error">{error}</Alert>}
             <ModalFooter>
