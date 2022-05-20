@@ -2,7 +2,7 @@ import React, { CSSProperties, useEffect, useState } from 'react';
 import { ValidationInfo, ValidationWrapper } from '@skbkontur/react-ui-validations';
 import { Input } from '@skbkontur/react-ui';
 import { voidFunction } from '../../../../common/js-tools/void-function';
-import { Nullable } from '../../../../../dist/common/interfaces/common';
+import { Nullable } from '../../../../common/interfaces/common';
 
 interface Props {
     width?: number | string;

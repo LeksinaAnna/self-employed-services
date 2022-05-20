@@ -1,4 +1,4 @@
-import { LargeUser, UserCreateProperties, UserId } from '../../users/entities/user.entity';
+import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
 import { UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
 import { RefreshToken, Tokens, WithAccessToken } from '../../tokens/entities/token.entity';
 
