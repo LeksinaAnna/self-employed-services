@@ -15,6 +15,7 @@ const ItemWrapper = styled.div<{ heightProp: number | string; isActive?: boolean
     width: 60,
     height: heightProp,
     minHeight: 2,
+    maxHeight: 200,
     background: isActive ? hoveredColor : whiteHoveredColor,
 }));
 

@@ -7,6 +7,7 @@ import { ServiceItem } from '../../../../../server/modules/domains/services-list
 
 const StyledPaper = styled(Paper)`
     padding: 15px;
+    margin: 5px 0;
     box-shadow: none;
     border: 1px solid ${defaultPortalColor};
     display: flex;

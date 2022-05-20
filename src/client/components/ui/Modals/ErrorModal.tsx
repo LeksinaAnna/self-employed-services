@@ -6,10 +6,10 @@ import { Modal, ModalFooter, ModalHead } from './Modal';
 interface Props {
     onClose: () => void;
     errorMessage: string;
-    buttonTitle: string;
+    buttonTitle?: string;
 }
 
-export const ErrorModal: React.FC<Props> = ({ onClose, errorMessage, buttonTitle }) => (
+export const ErrorModal: React.FC<Props> = ({ onClose, errorMessage, buttonTitle = 'Закрыть' }) => (
     <Modal onClose={onClose}>
         <ModalHead>Произошла ошибка</ModalHead>
 

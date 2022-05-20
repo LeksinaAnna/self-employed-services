@@ -9,8 +9,8 @@ interface Props {
 export const TableInfoItem: React.FC<Props> = ({ item }) => (
     <TableRow>
         <TableCell style={{ padding: '10px 5px' }}>{item.name}</TableCell>
-        <TableCell style={{ padding: '10px 5px' }}>{item.amountServices}</TableCell>
+        <TableCell style={{ padding: '10px 5px' }}>{item.amountServices} руб.</TableCell>
         <TableCell style={{ padding: '10px 5px' }}>{item.servicesCount}</TableCell>
-        <TableCell style={{ padding: '10px 5px' }}>{item.profit}</TableCell>
+        <TableCell style={{ padding: '10px 5px' }}>{item.profit} руб.</TableCell>
     </TableRow>
 );

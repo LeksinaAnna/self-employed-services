@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { DatePicker } from '@skbkontur/react-ui';
+import { Center, DatePicker } from '@skbkontur/react-ui';
+import { Stack } from '@mui/material';
 import { useAsyncEffectWithError } from '../../../client-tools/hooks/use-async-effect';
 import { notActiveText, secondaryText } from '../../../client-tools/styles/color';
 import { Typography } from '../../ui/Text/Typography';
@@ -21,7 +22,7 @@ export const AdminReportPage: React.FC = observer(() => {
         hoveredRoom,
         setHoveredRoom,
         service,
-        duration
+        duration,
     } = adminReportStore;
 
     useAsyncEffectWithError(
@@ -33,25 +34,38 @@ export const AdminReportPage: React.FC = observer(() => {
 
     return (
         <div style={{ position: 'relative', height: '100%', marginBottom: 25 }}>
-            <Typography color={secondaryText} fontSize="34px" fontWeight={700}>
-                Отчёт
-            </Typography>
-            {rooms && <Chart reportKoef={duration} onHoverItem={setHoveredRoom} hoveredRoom={hoveredRoom} rooms={rooms} />}
-            <div style={{ textAlign: 'center', margin: 10 }}>
-                <Typography color={notActiveText} fontSize="16px">
-                    График выручки с {startDate} по {finishDate}
+            <Stack spacing={2}>
+                <Typography color={secondaryText} fontSize="34px" fontWeight={700}>
+                    Отчёт
                 </Typography>
-            </div>
-            <div>
-                <DatePicker onValueChange={setStartDate} width={110} value={startDate} />
-                <span style={{ color: secondaryText, margin: '0 5px' }}>&mdash;</span>
-                <DatePicker onValueChange={setFinishDate} width={110} value={finishDate} />
-            </div>
-            {rooms.length > 0 && <RoomsTable onHoverItem={setHoveredRoom} hoveredItem={hoveredRoom} rooms={rooms} />}
-            {rooms.length > 0 && (
-                <ReportFooter>
-                    <Typography fontSize="20px">{generalProfit} руб.</Typography>
-                </ReportFooter>
+                <div>
+                    <DatePicker onValueChange={setStartDate} width={110} value={startDate} />
+                    <span style={{ color: secondaryText, margin: '0 5px' }}>&mdash;</span>
+                    <DatePicker onValueChange={setFinishDate} width={110} value={finishDate} />
+                </div>
+            </Stack>
+            {generalProfit > 0 && (
+                <div>
+                    <Chart reportKoef={duration} onHoverItem={setHoveredRoom} hoveredRoom={hoveredRoom} rooms={rooms} />
+                    <div style={{ textAlign: 'center', margin: 10 }}>
+                        <Typography color={notActiveText} fontSize="16px">
+                            График выручки с {startDate} по {finishDate}
+                        </Typography>
+                    </div>
+                    <RoomsTable onHoverItem={setHoveredRoom} hoveredItem={hoveredRoom} rooms={rooms} />
+                    <ReportFooter>
+                        <Typography fontSize="20px">{generalProfit} руб.</Typography>
+                    </ReportFooter>
+                </div>
+            )}
+            {generalProfit === 0 && (
+                <div>
+                    <Center>
+                        <Typography fontSize={'20px'} color={secondaryText}>
+                            Данные отсутствуют
+                        </Typography>
+                    </Center>
+                </div>
             )}
         </div>
     );

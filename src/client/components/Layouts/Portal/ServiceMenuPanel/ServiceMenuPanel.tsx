@@ -6,7 +6,6 @@ import { useStores } from '../../../../client-tools/hooks/use-stores';
 import { defaultPortalColor } from '../../../../client-tools/styles/color';
 import { AdminMenu } from './Menus/AdminMenu';
 import { SpecialistMenu } from './Menus/SpecialistMenu';
-import { DefaultMenu } from './Menus/DefaultMenu';
 
 export const MenuWrapper = styled.div`
     width: 120px;
@@ -35,7 +34,7 @@ export const ServiceMenuPanel: React.FC = observer(() => {
             return <></>;
         }
 
-        return <Route path='/*' element={<DefaultMenu />} />;
+        // return <Route path='/*' element={<DefaultMenu />} />; На этом месте должна быть дефолтная панель
     }
 
     return (
