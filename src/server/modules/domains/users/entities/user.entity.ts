@@ -22,6 +22,7 @@ export type LargeUser = User & WithUserProfile & WithRoles;
 export interface User {
     accountId?: UserId;
     email: UserEmail;
+    activated?: boolean;
     created?: string;
     modified?: string;
     modifiedBy?: UserId;
@@ -43,8 +44,9 @@ export class UserEntity implements User, UserWithPassword, UserWithDescription {
     readonly description?: string;
     readonly modified?: string;
     readonly modifiedBy?: string;
+    readonly activated?: boolean;
 
-    constructor({ accountId, password, email, created, description, modifiedBy  }: User & UserWithPassword & UserWithDescription) {
+    constructor({ accountId, password, email, created, description, modifiedBy, activated  }: User & UserWithPassword & UserWithDescription) {
         this.accountId = accountId || uuidv4();
         this.email = email;
         this.password = password;
@@ -52,5 +54,6 @@ export class UserEntity implements User, UserWithPassword, UserWithDescription {
         this.modified = moment().format();
         this.modifiedBy = modifiedBy || accountId;
         this.description = description || null;
+        this.activated = activated || false;
     }
 }

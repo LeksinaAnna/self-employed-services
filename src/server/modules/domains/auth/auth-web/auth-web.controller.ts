@@ -1,9 +1,9 @@
-import { Response, Request } from 'express';
-import { BadRequestException, Body, Controller, Delete, Get, Post, Req, Res } from '@nestjs/common';
+import { Request, Response } from 'express';
+import { BadRequestException, Body, Controller, Delete, Get, Post, Query, Req, Res } from '@nestjs/common';
 import { LargeUser, UserCreateProperties } from '../../users/entities/user.entity';
 import { UserProfileCreateProperties } from '../../users/entities/user-profile.entity';
 import { NotAuthDecorator } from '../../../../nest-decorators/decorators/not-auth.decorator';
-import { TokenData, WithAccessToken } from '../../tokens/entities/token.entity';
+import { AccessToken, TokenData, WithAccessToken } from '../../tokens/entities/token.entity';
 import { AuthService } from '../services/auth.service';
 import { CurrentUser } from '../../../../nest-decorators/decorators/current-user.decorator';
 import { UserService } from '../../users/services/user.service';
@@ -18,20 +18,18 @@ export class AuthWebController {
         @Body() body: UserProfileCreateProperties & UserCreateProperties,
         // passthrough: true ставим для того чтобы логика неста на response не прервалась
         @Res({ passthrough: true }) response: Response,
-    ): Promise<LargeUser> {
+    ): Promise<{ message: string }> {
         if (Object.keys(body).length === 0) {
             throw new BadRequestException('Отсутствует тело запроса');
         }
-        const { refreshToken, ...userData } = await this._authService.registration(body);
-        response.cookie('refreshToken', refreshToken, { httpOnly: true });
 
-        return userData;
+        await this._authService.registration(body);
+
+        return { message: 'Регистрация прошла успешно. Ссылка отправлена на почту' };
     }
 
     @Get('/check')
-    async checkUser(
-        @CurrentUser() currentUser: TokenData,
-    ): Promise<LargeUser> {
+    async checkUser(@CurrentUser() currentUser: TokenData): Promise<LargeUser> {
         return await this._userService.getUserById(currentUser.userId);
     }
 
@@ -76,5 +74,17 @@ export class AuthWebController {
         response.cookie('refreshToken', newTokens?.refreshToken, { httpOnly: true });
 
         return { accessToken: newTokens.accessToken };
+    }
+
+    @NotAuthDecorator()
+    @Get('/activate')
+    async acceptEmail(@Query('key') key: AccessToken): Promise<{ message: string }> {
+        if (!key) {
+            throw new BadRequestException('Не указан обязательный параметр');
+        }
+
+        await this._authService.activateAccount(key);
+
+        return { message: 'Почта успешно подтверждена' }
     }
 }

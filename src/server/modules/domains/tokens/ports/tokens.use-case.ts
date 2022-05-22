@@ -2,11 +2,15 @@ import { AccessToken, RefreshToken, TokenData, TokenPayload, Tokens } from '../e
 import { UserId } from '../../users/entities/user.entity';
 
 export interface TokensUseCase {
-    generateTokens(user: TokenPayload): Tokens;
+    generateAuthTokens: (user: TokenPayload) => Tokens;
 
-    saveToken(userId: UserId, refreshToken: RefreshToken): Promise<void>;
+    saveToken: (userId: UserId, refreshToken: RefreshToken) => Promise<void>;
 
-    removeToken(authToken: string): Promise<void>;
+    removeToken: (authToken: string) => Promise<void>;
 
-    validateToken(token: RefreshToken | AccessToken): TokenData;
+    validateAuthToken: (token: RefreshToken | AccessToken) => TokenData;
+
+    generateRegToken: (userId: UserId) => string;
+
+    validateRegToken: (token: string) => { userId: string };
 }

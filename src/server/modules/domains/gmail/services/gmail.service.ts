@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
 import nodemailer, { Transporter } from 'nodemailer';
 import { NodemailerConfig } from '../../../../configs/nodemailer.config';
+import { BASE_URL } from '../../../../../common/enviroments/global-enviroment';
 
 @Injectable()
 export class GmailService {
@@ -9,6 +10,13 @@ export class GmailService {
 
     constructor() {
         this.transport = nodemailer.createTransport(NodemailerConfig);
+        this.transport.verify((err, success) => {
+            if(err) {
+                console.log(err);
+            } else {
+                console.log('[GMAIL_SERVICE] - Успешно подключился к почтовому клиенту');
+            }
+        });
     }
 
     async sendHelloMail(toEmail: string): Promise<void> {
@@ -25,7 +33,9 @@ export class GmailService {
         });
     }
 
-    async registeredMessage(toEmail: string, name: string): Promise<void> {
+    async registeredMessage(toEmail: string, name: string, token: string): Promise<void> {
+        const link = `${BASE_URL}/activate?key=${token}`;
+
         await this.transport.sendMail({
             from: process.env.GMAIL_USER,
             to: toEmail,
@@ -33,6 +43,8 @@ export class GmailService {
             html: `
                 <div>
                     <div>Добрый день, ${name}! Информируем вас об успешной регистрации на портале.</div>
+                    <div>Для активации аккаунта перейдите по ссыле:  </div>
+                    <a href="${link}">Активировать аккаунт</a>
                 </div>
             `
         });

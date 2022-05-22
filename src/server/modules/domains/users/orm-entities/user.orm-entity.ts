@@ -15,6 +15,9 @@ export class UserOrmEntity implements User {
     @Column({ name: 'password', select: false })
     password: string;
 
+    @Column({ type: 'boolean' })
+    activated: boolean;
+
     @Column({ name: 'created', type: 'timestamp with time zone' })
     created: string;
 

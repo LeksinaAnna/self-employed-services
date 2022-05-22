@@ -1,5 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { TokensUseCase } from '../ports/tokens.use-case';
 import { AccessToken, RefreshToken, TokenData, TokenEntity, TokenPayload, Tokens } from '../entities/token.entity';
 import { UserId } from '../../users/entities/user.entity';
@@ -13,7 +13,7 @@ export class TokensService implements TokensUseCase {
         await this._tokensPort.removeToken(authToken);
     }
 
-    generateTokens(payload: TokenPayload): Tokens {
+    generateAuthTokens(payload: TokenPayload): Tokens {
         const accessToken = this._jwtService.sign(payload, { expiresIn: '20m' });
         const refreshToken = this._jwtService.sign(payload, { expiresIn: '30d' });
 
@@ -37,12 +37,24 @@ export class TokensService implements TokensUseCase {
         await this._tokensPort.createToken({ ...tokenEntity });
     }
 
-    validateToken(token: RefreshToken | AccessToken): TokenData {
+    validateAuthToken(token: RefreshToken | AccessToken): TokenData {
         try {
             return this._jwtService.verify(token);
         } catch (e) {
             console.log(`[ERROR] - ${e.message}`);
             throw new UnauthorizedException(`Вы не авторизованы`);
+        }
+    }
+
+    generateRegToken(userId: UserId): string {
+        return this._jwtService.sign({ userId }, { expiresIn: '30d' });
+    }
+
+    validateRegToken(token: string): { userId: string } {
+        try {
+            return this._jwtService.verify(token);
+        } catch (e) {
+            throw new BadRequestException(`К`);
         }
     }
 }
