@@ -54,7 +54,7 @@ export class TokensService implements TokensUseCase {
         try {
             return this._jwtService.verify(token);
         } catch (e) {
-            throw new BadRequestException(`К`);
+            throw new BadRequestException(`Ключ активации не действителен`);
         }
     }
 }

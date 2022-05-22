@@ -19,6 +19,7 @@ import { RecordsPage } from '../entities/RecordsPage/RecordsPage';
 import { CheckRole } from '../Layouts/Portal/CheckRole';
 import { SpecialistReportPage } from '../entities/SpecialistReport/SpecialistReportPage';
 import { GeneralPage } from '../entities/GeneralPage/GeneralPage';
+import { ActivationPage } from '../entities/ActivationPage/ActivationPage';
 
 const AppWrapper = styled.div`
   width: 1000px;
@@ -66,6 +67,7 @@ export const App: React.FC = observer(() => {
                                 <Route path="report" element={<SpecialistReportPage />} />
                                 <Route path="*" element={<PageNotFound />} />
                             </Route>
+                            <Route path="activate" element={<ActivationPage />}/>
                             <Route path="*" element={<GeneralPage />} />
                         </Route>
                     </Route>

@@ -26,6 +26,13 @@ export const ThemeMui = createTheme({
                     }
                 }
             }
+        },
+        MuiCircularProgress: {
+            styleOverrides: {
+                colorPrimary: {
+                    color: defaultPortalColor
+                }
+            }
         }
     }
 })

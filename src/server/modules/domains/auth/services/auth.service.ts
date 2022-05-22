@@ -16,7 +16,8 @@ export class AuthService implements AuthUseCase {
         private readonly _tokensService: TokensService,
         private readonly _userPort: UserAdapterService,
         private readonly _mailService: GmailService,
-    ) {}
+    ) {
+    }
 
     async refreshAuthToken(refreshToken: RefreshToken): Promise<Tokens> {
         const tokenData = this._tokensService.validateAuthToken(refreshToken);
@@ -58,7 +59,7 @@ export class AuthService implements AuthUseCase {
             });
             await this._tokensService.saveToken(user.accountId, tokens.refreshToken);
 
-            return { ...tokens, ...userInfo };
+            return {...tokens, ...userInfo};
         }
 
         throw new UnauthorizedException('Логин или пароль введены неправильно');
@@ -85,7 +86,7 @@ export class AuthService implements AuthUseCase {
 
         await this._mailService.registeredMessage(createdUser.email, createdUser.profile.fullName, regToken);
 
-        return { ...createdUser };
+        return {...createdUser};
     }
 
     async logout(authToken: string): Promise<void> {
@@ -102,9 +103,13 @@ export class AuthService implements AuthUseCase {
             throw new NotFoundException('Пользователь не найден');
         }
 
+        if (user.activated) {
+            throw new BadRequestException('Пользователь уже активирован');
+        }
+
         const updatedUser = new UserEntity({
             ...userAccount,
-            activated: true
+            activated: true,
         });
 
         await this._userPort.saveUser(updatedUser);

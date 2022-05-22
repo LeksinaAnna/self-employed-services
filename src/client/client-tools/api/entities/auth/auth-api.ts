@@ -28,4 +28,8 @@ export class AuthApi extends ApiBaseClient {
     public async checkAuth(signal?: AbortSignal): Promise<LargeUser> {
         return await this.get(`${this.prefix}/check`, {}, signal);
     }
+
+    public async activateAccount(key: string, signal?: AbortSignal): Promise<{ message: string }> {
+        return await this.get(`${this.prefix}/activate`, { key }, signal);
+    }
 }

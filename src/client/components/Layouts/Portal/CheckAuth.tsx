@@ -12,7 +12,7 @@ export const CheckAuth: React.FC = observer(() => {
     const location = useLocation();
 
     // Если href не коренной и пользователь не авторизован то редиректим в корень
-    const isRedirect = location.pathname !== '/' && !isAuth;
+    const isRedirect = location.pathname !== '/' && !isAuth && location.pathname !== '/activate';
 
     // Если редирект не произошел, то мы рисуем "детей" компонента с помощью Outlet
     return (
