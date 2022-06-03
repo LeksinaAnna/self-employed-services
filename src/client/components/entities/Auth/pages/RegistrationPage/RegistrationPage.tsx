@@ -50,7 +50,9 @@ export const RegistrationPage = observer(() => {
                 {!isRegistration && <Body />}
                 {isRegistration && (
                     <BodyPage>
-                        <Alert severity="success">Пользователь успешно зарегистрирован!</Alert>
+                        <Alert severity="success">
+                            Пользователь успешно зарегистрирован! Перейдите по ссылке из письма, для активации аккаунта.
+                        </Alert>
                     </BodyPage>
                 )}
                 {isError && <Alert severity="error">{errorMessage}</Alert>}

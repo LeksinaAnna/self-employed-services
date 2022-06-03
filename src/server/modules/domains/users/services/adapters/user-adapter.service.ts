@@ -30,6 +30,7 @@ export class UserAdapterService extends PersistenceAdapter implements UserPort {
                 }
             })
             .andWhere(`profile.profession IS NOT NULL`)
+            .andWhere('user.activated = true')
             .leftJoinAndSelect('user.profile', 'profile')
             .skip(parseInt(skip, 10))
             .take(parseInt(take, 10))

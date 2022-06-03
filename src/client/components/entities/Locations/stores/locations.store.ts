@@ -19,8 +19,6 @@ export class LocationsStore {
     currentDate = moment().format('DD.MM.YYYY');
     searchValue = '';
 
-    isLoading = false;
-
     readonly service: LocationsService;
 
     constructor(private readonly _rootStore: RootStore) {
@@ -57,10 +55,6 @@ export class LocationsStore {
 
     setCountLocations(value: number): void {
         this.countLocations = value;
-    }
-
-    setIsLoading(value: boolean): void {
-        this.isLoading = value;
     }
 
     setActiveTab(tab: ProfessionType): void {
