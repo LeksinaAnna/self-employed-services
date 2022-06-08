@@ -227,6 +227,7 @@ CREATE TABLE users.accounts (
     password character varying NOT NULL,
     description text,
     created timestamp with time zone DEFAULT now() NOT NULL,
+    activated BOOLEAN DEFAULT false,
     modified timestamp with time zone DEFAULT now() NOT NULL,
     modified_by uuid NOT NULL
 );
