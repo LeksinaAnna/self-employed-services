@@ -30,6 +30,10 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DATABASE: self-employed
       AUTH_SECRET_KEY: empty_secret_KeY
+      GMAIL_HOST: smtp.gmail.com
+      GMAIL_PORT: 587
+      GMAIL_USER: beautyroomsekb@gmail.com
+      GMAIL_PASSWORD: ChfyfzDRH
     depends_on:
       - postgres
 
